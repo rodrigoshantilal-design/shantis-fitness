@@ -173,14 +173,5 @@ export async function signupUser(email, password, name) {
     throw new Error(error.error || 'Signup failed');
   }
 
-  const userData = await response.json();
-
-  // Save user session
-  setCurrentUser({
-    id: userData.id,
-    email: userData.email,
-    name: userData.name
-  });
-
-  return userData;
+  return await response.json();
 }

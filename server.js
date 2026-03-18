@@ -3,7 +3,37 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const path = require('path');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
+
+async function sendVerificationEmail(email, token, baseUrl) {
+  const link = `${baseUrl}/api/auth/verify/${token}`;
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': process.env.BREVO_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sender: { name: "Shanti's Fitness", email: 'rodrigoshantilal@gmail.com' },
+      to: [{ email }],
+      subject: "Verifica o teu email — Shanti's Fitness & Wellness",
+      htmlContent: `
+        <div style="font-family:sans-serif;max-width:500px;margin:0 auto;background:#0a0a0a;color:white;padding:40px;border-radius:16px;">
+          <h2 style="color:#a855f7;">Bem-vindo à Shanti's Fitness!</h2>
+          <p style="color:#ccc;">Por favor confirma o teu email clicando no botão abaixo:</p>
+          <a href="${link}" style="display:inline-block;margin:20px 0;padding:14px 28px;background:linear-gradient(135deg,#a855f7,#ec4899);color:white;border-radius:10px;text-decoration:none;font-weight:bold;">Verificar Email</a>
+          <p style="color:#666;font-size:12px;">Se não criaste uma conta, ignora este email.</p>
+        </div>
+      `
+    })
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error('Email send failed: ' + JSON.stringify(err));
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +50,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String },
+  emailVerified: { type: Boolean, default: false },
+  verificationToken: { type: String },
   fitnessPlan: { type: Object, default: null },
   trackingLogs: { type: Array, default: [] },
   progressEntries: { type: Array, default: [] },
@@ -56,19 +88,27 @@ app.post('/api/auth/signup', async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
+    // Create user with verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
     const user = new User({
       email,
       password: hashedPassword,
-      name: name || null
+      name: name || null,
+      verificationToken
     });
 
     await user.save();
 
+    // Send verification email (don't fail signup if email fails)
+    try {
+      const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+      await sendVerificationEmail(email, verificationToken, baseUrl);
+    } catch (emailError) {
+      console.error('Email send error:', emailError.message);
+    }
+
     res.status(201).json({
-      id: user._id,
-      email: user.email,
-      name: user.name
+      message: 'Account created! Please check your email to verify your account.'
     });
   } catch (error) {
     console.error('Signup error:', error);
@@ -99,6 +139,11 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    // Check email verified
+    if (!user.emailVerified) {
+      return res.status(403).json({ error: 'Please verify your email before logging in. Check your inbox.' });
+    }
+
     // Return user data (including their saved fitness data)
     res.json({
       id: user._id,
@@ -112,6 +157,22 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Failed to login' });
+  }
+});
+
+// Verify email
+app.get('/api/auth/verify/:token', async (req, res) => {
+  try {
+    const user = await User.findOne({ verificationToken: req.params.token });
+    if (!user) {
+      return res.send(`<html><body style="background:#0a0a0a;color:white;font-family:sans-serif;text-align:center;padding:80px"><h2 style="color:#f87171;">Link inválido ou expirado.</h2><a href="/login.html" style="color:#a855f7;">Voltar ao login</a></body></html>`);
+    }
+    user.emailVerified = true;
+    user.verificationToken = undefined;
+    await user.save();
+    res.send(`<html><body style="background:#0a0a0a;color:white;font-family:sans-serif;text-align:center;padding:80px"><h2 style="color:#a855f7;">✓ Email verificado com sucesso!</h2><p>Já podes fazer login.</p><a href="/login.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:linear-gradient(135deg,#a855f7,#ec4899);color:white;border-radius:10px;text-decoration:none;font-weight:bold;">Fazer Login</a></body></html>`);
+  } catch (error) {
+    res.status(500).send('Erro ao verificar email.');
   }
 });
 

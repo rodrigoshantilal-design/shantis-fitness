@@ -114,7 +114,15 @@
 
             try {
                 await signupUser(email, password, name);
-                window.location.href = 'start.html';
+                // Show success message instead of redirecting
+                document.getElementById('signupForm').innerHTML = `
+                    <div style="text-align:center;padding:20px;">
+                        <div style="font-size:48px;margin-bottom:16px;">📧</div>
+                        <h3 style="color:#a855f7;font-size:20px;font-weight:800;margin-bottom:8px;">Verifica o teu email!</h3>
+                        <p style="color:#9ca3af;font-size:14px;">Enviámos um link de confirmação para <strong style="color:white;">${email}</strong>.<br>Clica no link para ativar a tua conta.</p>
+                        <a href="login.html" style="display:inline-block;margin-top:20px;color:#a855f7;font-size:13px;">Já verifiquei → Fazer login</a>
+                    </div>
+                `;
             } catch (error) {
                 errorText.textContent = error.message || 'Failed to create account';
                 errorDiv.classList.remove('hidden');
