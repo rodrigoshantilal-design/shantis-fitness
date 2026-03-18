@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Plan - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .pie-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        .pie-chart {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        .pie-label {
+            position: absolute;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            pointer-events: none;
+        }
+        .aspect-square {
+            aspect-ratio: 1 / 1;
+        }
+    </style>
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plan.html">Plan</a>
+                <a href="track.html">Track</a>
+                <a href="meals.html">Meals</a>
+                <a href="progress.html">Progress</a>
+                <a href="coach.html">Coach</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
+        <div class="flex-1 overflow-y-auto">
+            <div class="w-full max-w-6xl mx-auto px-6 py-6">
+                <!-- Header -->
+                <div class="text-center mb-6">
+                    <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Your Plan</h1>
+                    <p id="createdDate" class="text-gray-400 text-xs">Created on --</p>
+                </div>
+
+                <!-- Section Tabs -->
+                <div class="flex gap-3 mb-8 justify-center flex-wrap">
+                    <button onclick="setActiveSection('metrics')" id="tabMetrics" class="px-8 py-4 rounded-2xl text-base font-black transition-all text-white shadow-lg border" style="min-width: 120px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4)); border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);">
+                        <span id="tabMetricsText">Metrics</span>
+                    </button>
+                    <button onclick="setActiveSection('training')" id="tabTraining" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
+                        <span id="tabTrainingText">Training</span>
+                    </button>
+                    <button onclick="setActiveSection('nutrition')" id="tabNutrition" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
+                        <span id="tabNutritionText">Nutrition</span>
+                    </button>
+                    <button onclick="setActiveSection('lifestyle')" id="tabLifestyle" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
+                        <span id="tabLifestyleText">Lifestyle</span>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Metrics Section -->
+                    <div id="sectionMetrics" class="space-y-4">
+                        <div class="glass-effect rounded-2xl p-6">
+                            <div id="metricsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <div class="glass-effect rounded-2xl p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <div class="text-center mb-4">
+                                        <div id="targetCaloriesLabel" class="text-xs text-gray-400 mb-2">Target Calories</div>
+                                        <div id="caloriesValue" class="text-5xl font-black text-white">0</div>
+                                        <div id="kcalDay" class="text-xs text-gray-500 mt-1">kcal/day</div>
+                                    </div>
+                                    <div id="macrosList" class="bg-white/5 rounded-xl p-4">
+                                        <!-- Populated by JS -->
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-center">
+                                    <div class="pie-container">
+                                        <canvas id="pieChart" width="200" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training Section -->
+                    <div id="sectionTraining" class="space-y-4" style="display: none;">
+                        <div class="glass-effect rounded-2xl p-6">
+                            <p id="trainingSplit" class="text-gray-400 mb-4 text-center text-sm"></p>
+
+                            <!-- Week Calendar View -->
+                            <div id="weekCalendar" class="flex flex-wrap justify-center gap-3 mb-6">
+                                <!-- Populated by JS -->
+                            </div>
+
+                            <!-- Current Day Details -->
+                            <div class="space-y-3">
+                                <h3 id="currentDayTitle" class="font-black text-white text-lg text-center mb-4"></h3>
+                                <div id="exerciseList" class="space-y-2 max-h-80 overflow-y-auto scrollbar-hide">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Section -->
+                    <div id="sectionNutrition" class="space-y-4" style="display: none;">
+                        <div class="glass-effect rounded-2xl p-6">
+                            <h3 id="exampleDayTitle" class="font-bold text-white text-lg mb-4 text-center">Example Day</h3>
+                            <div id="mealsGrid" class="grid grid-cols-2 gap-4 mb-6">
+                                <!-- Populated by JS -->
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-4">
+                                <h4 id="shoppingListTitle" class="font-bold text-white text-sm mb-3 text-center">Shopping List</h4>
+                                <div id="shoppingList" class="grid grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto scrollbar-hide">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lifestyle Section -->
+                    <div id="sectionLifestyle" class="space-y-4" style="display: none;">
+                        <div class="glass-effect rounded-2xl p-6">
+                            <h3 id="lifestyleTitle" class="font-bold text-white text-lg mb-4 text-center">Lifestyle Guidelines</h3>
+                            <div id="lifestyleTips" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Plan Message -->
+                <div id="noPlanSection" class="text-center py-12" style="display: none;">
+                    <div class="inline-block p-8 glass-effect rounded-2xl">
+                        <svg class="icon-xl mx-auto mb-4 text-purple-400" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.913a2 2 0 001.899 1.381h6.212l-5.027 3.653a2 2 0 00-.727 2.236l1.931 5.952-5.028-3.654a2 2 0 00-2.344 0l-5.028 3.654 1.931-5.952a2 2 0 00-.727-2.236L2 10.294h6.212a2 2 0 001.899-1.381L12 3z"></path></svg>
+                        <h3 id="noPlanTitle" class="text-2xl font-black text-white mb-2">No Plan Yet</h3>
+                        <p id="noPlanSubtitle" class="text-gray-400 mb-6 max-w-md">Create your personalized fitness and nutrition plan first</p>
+                        <a href="start.html" class="btn btn-primary" id="createPlanBtn">Create Your Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { getPlan } from './js/storage.js';
+
+        // State
+        let plan = null;
+        let activeSection = 'metrics';
+        let activeTab = 0;
+        let locale = localStorage.getItem('locale') || 'en';
+
+        // Translations
+        const translations = {
+            en: {
+                title: 'Your Plan',
+                created: 'Created on',
+                metrics: 'Metrics',
+                training: 'Training',
+                nutrition: 'Nutrition',
+                lifestyle: 'Lifestyle',
+                bmi: 'BMI',
+                bodyFat: 'Body Fat',
+                bmr: 'BMR',
+                tdee: 'TDEE',
+                targetCalories: 'Target Calories',
+                kcalDay: 'kcal/day',
+                protein: 'Protein',
+                carbs: 'Carbs',
+                fat: 'Fat',
+                restRecovery: 'Rest & Recovery',
+                restDesc: 'Focus on sleep, nutrition, and light activity like walking.',
+                exampleDay: 'Example Day',
+                shoppingList: 'Shopping List',
+                lifestyleGuidelines: 'Lifestyle Guidelines',
+                noPlan: 'No Plan Yet',
+                noPlanDesc: 'Create your personalized fitness and nutrition plan first',
+                createPlan: 'Create Your Plan'
+            },
+            pt: {
+                title: 'Seu Plano',
+                created: 'Criado em',
+                metrics: 'Metricas',
+                training: 'Treino',
+                nutrition: 'Nutricao',
+                lifestyle: 'Estilo de Vida',
+                bmi: 'IMC',
+                bodyFat: 'Gordura Corporal',
+                bmr: 'TMB',
+                tdee: 'TDEE',
+                targetCalories: 'Calorias Alvo',
+                kcalDay: 'kcal/dia',
+                protein: 'Proteina',
+                carbs: 'Carboidratos',
+                fat: 'Gordura',
+                restRecovery: 'Descanso & Recuperacao',
+                restDesc: 'Foque no sono, nutricao e atividade leve como caminhada.',
+                exampleDay: 'Dia Exemplo',
+                shoppingList: 'Lista de Compras',
+                lifestyleGuidelines: 'Diretrizes de Estilo de Vida',
+                noPlan: 'Nenhum Plano Ainda',
+                noPlanDesc: 'Crie primeiro seu plano personalizado de fitness e nutricao',
+                createPlan: 'Criar Seu Plano'
+            }
+        };
+
+        const t = translations[locale] || translations.en;
+
+        function updateTranslations() {
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('tabMetricsText').textContent = t.metrics;
+            document.getElementById('tabTrainingText').textContent = t.training;
+            document.getElementById('tabNutritionText').textContent = t.nutrition;
+            document.getElementById('tabLifestyleText').textContent = t.lifestyle;
+            document.getElementById('targetCaloriesLabel').textContent = t.targetCalories;
+            document.getElementById('kcalDay').textContent = t.kcalDay;
+            document.getElementById('exampleDayTitle').textContent = t.exampleDay;
+            document.getElementById('shoppingListTitle').textContent = t.shoppingList;
+            document.getElementById('lifestyleTitle').textContent = t.lifestyleGuidelines;
+            document.getElementById('noPlanTitle').textContent = t.noPlan;
+            document.getElementById('noPlanSubtitle').textContent = t.noPlanDesc;
+            document.getElementById('createPlanBtn').textContent = t.createPlan;
+        }
+
+        window.setActiveSection = function(section) {
+            activeSection = section;
+
+            // Update tabs
+            ['metrics', 'training', 'nutrition', 'lifestyle'].forEach(s => {
+                const tab = document.getElementById('tab' + s.charAt(0).toUpperCase() + s.slice(1));
+                if (s === section) {
+                    tab.className = 'px-8 py-4 rounded-2xl text-base font-black transition-all text-white shadow-lg border';
+                    tab.style.minWidth = '120px';
+                    tab.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4))';
+                    tab.style.borderColor = 'rgba(168, 85, 247, 0.6)';
+                    tab.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.3)';
+                } else {
+                    tab.className = 'px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10';
+                    tab.style.minWidth = '120px';
+                    tab.style.background = '';
+                    tab.style.borderColor = '';
+                    tab.style.boxShadow = '';
+                }
+            });
+
+            // Update sections
+            document.getElementById('sectionMetrics').style.display = section === 'metrics' ? 'block' : 'none';
+            document.getElementById('sectionTraining').style.display = section === 'training' ? 'block' : 'none';
+            document.getElementById('sectionNutrition').style.display = section === 'nutrition' ? 'block' : 'none';
+            document.getElementById('sectionLifestyle').style.display = section === 'lifestyle' ? 'block' : 'none';
+        };
+
+        window.setActiveTab = function(index) {
+            activeTab = index;
+            renderTrainingSection();
+        };
+
+        function renderMetricsSection() {
+            if (!plan) return;
+
+            const metricsGrid = document.getElementById('metricsGrid');
+            const bmiValue = plan.bmi ? plan.bmi.toFixed(1) : '--';
+            const bmrValue = plan.bmr ? Math.round(plan.bmr) : '--';
+            const tdeeValue = plan.tdee ? Math.round(plan.tdee) : '--';
+
+            let html = `
+                <div class="rounded-xl p-5 text-center" style="background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2);">
+                    <div class="text-xs text-gray-400 mb-2">${t.bmi}</div>
+                    <div class="text-4xl font-black text-white">${bmiValue}</div>
+                </div>
+            `;
+
+            if (plan.bodyFat) {
+                html += `
+                    <div class="rounded-xl p-5 text-center" style="background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2);">
+                        <div class="text-xs text-gray-400 mb-2">${t.bodyFat}</div>
+                        <div class="text-4xl font-black text-white">${plan.bodyFat}%</div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="rounded-xl p-5 text-center" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <div class="text-xs text-gray-400 mb-2">${t.bmr}</div>
+                    <div class="text-4xl font-black text-white">${bmrValue}</div>
+                </div>
+                <div class="rounded-xl p-5 text-center" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2);">
+                    <div class="text-xs text-gray-400 mb-2">${t.tdee}</div>
+                    <div class="text-4xl font-black text-white">${tdeeValue}</div>
+                </div>
+            `;
+
+            metricsGrid.innerHTML = html;
+
+            // Calories
+            document.getElementById('caloriesValue').textContent = plan.calories ? Math.round(plan.calories) : '--';
+
+            // Macros list
+            const macroData = [
+                { name: t.protein, grams: plan.proteinG || 0, color: '#ef4444' },
+                { name: t.carbs, grams: plan.carbG || 0, color: '#3b82f6' },
+                { name: t.fat, grams: plan.fatG || 0, color: '#f59e0b' }
+            ];
+
+            const macrosList = document.getElementById('macrosList');
+            macrosList.innerHTML = macroData.map(macro => `
+                <div class="flex justify-between items-center py-3 border-b last:border-0" style="border-color: rgba(255,255,255,0.05);">
+                    <span class="text-white text-sm font-bold flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-3" style="background-color: ${macro.color};"></span>
+                        ${macro.name}
+                    </span>
+                    <span class="text-white font-black text-lg">${Math.round(macro.grams)}g</span>
+                </div>
+            `).join('');
+
+            // Draw pie chart
+            drawPieChart(macroData);
+        }
+
+        function drawPieChart(macroData) {
+            const canvas = document.getElementById('pieChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+
+            // Calculate total calories from macros
+            const proteinG = plan.proteinG || 0;
+            const carbG = plan.carbG || 0;
+            const fatG = plan.fatG || 0;
+            const total = (proteinG * 4) + (carbG * 4) + (fatG * 9);
+            if (total === 0) return;
+            const data = [
+                { value: proteinG * 4, color: '#ef4444', name: t.protein },
+                { value: carbG * 4, color: '#3b82f6', name: t.carbs },
+                { value: fatG * 9, color: '#f59e0b', name: t.fat }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            data.forEach((slice, index) => {
+                const sliceAngle = (slice.value / total) * 2 * Math.PI;
+                const endAngle = startAngle + sliceAngle;
+
+                // Draw slice
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                // Calculate label position
+                const midAngle = startAngle + sliceAngle / 2;
+                const labelRadius = radius * 0.65;
+                const labelX = centerX + Math.cos(midAngle) * labelRadius;
+                const labelY = centerY + Math.sin(midAngle) * labelRadius;
+
+                // Draw label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const percent = Math.round((slice.value / total) * 100);
+                ctx.fillText(`${slice.name}`, labelX, labelY - 6);
+                ctx.fillText(`${percent}%`, labelX, labelY + 8);
+
+                startAngle = endAngle;
+            });
+        }
+
+        function renderTrainingSection() {
+            // Support both 'days' and 'workouts' property names
+            const workouts = plan.trainingPlan?.workouts || plan.trainingPlan?.days;
+
+            if (!plan.trainingPlan || !workouts || workouts.length === 0) {
+                document.getElementById('sectionTraining').innerHTML = `
+                    <div class="glass-effect rounded-2xl p-6 text-center">
+                        <p class="text-gray-400">No training plan available. <a href="start.html" class="text-purple-400 underline">Create one now</a></p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Split description
+            const daysPerWeek = plan.trainingPlan.daysPerWeek || workouts.length;
+            const splitText = `${plan.trainingPlan.name} - ${daysPerWeek} days per week`;
+            document.getElementById('trainingSplit').textContent = splitText;
+
+            // Build full week schedule with rest days every ~3 days
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            let fullWeek = [];
+
+            // Create a 7-day week with rest days distributed every 3 days
+            if (daysPerWeek === 3) {
+                // Workout, Workout, Rest pattern
+                fullWeek = [
+                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
+                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
+                    { dayLabel: 'Wed', isRest: true },
+                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
+                    { dayLabel: 'Fri', isRest: true },
+                    { dayLabel: 'Sat', isRest: true },
+                    { dayLabel: 'Sun', isRest: true }
+                ];
+            } else if (daysPerWeek === 4) {
+                // 2 workouts, rest, 2 workouts, rest pattern
+                fullWeek = [
+                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
+                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
+                    { dayLabel: 'Wed', isRest: true },
+                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
+                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
+                    { dayLabel: 'Sat', isRest: true },
+                    { dayLabel: 'Sun', isRest: true }
+                ];
+            } else if (daysPerWeek === 5) {
+                // 2 workouts, rest, 3 workouts, rest pattern
+                fullWeek = [
+                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
+                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
+                    { dayLabel: 'Wed', isRest: true },
+                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
+                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
+                    { ...workouts[4], dayLabel: 'Sat', isRest: false },
+                    { dayLabel: 'Sun', isRest: true }
+                ];
+            } else if (daysPerWeek === 6) {
+                // 2 workouts, rest, 2 workouts, rest, 2 workouts pattern
+                fullWeek = [
+                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
+                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
+                    { dayLabel: 'Wed', isRest: true },
+                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
+                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
+                    { ...workouts[4], dayLabel: 'Sat', isRest: false },
+                    { ...workouts[5], dayLabel: 'Sun', isRest: false }
+                ];
+            } else {
+                // Default: distribute workouts with rest every 3 days
+                fullWeek = workouts.map((w, i) => ({ ...w, dayLabel: dayNames[i] || `Day ${i+1}`, isRest: false }));
+                while (fullWeek.length < 7) {
+                    fullWeek.push({ dayLabel: dayNames[fullWeek.length], isRest: true });
+                }
+            }
+
+            // Week calendar
+            const weekCalendar = document.getElementById('weekCalendar');
+            weekCalendar.innerHTML = fullWeek.map((day, index) => {
+                const isActive = activeTab === index;
+
+                let btnStyle, icon, labelColor;
+                if (day.isRest) {
+                    // Rest day styling
+                    btnStyle = isActive
+                        ? 'background: rgba(75, 85, 99, 0.5); border: 2px solid rgba(107, 114, 128, 0.8);'
+                        : 'background: rgba(31, 41, 55, 0.4); border: 1px solid rgba(75, 85, 99, 0.5);';
+                    icon = `<svg style="width: 20px; height: 20px; color: #9ca3af; margin-bottom: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
+                    labelColor = '#9ca3af';
+                } else {
+                    // Workout day styling
+                    btnStyle = isActive
+                        ? 'background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4)); border: 2px solid rgba(168, 85, 247, 0.7); box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);'
+                        : 'background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);';
+                    icon = `<svg style="width: 20px; height: 20px; color: #60a5fa; margin-bottom: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`;
+                    labelColor = '#ffffff';
+                }
+
+                return `
+                    <button onclick="setActiveTab(${index})" style="width: 80px; height: 80px; min-width: 80px; min-height: 80px; border-radius: 12px; ${btnStyle} cursor: pointer; transition: all 0.2s;">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 8px;">
+                            ${icon}
+                            <div style="font-size: 12px; font-weight: 700; color: ${labelColor}; text-align: center;">${day.dayLabel}</div>
+                            <div style="font-size: 10px; color: ${labelColor}; opacity: 0.7;">${day.isRest ? 'Rest' : (day.day || 'Workout')}</div>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            // Current day details
+            const currentDay = fullWeek[activeTab];
+            if (!currentDay) return;
+
+            const exerciseList = document.getElementById('exerciseList');
+
+            if (currentDay.isRest) {
+                document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - Rest Day`;
+                exerciseList.innerHTML = `
+                    <div class="bg-gray-800/30 rounded-xl p-8 text-center border border-gray-700/50">
+                        <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                        <h4 class="text-xl font-bold text-white mb-2">Rest & Recovery</h4>
+                        <p class="text-gray-400 text-sm mb-4">Your body grows stronger during rest. Use this day to recover.</p>
+                        <div class="grid grid-cols-2 gap-3 text-left max-w-md mx-auto">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="text-purple-400 font-bold text-sm mb-1">💤 Sleep</div>
+                                <div class="text-xs text-gray-400">Aim for 7-9 hours of quality sleep</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="text-blue-400 font-bold text-sm mb-1">💧 Hydrate</div>
+                                <div class="text-xs text-gray-400">Drink 2-3 liters of water</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="text-green-400 font-bold text-sm mb-1">🥗 Nutrition</div>
+                                <div class="text-xs text-gray-400">Keep protein intake high</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="text-orange-400 font-bold text-sm mb-1">🚶 Light Activity</div>
+                                <div class="text-xs text-gray-400">Walking or stretching is fine</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentDay.exercises && currentDay.exercises.length > 0) {
+                document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - ${currentDay.day || 'Workout'}`;
+                exerciseList.innerHTML = currentDay.exercises.map((exercise, i) => `
+                    <div class="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="font-bold text-white mb-1">${exercise.name}</div>
+                                <div class="text-xs text-gray-400">
+                                    ${exercise.sets} sets x ${exercise.reps} reps
+                                </div>
+                            </div>
+                            <div class="text-lg font-black text-purple-400">${i + 1}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('currentDayTitle').textContent = currentDay.dayLabel;
+                exerciseList.innerHTML = `
+                    <div class="text-center p-4 text-gray-400">
+                        No exercises for this day
+                    </div>
+                `;
+            }
+        }
+
+        function renderNutritionSection() {
+            if (!plan.nutritionPlan) {
+                document.getElementById('sectionNutrition').innerHTML = `
+                    <div class="glass-effect rounded-2xl p-6 text-center">
+                        <p class="text-gray-400">No nutrition plan available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Example day meals
+            const mealsGrid = document.getElementById('mealsGrid');
+            if (plan.nutritionPlan.exampleDay) {
+                mealsGrid.innerHTML = plan.nutritionPlan.exampleDay.map(meal => `
+                    <div class="p-4 bg-white/5 border border-white/10 rounded-xl">
+                        <h4 class="font-bold text-white text-sm mb-3">${meal.meal}</h4>
+                        <ul class="space-y-1">
+                            ${meal.items.map(item => `
+                                <li class="text-xs text-gray-300 flex items-start">
+                                    <span class="text-purple-400 mr-2">•</span>
+                                    ${item.food} - ${item.qty}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+            }
+
+            // Shopping list
+            const shoppingList = document.getElementById('shoppingList');
+            if (plan.nutritionPlan.shoppingList) {
+                shoppingList.innerHTML = plan.nutritionPlan.shoppingList.map(item => `
+                    <div class="text-xs text-gray-300 bg-black/40 px-3 py-2 rounded-lg border border-white/10">
+                        ${item}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderLifestyleSection() {
+            const lifestyleTips = document.getElementById('lifestyleTips');
+
+            if (!plan.lifestyleTips || plan.lifestyleTips.length === 0) {
+                lifestyleTips.innerHTML = `
+                    <div class="col-span-2 text-center p-4 text-gray-400">
+                        No lifestyle tips available
+                    </div>
+                `;
+                return;
+            }
+
+            lifestyleTips.innerHTML = plan.lifestyleTips.map(tip => `
+                <div class="flex items-start p-4 bg-white/5 border border-white/10 rounded-xl">
+                    <span class="text-green-400 mr-3 mt-0.5">&#10003;</span>
+                    <span class="text-gray-300 text-sm">${tip}</span>
+                </div>
+            `).join('');
+        }
+
+        function init() {
+            try {
+                plan = getPlan();
+
+                updateTranslations();
+
+                if (!plan) {
+                    // Show no plan message
+                    document.getElementById('sectionMetrics').style.display = 'none';
+                    document.getElementById('noPlanSection').style.display = 'block';
+                    document.querySelectorAll('[id^="tab"]').forEach(tab => tab.style.display = 'none');
+                    return;
+                }
+
+                // Set created date
+                if (plan.createdAt) {
+                    const date = new Date(plan.createdAt);
+                    document.getElementById('createdDate').textContent = t.created + ' ' + date.toLocaleDateString();
+                }
+
+                renderMetricsSection();
+                renderTrainingSection();
+                renderNutritionSection();
+                renderLifestyleSection();
+            } catch (error) {
+                console.error('Error loading plan:', error);
+                document.getElementById('sectionMetrics').style.display = 'none';
+                document.getElementById('noPlanSection').style.display = 'block';
+            }
+        }
+
+        init();
+    </script>
+    <script src="/js/weight-progress-bar.js"></script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>

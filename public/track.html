@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Track - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plan.html">Plan</a>
+                <a href="track.html">Track</a>
+                <a href="meals.html">Meals</a>
+                <a href="progress.html">Progress</a>
+                <a href="coach.html">Coach</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
+        <div class="flex-1 overflow-y-auto">
+            <div class="w-full max-w-4xl mx-auto px-6 py-6">
+                <!-- Header -->
+                <div class="text-center mb-6">
+                    <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Daily Check-In</h1>
+                    <p id="pageSubtitle" class="text-gray-400 text-sm">Track your daily progress</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Today's Log Form -->
+                    <div id="logForm" class="glass-effect rounded-2xl p-6">
+                        <h2 id="todayCheckInTitle" class="text-xl font-bold text-white mb-6 text-center">Today's Check-In</h2>
+
+                        <div class="space-y-5 max-w-xl mx-auto">
+                            <!-- Weight & Body Fat -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label id="weightLabel" class="block text-sm font-bold text-gray-400 mb-2 text-center">Weight (kg)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        id="weightInput"
+                                        placeholder="Weight"
+                                        class="w-full px-4 py-4 bg-black/40 border border-white/10 rounded-xl text-white text-center text-2xl font-black outline-none focus:border-purple-500"
+                                    >
+                                </div>
+                                <div>
+                                    <label id="bodyFatLabel" class="block text-sm font-bold text-gray-400 mb-2 text-center">Body Fat %</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        id="bodyFatInput"
+                                        placeholder="BF%"
+                                        class="w-full px-4 py-4 bg-black/40 border border-white/10 rounded-xl text-white text-center text-2xl font-black outline-none focus:border-purple-500"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Workout -->
+                            <div>
+                                <label id="workoutLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">Did you workout today?</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button
+                                        id="workoutYesBtn"
+                                        onclick="setWorkout(true)"
+                                        class="p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                    >
+                                        <svg class="w-10 h-10 text-green-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                                        <div id="yesText" class="font-black text-white">Yes</div>
+                                    </button>
+                                    <button
+                                        id="workoutNoBtn"
+                                        onclick="setWorkout(false)"
+                                        class="p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                    >
+                                        <svg class="w-10 h-10 text-red-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                                        <div id="noText" class="font-black text-white">No</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Diet Quality -->
+                            <div>
+                                <label id="dietLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">How was your diet?</label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <button
+                                        id="dietExcellentBtn"
+                                        onclick="setDiet('excellent')"
+                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                    >
+                                        <svg class="w-10 h-10 text-green-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <div id="excellentText" class="font-black text-white text-sm">Excellent</div>
+                                    </button>
+                                    <button
+                                        id="dietGoodBtn"
+                                        onclick="setDiet('good')"
+                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                    >
+                                        <svg class="w-10 h-10 text-yellow-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" x2="16" y1="15" y2="15"></line><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <div id="goodText" class="font-black text-white text-sm">Good</div>
+                                    </button>
+                                    <button
+                                        id="dietPoorBtn"
+                                        onclick="setDiet('poor')"
+                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                    >
+                                        <svg class="w-10 h-10 text-red-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <div id="poorText" class="font-black text-white text-sm">Poor</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Notes -->
+                            <div>
+                                <textarea
+                                    id="notesInput"
+                                    placeholder="Notes (optional)"
+                                    rows="2"
+                                    class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white text-sm outline-none focus:border-purple-500"
+                                ></textarea>
+                            </div>
+
+                            <!-- Submit -->
+                            <button
+                                id="submitBtn"
+                                onclick="handleSubmit()"
+                                class="w-full px-8 py-4 bg-white/20 backdrop-blur-xl text-white font-black rounded-xl hover:bg-white/25 transition-all shadow-2xl border border-white/30"
+                            >
+                                Log Today
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Already Logged Message -->
+                    <div id="alreadyLogged" class="glass-effect rounded-2xl p-10 text-center" style="display: none;">
+                        <svg class="w-20 h-20 text-green-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        <h2 id="alreadyLoggedTitle" class="text-3xl font-black text-white mb-2">Already Logged Today!</h2>
+                        <p id="alreadyLoggedSubtitle" class="text-gray-400 text-sm">Come back tomorrow to log again</p>
+                    </div>
+
+                    <!-- Recent Logs -->
+                    <div id="recentLogsSection" class="glass-effect rounded-2xl p-6" style="display: none;">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span id="recentLogsTitle">Recent Logs</span>
+                        </h2>
+                        <div id="logsList" class="space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { getTrackingLogs, saveTrackingLog } from '/js/storage.js';
+
+        // State
+        let workoutDone = null;
+        let dietQuality = null;
+        let todayLogged = false;
+        let locale = localStorage.getItem('locale') || 'en';
+        const today = new Date().toISOString().split('T')[0];
+
+        // Translations
+        const translations = {
+            en: {
+                title: 'Daily Check-In',
+                subtitle: 'Track your daily progress',
+                todayCheckIn: "Today's Check-In",
+                weight: 'Weight (kg)',
+                bodyFat: 'Body Fat %',
+                didWorkout: 'Did you workout today?',
+                yes: 'Yes',
+                no: 'No',
+                howWasDiet: 'How was your diet?',
+                excellent: 'Excellent',
+                good: 'Good',
+                poor: 'Poor',
+                notes: 'Notes (optional)',
+                logToday: 'Log Today',
+                alreadyLogged: 'Already Logged Today!',
+                comeBack: 'Come back tomorrow to log again',
+                recentLogs: 'Recent Logs',
+                workout: 'Workout',
+                diet: 'Diet'
+            },
+            pt: {
+                title: 'Check-In Diario',
+                subtitle: 'Acompanhe seu progresso diario',
+                todayCheckIn: 'Check-In de Hoje',
+                weight: 'Peso (kg)',
+                bodyFat: 'Gordura %',
+                didWorkout: 'Treinou hoje?',
+                yes: 'Sim',
+                no: 'Nao',
+                howWasDiet: 'Como foi sua dieta?',
+                excellent: 'Excelente',
+                good: 'Boa',
+                poor: 'Ruim',
+                notes: 'Notas (opcional)',
+                logToday: 'Registrar Hoje',
+                alreadyLogged: 'Ja Registrado Hoje!',
+                comeBack: 'Volte amanha para registrar novamente',
+                recentLogs: 'Registros Recentes',
+                workout: 'Treino',
+                diet: 'Dieta'
+            }
+        };
+
+        const t = translations[locale] || translations.en;
+
+        function updateTranslations() {
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('pageSubtitle').textContent = t.subtitle;
+            document.getElementById('todayCheckInTitle').textContent = t.todayCheckIn;
+            document.getElementById('weightLabel').textContent = t.weight;
+            document.getElementById('bodyFatLabel').textContent = t.bodyFat;
+            document.getElementById('workoutLabel').textContent = t.didWorkout;
+            document.getElementById('yesText').textContent = t.yes;
+            document.getElementById('noText').textContent = t.no;
+            document.getElementById('dietLabel').textContent = t.howWasDiet;
+            document.getElementById('excellentText').textContent = t.excellent;
+            document.getElementById('goodText').textContent = t.good;
+            document.getElementById('poorText').textContent = t.poor;
+            document.getElementById('notesInput').placeholder = t.notes;
+            document.getElementById('submitBtn').textContent = t.logToday;
+            document.getElementById('alreadyLoggedTitle').textContent = t.alreadyLogged;
+            document.getElementById('alreadyLoggedSubtitle').textContent = t.comeBack;
+            document.getElementById('recentLogsTitle').textContent = t.recentLogs;
+        }
+
+        window.setWorkout = function(value) {
+            workoutDone = value;
+            updateWorkoutUI();
+        };
+
+        function updateWorkoutUI() {
+            const yesBtn = document.getElementById('workoutYesBtn');
+            const noBtn = document.getElementById('workoutNoBtn');
+
+            if (workoutDone === true) {
+                yesBtn.className = 'p-6 rounded-xl transition-all border bg-green-600/20 border-green-500/40 shadow-lg';
+                yesBtn.style.boxShadow = '0 10px 40px rgba(34, 197, 94, 0.2)';
+                noBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                noBtn.style.boxShadow = 'none';
+            } else if (workoutDone === false) {
+                noBtn.className = 'p-6 rounded-xl transition-all border bg-red-600/20 border-red-500/40 shadow-lg';
+                noBtn.style.boxShadow = '0 10px 40px rgba(239, 68, 68, 0.2)';
+                yesBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                yesBtn.style.boxShadow = 'none';
+            } else {
+                yesBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                yesBtn.style.boxShadow = 'none';
+                noBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                noBtn.style.boxShadow = 'none';
+            }
+        }
+
+        window.setDiet = function(value) {
+            dietQuality = value;
+            updateDietUI();
+        };
+
+        function updateDietUI() {
+            const buttons = {
+                excellent: document.getElementById('dietExcellentBtn'),
+                good: document.getElementById('dietGoodBtn'),
+                poor: document.getElementById('dietPoorBtn')
+            };
+
+            const colors = {
+                excellent: { bg: 'bg-green-600/20', border: 'border-green-500/40', shadow: 'rgba(34, 197, 94, 0.2)' },
+                good: { bg: 'bg-yellow-600/20', border: 'border-yellow-500/40', shadow: 'rgba(234, 179, 8, 0.2)' },
+                poor: { bg: 'bg-red-600/20', border: 'border-red-500/40', shadow: 'rgba(239, 68, 68, 0.2)' }
+            };
+
+            Object.keys(buttons).forEach(key => {
+                if (key === dietQuality) {
+                    buttons[key].className = `p-5 rounded-xl transition-all border ${colors[key].bg} ${colors[key].border} shadow-lg`;
+                    buttons[key].style.boxShadow = `0 10px 40px ${colors[key].shadow}`;
+                } else {
+                    buttons[key].className = 'p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                    buttons[key].style.boxShadow = 'none';
+                }
+            });
+        }
+
+        window.handleSubmit = function() {
+            if (workoutDone === null || dietQuality === null) {
+                alert(locale === 'en' ? 'Please answer all questions' : 'Por favor responda todas as perguntas');
+                return;
+            }
+
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            const bodyFat = parseFloat(document.getElementById('bodyFatInput').value);
+            const notes = document.getElementById('notesInput').value;
+
+            if (!isNaN(weight) && (weight < 20 || weight > 500)) {
+                alert(locale === 'en' ? 'Please enter a valid weight (20–500 kg)' : 'Por favor insira um peso válido (20–500 kg)');
+                return;
+            }
+            if (!isNaN(bodyFat) && (bodyFat < 1 || bodyFat > 70)) {
+                alert(locale === 'en' ? 'Please enter a valid body fat % (1–70)' : 'Por favor insira uma % de gordura válida (1–70)');
+                return;
+            }
+
+            saveTrackingLog({
+                date: today,
+                weight: !isNaN(weight) ? weight : undefined,
+                bodyFat: !isNaN(bodyFat) ? bodyFat : undefined,
+                workoutDone,
+                dietQuality,
+                notes
+            });
+
+            // Reset form
+            document.getElementById('weightInput').value = '';
+            document.getElementById('bodyFatInput').value = '';
+            document.getElementById('notesInput').value = '';
+            workoutDone = null;
+            dietQuality = null;
+
+            loadLogs();
+        };
+
+        function getDietIcon(quality) {
+            switch (quality) {
+                case 'excellent':
+                    return '<svg class="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
+                case 'good':
+                    return '<svg class="w-4 h-4 text-yellow-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" x2="16" y1="15" y2="15"></line><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
+                case 'poor':
+                    return '<svg class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
+                default:
+                    return '';
+            }
+        }
+
+        function loadLogs() {
+            const allLogs = getTrackingLogs();
+            const sortedLogs = allLogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+            // Check if today is already logged
+            const todayLog = sortedLogs.find(log => log.date === today);
+            todayLogged = !!todayLog;
+
+            // Show/hide form and already logged message
+            document.getElementById('logForm').style.display = todayLogged ? 'none' : 'block';
+            document.getElementById('alreadyLogged').style.display = todayLogged ? 'block' : 'none';
+
+            // Show recent logs
+            if (sortedLogs.length > 0) {
+                document.getElementById('recentLogsSection').style.display = 'block';
+                const logsList = document.getElementById('logsList');
+
+                logsList.innerHTML = sortedLogs.slice(0, 7).map(log => `
+                    <div class="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
+                        <div class="flex justify-between items-center">
+                            <div class="flex-1">
+                                <div class="font-bold text-white text-sm mb-2">
+                                    ${new Date(log.date).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', { weekday: 'short', month: 'short', day: 'numeric' })}
+                                </div>
+                                <div class="flex items-center gap-3 text-xs flex-wrap">
+                                    ${log.weight ? `<span class="text-purple-400 font-bold">${log.weight} kg</span>` : ''}
+                                    ${log.bodyFat ? `<span class="text-pink-400 font-bold">${log.bodyFat}% BF</span>` : ''}
+                                    <span class="flex items-center gap-1">
+                                        ${t.workout}: ${log.workoutDone
+                                            ? '<svg class="w-3 h-3 text-green-400" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>'
+                                            : '<svg class="w-3 h-3 text-red-400" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>'
+                                        }
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        ${t.diet}: ${getDietIcon(log.dietQuality)}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                ${log.weight ? `<div class="text-2xl font-black text-purple-400">${log.weight}</div>` : ''}
+                                ${log.bodyFat ? `<div class="text-sm font-bold text-pink-400">${log.bodyFat}%</div>` : ''}
+                            </div>
+                        </div>
+                        ${log.notes ? `<div class="mt-2 pt-2 border-t border-white/5 text-xs text-gray-500 italic">${log.notes}</div>` : ''}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function init() {
+            updateTranslations();
+            updateWorkoutUI();
+            updateDietUI();
+            loadLogs();
+        }
+
+        init();
+    </script>
+    <script src="/js/weight-progress-bar.js"></script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>

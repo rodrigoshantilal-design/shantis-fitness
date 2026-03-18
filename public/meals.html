@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Log - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plan.html">Plan</a>
+                <a href="track.html">Track</a>
+                <a href="meals.html">Meals</a>
+                <a href="progress.html">Progress</a>
+                <a href="coach.html">Coach</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
+        <div class="flex-1 overflow-y-auto">
+            <div class="w-full max-w-5xl mx-auto px-6 py-6">
+                <!-- Header -->
+                <div class="text-center mb-6">
+                    <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Meal Log</h1>
+                    <p id="pageSubtitle" class="text-gray-400 text-sm">Track your daily nutrition</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Date & Daily Summary -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div class="glass-effect rounded-2xl p-5">
+                            <div class="flex items-center justify-center gap-2 text-sm text-gray-400 mb-3">
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                <span id="dateLabel">Date</span>
+                            </div>
+                            <input type="date" id="dateInput" class="w-full px-4 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-center outline-none focus:border-purple-500">
+                        </div>
+
+                        <div class="lg:col-span-2 glass-effect rounded-2xl p-5">
+                            <div id="dailyTotalsLabel" class="text-sm text-gray-400 mb-3 text-center">Daily Totals</div>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="text-center">
+                                    <div id="totalCalories" class="text-2xl font-bold text-white">0</div>
+                                    <div class="text-xs text-gray-500">Calories</div>
+                                </div>
+                                <div class="text-center">
+                                    <div id="totalProtein" class="text-2xl font-bold text-red-400">0g</div>
+                                    <div class="text-xs text-gray-500">Protein</div>
+                                </div>
+                                <div class="text-center">
+                                    <div id="totalCarbs" class="text-2xl font-bold text-blue-400">0g</div>
+                                    <div class="text-xs text-gray-500">Carbs</div>
+                                </div>
+                                <div class="text-center">
+                                    <div id="totalFat" class="text-2xl font-bold text-yellow-400">0g</div>
+                                    <div class="text-xs text-gray-500">Fat</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Log Button -->
+                    <div class="flex justify-center">
+                        <button id="logMealBtn" onclick="toggleForm()" class="px-8 py-4 text-white font-semibold rounded-xl transition-all flex items-center gap-2" style="background: linear-gradient(to right, #6366f1, #a855f7);">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span id="logMealBtnText">Log Meal</span>
+                        </button>
+                    </div>
+
+                    <!-- Meal Form -->
+                    <div id="mealForm" class="glass-effect rounded-2xl p-6" style="display: none;">
+                        <h2 id="logNewMealTitle" class="text-2xl font-bold text-white mb-6 text-center">Log New Meal</h2>
+
+                        <div class="space-y-5 max-w-2xl mx-auto">
+                            <div>
+                                <label id="mealTypeLabel" class="block text-sm font-medium text-gray-300 mb-2 text-center">Meal Type</label>
+                                <select id="mealTypeSelect" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white text-center outline-none focus:border-purple-500">
+                                    <option value="breakfast">Breakfast</option>
+                                    <option value="lunch">Lunch</option>
+                                    <option value="dinner">Dinner</option>
+                                    <option value="snack">Snack</option>
+                                </select>
+                            </div>
+
+                            <div class="border border-white/10 rounded-xl p-5 bg-black/40">
+                                <div class="relative mb-4">
+                                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    <input type="text" id="searchInput" placeholder="Search 100+ foods..." class="w-full pl-12 pr-4 py-3 bg-black border border-white/10 rounded-xl text-white placeholder:text-gray-600 outline-none focus:border-purple-500">
+                                </div>
+
+                                <div id="searchResults" class="max-h-60 overflow-y-auto border border-white/10 rounded-xl mb-4" style="display: none;"></div>
+
+                                <div class="grid grid-cols-2 gap-3 mb-3">
+                                    <input type="text" id="foodNameInput" placeholder="Food name" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <input type="text" id="quantityInput" placeholder="Quantity" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <input type="number" id="caloriesInput" placeholder="Calories" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <input type="number" id="proteinInput" placeholder="Protein (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <input type="number" id="carbsInput" placeholder="Carbs (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <input type="number" id="fatInput" placeholder="Fat (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                </div>
+
+                                <button onclick="addFood()" class="w-full px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    <span id="addFoodBtnText">Add Food</span>
+                                </button>
+
+                                <div id="foodsList" class="mt-4 space-y-2"></div>
+                            </div>
+
+                            <div>
+                                <label id="notesLabel" class="block text-sm font-medium text-gray-300 mb-2 text-center">Notes</label>
+                                <textarea id="notesInput" rows="2" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white placeholder:text-gray-600 outline-none focus:border-purple-500" placeholder="How did you feel after this meal?"></textarea>
+                            </div>
+                        </div>
+
+                        <button onclick="saveMeal()" class="w-full mt-6 px-6 py-4 text-white font-semibold rounded-xl transition-all" style="background: linear-gradient(to right, #6366f1, #a855f7);">
+                            <span id="saveMealBtnText">Save Meal</span>
+                        </button>
+                    </div>
+
+                    <!-- Meals List -->
+                    <div>
+                        <h2 id="todaysMealsTitle" class="text-2xl font-bold text-white mb-6 text-center">Today's Meals</h2>
+
+                        <div id="noMealsMessage" class="glass-effect rounded-2xl p-12 text-center" style="display: none;">
+                            <svg class="w-12 h-12 text-gray-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+                            <p id="noMealsText" class="text-gray-400">No meals logged for this day</p>
+                        </div>
+
+                        <div id="mealsList" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const FOOD_DATABASE = [
+            { name: 'Chicken Breast', calories: 165, protein: 31, carbs: 0, fat: 3.6, servingSize: '100g' },
+            { name: 'Turkey Breast', calories: 135, protein: 30, carbs: 0, fat: 1, servingSize: '100g' },
+            { name: 'Salmon', calories: 208, protein: 22, carbs: 0, fat: 13, servingSize: '100g' },
+            { name: 'Tuna', calories: 116, protein: 25, carbs: 0, fat: 1, servingSize: '100g' },
+            { name: 'Ground Beef 90%', calories: 176, protein: 24, carbs: 0, fat: 8, servingSize: '100g' },
+            { name: 'Steak', calories: 250, protein: 26, carbs: 0, fat: 15, servingSize: '100g' },
+            { name: 'Eggs', calories: 155, protein: 13, carbs: 1.1, fat: 11, servingSize: '2 large' },
+            { name: 'Greek Yogurt 0%', calories: 59, protein: 10, carbs: 3.6, fat: 0.4, servingSize: '100g' },
+            { name: 'Cottage Cheese', calories: 72, protein: 12, carbs: 3.4, fat: 1, servingSize: '100g' },
+            { name: 'Milk', calories: 61, protein: 3.2, carbs: 4.8, fat: 3.3, servingSize: '100ml' },
+            { name: 'Tofu', calories: 76, protein: 8, carbs: 1.9, fat: 4.8, servingSize: '100g' },
+            { name: 'Lentils', calories: 116, protein: 9, carbs: 20, fat: 0.4, servingSize: '100g' },
+            { name: 'Black Beans', calories: 132, protein: 8.9, carbs: 24, fat: 0.5, servingSize: '100g' },
+            { name: 'White Rice', calories: 130, protein: 2.7, carbs: 28, fat: 0.3, servingSize: '100g' },
+            { name: 'Brown Rice', calories: 112, protein: 2.6, carbs: 24, fat: 0.9, servingSize: '100g' },
+            { name: 'Quinoa', calories: 120, protein: 4.4, carbs: 21, fat: 1.9, servingSize: '100g' },
+            { name: 'Oatmeal', calories: 71, protein: 2.5, carbs: 12, fat: 1.4, servingSize: '100g' },
+            { name: 'Bread', calories: 247, protein: 13, carbs: 41, fat: 3.4, servingSize: '100g' },
+            { name: 'Pasta', calories: 124, protein: 5.3, carbs: 26, fat: 0.5, servingSize: '100g' },
+            { name: 'Sweet Potato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1, servingSize: '100g' },
+            { name: 'Potato', calories: 77, protein: 2, carbs: 17, fat: 0.1, servingSize: '100g' },
+            { name: 'Banana', calories: 89, protein: 1.1, carbs: 23, fat: 0.3, servingSize: '1 medium' },
+            { name: 'Apple', calories: 52, protein: 0.3, carbs: 14, fat: 0.2, servingSize: '1 medium' },
+            { name: 'Orange', calories: 47, protein: 0.9, carbs: 12, fat: 0.1, servingSize: '1 medium' },
+            { name: 'Broccoli', calories: 34, protein: 2.8, carbs: 7, fat: 0.4, servingSize: '100g' },
+            { name: 'Spinach', calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4, servingSize: '100g' },
+            { name: 'Olive Oil', calories: 119, protein: 0, carbs: 0, fat: 13.5, servingSize: '1 tbsp' },
+            { name: 'Avocado', calories: 160, protein: 2, carbs: 9, fat: 15, servingSize: '1/2 medium' },
+            { name: 'Almonds', calories: 164, protein: 6, carbs: 6, fat: 14, servingSize: '28g' },
+            { name: 'Peanut Butter', calories: 188, protein: 8, carbs: 7, fat: 16, servingSize: '2 tbsp' },
+            { name: 'Whey Protein', calories: 120, protein: 24, carbs: 3, fat: 1.5, servingSize: '1 scoop' },
+            { name: 'Protein Bar', calories: 200, protein: 20, carbs: 22, fat: 7, servingSize: '1 bar' }
+        ];
+
+        function searchFood(query) {
+            if (!query || query.length < 2) return [];
+            return FOOD_DATABASE.filter(f => f.name.toLowerCase().includes(query.toLowerCase())).slice(0, 10);
+        }
+
+        let meals = [];
+        let foods = [];
+        let showForm = false;
+        let selectedDate = new Date().toISOString().split('T')[0];
+        let locale = localStorage.getItem('locale') || 'en';
+
+        const t = locale === 'pt' ? {
+            title: 'Registro de Refeicoes', subtitle: 'Acompanhe sua nutricao diaria', date: 'Data',
+            dailyTotals: 'Totais Diarios', logMeal: 'Registrar Refeicao', cancel: 'Cancelar',
+            logNewMeal: 'Registrar Nova Refeicao', mealType: 'Tipo de Refeicao', addFood: 'Adicionar Alimento',
+            notes: 'Notas', saveMeal: 'Salvar Refeicao', todaysMeals: 'Refeicoes de Hoje',
+            noMeals: 'Nenhuma refeicao registrada', deleteMeal: 'Apagar esta refeicao?'
+        } : {
+            title: 'Meal Log', subtitle: 'Track your daily nutrition', date: 'Date',
+            dailyTotals: 'Daily Totals', logMeal: 'Log Meal', cancel: 'Cancel',
+            logNewMeal: 'Log New Meal', mealType: 'Meal Type', addFood: 'Add Food',
+            notes: 'Notes', saveMeal: 'Save Meal', todaysMeals: "Today's Meals",
+            noMeals: 'No meals logged for this day', deleteMeal: 'Delete this meal?'
+        };
+
+        function updateTranslations() {
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('pageSubtitle').textContent = t.subtitle;
+            document.getElementById('dateLabel').textContent = t.date;
+            document.getElementById('dailyTotalsLabel').textContent = t.dailyTotals;
+            document.getElementById('logNewMealTitle').textContent = t.logNewMeal;
+            document.getElementById('mealTypeLabel').textContent = t.mealType;
+            document.getElementById('notesLabel').textContent = t.notes;
+            document.getElementById('addFoodBtnText').textContent = t.addFood;
+            document.getElementById('saveMealBtnText').textContent = t.saveMeal;
+            document.getElementById('todaysMealsTitle').textContent = t.todaysMeals;
+            document.getElementById('noMealsText').textContent = t.noMeals;
+        }
+
+        window.toggleForm = function() {
+            showForm = !showForm;
+            document.getElementById('mealForm').style.display = showForm ? 'block' : 'none';
+            document.getElementById('logMealBtnText').textContent = showForm ? t.cancel : t.logMeal;
+            if (!showForm) { foods = []; renderFoodsList(); }
+        };
+
+        window.addFood = function() {
+            const name = document.getElementById('foodNameInput').value;
+            const quantity = document.getElementById('quantityInput').value;
+            const calories = Math.max(0, Number(document.getElementById('caloriesInput').value) || 0);
+            const protein = Math.max(0, Number(document.getElementById('proteinInput').value) || 0);
+            const carbs = Math.max(0, Number(document.getElementById('carbsInput').value) || 0);
+            const fat = Math.max(0, Number(document.getElementById('fatInput').value) || 0);
+            if (!name || !quantity) { alert('Please enter food name and quantity'); return; }
+            if (calories > 5000) { alert('Calories seem too high. Please check the value.'); return; }
+            foods.push({ name, quantity, calories, protein, carbs, fat });
+            ['foodNameInput', 'quantityInput', 'caloriesInput', 'proteinInput', 'carbsInput', 'fatInput'].forEach(id => document.getElementById(id).value = '');
+            renderFoodsList();
+        };
+
+        window.removeFood = function(index) { foods.splice(index, 1); renderFoodsList(); };
+
+        function renderFoodsList() {
+            const container = document.getElementById('foodsList');
+            container.innerHTML = foods.map((food, i) => `
+                <div class="flex justify-between items-start p-3 bg-black border border-white/10 rounded-xl">
+                    <div class="flex-1 text-center">
+                        <div class="font-medium text-white text-sm">${food.name} - ${food.quantity}</div>
+                        <div class="text-xs text-gray-500 mt-1">${food.calories} cal | P: ${food.protein}g | C: ${food.carbs}g | F: ${food.fat}g</div>
+                    </div>
+                    <button onclick="removeFood(${i})" class="p-1 text-gray-400 hover:text-red-400"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+            `).join('');
+        }
+
+        window.saveMeal = function() {
+            if (foods.length === 0) { alert('Please add at least one food item'); return; }
+            const newMeal = {
+                id: Date.now().toString(), date: selectedDate, mealType: document.getElementById('mealTypeSelect').value,
+                foods: [...foods], totalCalories: foods.reduce((s, f) => s + f.calories, 0),
+                totalProtein: foods.reduce((s, f) => s + f.protein, 0), totalCarbs: foods.reduce((s, f) => s + f.carbs, 0),
+                totalFat: foods.reduce((s, f) => s + f.fat, 0), notes: document.getElementById('notesInput').value
+            };
+            meals.push(newMeal);
+            localStorage.setItem('mealLogs', JSON.stringify(meals));
+            toggleForm();
+            renderMealsList();
+            updateDailyTotals();
+        };
+
+        window.deleteMeal = function(id) {
+            if (confirm(t.deleteMeal)) {
+                meals = meals.filter(m => m.id !== id);
+                localStorage.setItem('mealLogs', JSON.stringify(meals));
+                renderMealsList();
+                updateDailyTotals();
+            }
+        };
+
+        window.selectFood = function(index) {
+            const food = FOOD_DATABASE[index];
+            document.getElementById('foodNameInput').value = food.name;
+            document.getElementById('quantityInput').value = food.servingSize;
+            document.getElementById('caloriesInput').value = food.calories;
+            document.getElementById('proteinInput').value = food.protein;
+            document.getElementById('carbsInput').value = food.carbs;
+            document.getElementById('fatInput').value = food.fat;
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').style.display = 'none';
+        };
+
+        function handleSearch(query) {
+            const results = searchFood(query);
+            const container = document.getElementById('searchResults');
+            if (results.length === 0) { container.style.display = 'none'; return; }
+            container.style.display = 'block';
+            container.innerHTML = results.map(food => {
+                const idx = FOOD_DATABASE.findIndex(f => f.name === food.name);
+                return `<button type="button" onclick="selectFood(${idx})" class="w-full text-left px-4 py-3 hover:bg-white/5 border-b border-white/10 last:border-b-0">
+                    <div class="font-medium text-white">${food.name}</div>
+                    <div class="text-xs text-gray-500 mt-1">${food.servingSize} | ${food.calories} cal | P: ${food.protein}g C: ${food.carbs}g F: ${food.fat}g</div>
+                </button>`;
+            }).join('');
+        }
+
+        function updateDailyTotals() {
+            const dayMeals = meals.filter(m => m.date === selectedDate);
+            document.getElementById('totalCalories').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalCalories, 0));
+            document.getElementById('totalProtein').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalProtein, 0)) + 'g';
+            document.getElementById('totalCarbs').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalCarbs, 0)) + 'g';
+            document.getElementById('totalFat').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalFat, 0)) + 'g';
+        }
+
+        function renderMealsList() {
+            const todayMeals = meals.filter(m => m.date === selectedDate);
+            const container = document.getElementById('mealsList');
+            document.getElementById('noMealsMessage').style.display = todayMeals.length === 0 ? 'block' : 'none';
+            container.innerHTML = todayMeals.map(meal => `
+                <div class="glass-effect rounded-2xl p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1 text-center">
+                            <h3 class="text-lg font-semibold text-white capitalize">${meal.mealType}</h3>
+                            <div class="flex gap-4 mt-2 text-sm justify-center">
+                                <span class="text-gray-400">${Math.round(meal.totalCalories)} cal</span>
+                                <span class="text-red-400">P: ${Math.round(meal.totalProtein)}g</span>
+                                <span class="text-blue-400">C: ${Math.round(meal.totalCarbs)}g</span>
+                                <span class="text-yellow-400">F: ${Math.round(meal.totalFat)}g</span>
+                            </div>
+                        </div>
+                        <button onclick="deleteMeal('${meal.id}')" class="p-2 text-gray-400 hover:text-red-400"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                    </div>
+                    <div class="space-y-1 mb-4 text-center">${meal.foods.map(f => `<div class="text-sm text-gray-400"><span class="text-white">${f.name}</span> - ${f.quantity}</div>`).join('')}</div>
+                    ${meal.notes ? `<div class="p-3 bg-black/40 border border-white/10 rounded-xl text-center"><p class="text-sm text-gray-300 italic">${meal.notes}</p></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function init() {
+            const stored = localStorage.getItem('mealLogs');
+            if (stored) meals = JSON.parse(stored);
+            updateTranslations();
+            document.getElementById('dateInput').value = selectedDate;
+            document.getElementById('dateInput').addEventListener('change', function(e) {
+                selectedDate = e.target.value;
+                renderMealsList();
+                updateDailyTotals();
+            });
+            document.getElementById('searchInput').addEventListener('input', function(e) { handleSearch(e.target.value); });
+            renderMealsList();
+            updateDailyTotals();
+        }
+
+        init();
+    </script>
+    <script src="/js/weight-progress-bar.js"></script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>

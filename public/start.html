@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Quiz - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-in {
+            animation: zoomIn 0.3s ease-out;
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scale-110 {
+            transform: scale(1.1);
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        .inset-0 {
+            top: 0; right: 0; bottom: 0; left: 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plan.html">Plan</a>
+                <a href="track.html">Track</a>
+                <a href="meals.html">Meals</a>
+                <a href="progress.html">Progress</a>
+                <a href="coach.html">Coach</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Popup (hidden by default) -->
+    <div id="successPopup" class="fixed inset-0 z-50 flex items-center justify-center px-6" style="display: none; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);">
+        <div class="glass-effect rounded-3xl p-8 max-w-2xl w-full border-2 animate-in" style="border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.5);">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl" style="background: linear-gradient(to bottom right, #16a34a, #059669); box-shadow: 0 25px 50px -12px rgba(22, 163, 74, 0.5);">
+                    <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <h2 id="successTitle" class="text-4xl font-black text-white mb-2">Plan Created!</h2>
+                <p id="successSubtitle" class="text-gray-400">Your personalized fitness plan is ready</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(147, 51, 234, 0.3);">
+                    <div class="text-xs text-gray-400 mb-1" id="caloriesLabel">Daily Calories</div>
+                    <div id="successCalories" class="text-3xl font-black text-white">0</div>
+                    <div class="text-xs text-gray-500">kcal</div>
+                </div>
+                <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(239, 68, 68, 0.2), rgba(236, 72, 153, 0.2)); border: 1px solid rgba(239, 68, 68, 0.3);">
+                    <div class="text-xs text-gray-400 mb-1" id="proteinLabel">Protein</div>
+                    <div id="successProtein" class="text-3xl font-black text-white">0</div>
+                    <div class="text-xs text-gray-500" id="gramsLabel">grams</div>
+                </div>
+                <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2)); border: 1px solid rgba(59, 130, 246, 0.3);">
+                    <div class="text-xs text-gray-400 mb-1" id="trainingLabel">Training</div>
+                    <div id="successTraining" class="text-xl font-black text-white">3</div>
+                    <div class="text-xs text-gray-500" id="daysPerWeekLabel">days/week</div>
+                </div>
+                <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 1px solid rgba(34, 197, 94, 0.3);">
+                    <div class="text-xs text-gray-400 mb-1" id="goalLabelSuccess">Goal</div>
+                    <div id="successGoal" class="text-sm font-black text-white capitalize">Fat Loss</div>
+                </div>
+            </div>
+
+            <div class="rounded-xl p-4 mb-6" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1">BMI</div>
+                        <div id="successBMI" class="text-2xl font-black text-white">0</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1">Target Weight</div>
+                        <div id="successTargetWeight" class="text-2xl font-black text-white">0 kg</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1">Level</div>
+                        <div id="successLevel" class="text-lg font-black text-white capitalize">Beginner</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3" style="flex-direction: row;">
+                <a href="plan.html" class="flex-1 px-6 py-4 text-white font-black rounded-xl transition-all shadow-xl flex items-center justify-center gap-2" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                    <span id="viewPlanBtn">View Full Plan</span>
+                </a>
+                <a href="dashboard.html" class="flex-1 px-6 py-4 glass-effect text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
+                    <span id="dashboardBtn">Go to Dashboard</span>
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="h-screen overflow-hidden flex flex-col pt-20">
+        <div class="flex-1 flex items-center justify-center px-6">
+            <div class="w-full max-w-2xl">
+                <!-- Progress -->
+                <div class="flex justify-center mb-6">
+                    <div id="progressIndicator" class="flex items-center gap-2"></div>
+                </div>
+
+                <!-- Content -->
+                <div class="glass-effect rounded-3xl p-8">
+                    <!-- Step 1: Basics -->
+                    <div id="step1" class="space-y-5">
+                        <div class="text-center mb-4">
+                            <h2 id="step1Title" class="text-3xl font-black text-white mb-2">Your Metrics</h2>
+                            <p id="step1Subtitle" class="text-gray-400 text-sm">Current measurements</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label id="currentWeightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Current Weight (kg)</label>
+                                    <input type="number" step="0.1" id="weightInput" value="70" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                </div>
+                                <div>
+                                    <label id="targetWeightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Target Weight (kg)</label>
+                                    <input type="number" step="0.1" id="targetWeightInput" value="65" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label id="heightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Height (cm)</label>
+                                <input type="number" id="heightInput" value="170" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
+                            </div>
+
+                            <div>
+                                <label id="bodyFatLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Body Fat % (Optional)</label>
+                                <input type="number" step="0.1" id="bodyFatInput" placeholder="e.g., 18" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
+                            </div>
+
+                            <div class="rounded-xl p-5 text-center" style="background: linear-gradient(to bottom right, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(147, 51, 234, 0.3);">
+                                <div id="yourBMILabel" class="text-xs text-gray-400 mb-1">Your BMI</div>
+                                <div id="bmiDisplay" class="text-5xl font-black text-white">24.2</div>
+                            </div>
+                        </div>
+
+                        <button onclick="goToStep(2)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                            <span id="nextBtn1">Next</span>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Goal & Speed -->
+                    <div id="step2" class="space-y-5" style="display: none;">
+                        <div class="text-center mb-4">
+                            <h2 id="step2Title" class="text-3xl font-black text-white mb-2">Your Goal</h2>
+                            <p id="step2Subtitle" class="text-gray-400 text-sm">What do you want to achieve?</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-5">
+                            <button id="fatLossBtn" onclick="selectGoal('fat_loss')" class="p-8 rounded-2xl text-center transition-all border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                <svg class="w-12 h-12 text-red-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                <div id="fatLossText" class="font-black text-white text-xl">Fat Loss</div>
+                                <div id="fatLossDesc" class="text-xs text-gray-500 mt-2">Get lean & defined</div>
+                            </button>
+                            <button id="muscleGainBtn" onclick="selectGoal('muscle_gain')" class="p-8 rounded-2xl text-center transition-all border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                <svg class="w-12 h-12 text-blue-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                                <div id="muscleGainText" class="font-black text-white text-xl">Muscle Gain</div>
+                                <div id="muscleGainDesc" class="text-xs text-gray-500 mt-2">Build strength & size</div>
+                            </button>
+                        </div>
+
+                        <div>
+                            <label id="howFastLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">How fast do you want results?</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button id="slowBtn" onclick="selectSpeed('slow')" class="p-4 rounded-xl text-center transition-all bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">
+                                    <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+                                    <div id="slowText" class="font-bold text-sm">Slow</div>
+                                    <div id="slowDesc" class="text-xs opacity-70">Sustainable</div>
+                                </button>
+                                <button id="moderateBtn" onclick="selectSpeed('moderate')" class="p-4 rounded-xl text-center transition-all text-white border" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.2);">
+                                    <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+                                    <div id="moderateText" class="font-bold text-sm">Moderate</div>
+                                    <div id="moderateDesc" class="text-xs opacity-70">Balanced</div>
+                                </button>
+                                <button id="fastBtn" onclick="selectSpeed('fast')" class="p-4 rounded-xl text-center transition-all bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">
+                                    <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+                                    <div id="fastText" class="font-bold text-sm">Fast</div>
+                                    <div id="fastDesc" class="text-xs opacity-70">Aggressive</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button onclick="goToStep(3)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                            <span id="nextBtn2">Next</span>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 3: Experience -->
+                    <div id="step3" class="space-y-5" style="display: none;">
+                        <div class="text-center mb-4">
+                            <h2 id="step3Title" class="text-3xl font-black text-white mb-2">Training Experience</h2>
+                            <p id="step3Subtitle" class="text-gray-400 text-sm">How long have you been training?</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <button id="beginnerBtn" onclick="selectExperience('beginner')" class="p-6 rounded-xl text-center transition-all border" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.2);">
+                                <div id="beginnerText" class="font-black text-white text-lg mb-1">Beginner</div>
+                                <div id="beginnerDesc" class="text-xs text-gray-500">&lt; 6 months</div>
+                            </button>
+                            <button id="intermediateBtn" onclick="selectExperience('intermediate')" class="p-6 rounded-xl text-center transition-all bg-white/5 border" style="border-color: rgba(255,255,255,0.1);">
+                                <div id="intermediateText" class="font-black text-white text-lg mb-1">Intermediate</div>
+                                <div id="intermediateDesc" class="text-xs text-gray-500">6-24 months</div>
+                            </button>
+                            <button id="advancedBtn" onclick="selectExperience('advanced')" class="p-6 rounded-xl text-center transition-all bg-white/5 border" style="border-color: rgba(255,255,255,0.1);">
+                                <div id="advancedText" class="font-black text-white text-lg mb-1">Advanced</div>
+                                <div id="advancedDesc" class="text-xs text-gray-500">2+ years</div>
+                            </button>
+                        </div>
+
+                        <button onclick="goToStep(4)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                            <span id="nextBtn3">Next</span>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 4: Summary -->
+                    <div id="step4" class="space-y-3" style="display: none;">
+                        <div class="text-center mb-3">
+                            <h2 id="step4Title" class="text-3xl font-black text-white mb-2">Review & Edit</h2>
+                            <p id="step4Subtitle" class="text-gray-400 text-sm">Make final adjustments</p>
+                        </div>
+
+                        <div class="space-y-3 max-h-96 overflow-y-auto scrollbar-hide">
+                            <!-- Editable Metrics -->
+                            <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 id="metricsLabel" class="text-xs font-bold text-gray-400">Metrics</h3>
+                                    <button onclick="goToStep(1)" class="text-xs text-blue-400 hover:text-blue-300" id="editMetricsBtn">Edit</button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label id="currentWeightLabel2" class="block text-xs text-gray-500 mb-1">Current Weight</label>
+                                        <input type="number" step="0.1" id="summaryWeightInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                    </div>
+                                    <div>
+                                        <label id="targetWeightLabel2" class="block text-xs text-gray-500 mb-1">Target Weight</label>
+                                        <input type="number" step="0.1" id="summaryTargetInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                    </div>
+                                    <div>
+                                        <label id="heightLabel2" class="block text-xs text-gray-500 mb-1">Height (cm)</label>
+                                        <input type="number" id="summaryHeightInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                    </div>
+                                    <div>
+                                        <label id="bodyFatLabel2" class="block text-xs text-gray-500 mb-1">Body Fat % (Optional)</label>
+                                        <input type="number" step="0.1" id="summaryBodyFatInput" placeholder="--" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <div id="bmiLabelSummary" class="text-xs text-gray-500">BMI</div>
+                                    <div id="summaryBMI" class="text-xl font-black text-white">24.2</div>
+                                </div>
+                            </div>
+
+                            <!-- Editable Goal -->
+                            <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 id="goalSpeedLabel" class="text-xs font-bold text-gray-400">Goal & Speed</h3>
+                                    <button onclick="goToStep(2)" class="text-xs text-blue-400 hover:text-blue-300" id="editGoalBtn">Edit</button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button id="summaryFatLossBtn" onclick="selectGoal('fat_loss')" class="p-2 rounded-lg border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                        <svg class="w-5 h-5 text-red-400 mx-auto mb-1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                        <div id="summaryFatLossText" class="text-xs font-bold text-white">Fat Loss</div>
+                                    </button>
+                                    <button id="summaryMuscleGainBtn" onclick="selectGoal('muscle_gain')" class="p-2 rounded-lg border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                        <svg class="w-5 h-5 text-blue-400 mx-auto mb-1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                                        <div id="summaryMuscleGainText" class="text-xs font-bold text-white">Muscle Gain</div>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 mt-2">
+                                    <button id="summarySlowBtn" onclick="selectSpeed('slow')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">slow</button>
+                                    <button id="summaryModerateBtn" onclick="selectSpeed('moderate')" class="p-2 rounded-lg text-xs font-bold capitalize text-white border" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2);">moderate</button>
+                                    <button id="summaryFastBtn" onclick="selectSpeed('fast')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">fast</button>
+                                </div>
+                            </div>
+
+                            <!-- Editable Experience -->
+                            <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 id="experienceLabel" class="text-xs font-bold text-gray-400">Experience</h3>
+                                    <button onclick="goToStep(3)" class="text-xs text-blue-400 hover:text-blue-300" id="editExpBtn">Edit</button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button id="summaryBeginnerBtn" onclick="selectExperience('beginner')" class="p-2 rounded-lg text-xs font-bold capitalize text-white border" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2);">beginner</button>
+                                    <button id="summaryIntermediateBtn" onclick="selectExperience('intermediate')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">intermediate</button>
+                                    <button id="summaryAdvancedBtn" onclick="selectExperience('advanced')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">advanced</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Disclaimer -->
+                        <div class="rounded-xl p-3 mt-3" style="background: rgba(202, 138, 4, 0.1); border: 1px solid rgba(202, 138, 4, 0.3);">
+                            <p id="disclaimerText" class="text-xs text-gray-300 text-center">Educational purposes only. Consult healthcare professionals before starting any fitness program.</p>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="flex gap-3 mt-3">
+                            <button onclick="goToStep(3)" class="px-6 py-3 glass-effect text-white font-bold rounded-xl transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4 rotate-180" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                                <span id="backBtn">Back</span>
+                            </button>
+                            <button id="createPlanBtn" onclick="handleComplete()" class="flex-1 px-6 py-3 text-white font-black rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                                <span id="createPlanText">Create My Plan</span>
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { savePlan } from './js/storage.js';
+        import { calculateBMI, calculateCaloriesAndMacros, generateTrainingPlan } from './js/calculations.js';
+
+        // State
+        let currentStep = 1;
+        let weight = 70;
+        let height = 170;
+        let targetWeight = 65;
+        let bodyFat = undefined;
+        let goal = 'fat_loss';
+        let goalSpeed = 'moderate';
+        let experience = 'beginner';
+        let locale = localStorage.getItem('locale') || 'en';
+        let loading = false;
+
+        // Translations
+        const translations = {
+            en: {
+                step1Title: 'Your Metrics', step1Subtitle: 'Current measurements',
+                currentWeight: 'Current Weight (kg)', targetWeight: 'Target Weight (kg)',
+                height: 'Height (cm)', bodyFat: 'Body Fat % (Optional)', yourBMI: 'Your BMI',
+                step2Title: 'Your Goal', step2Subtitle: 'What do you want to achieve?',
+                fatLoss: 'Fat Loss', fatLossDesc: 'Get lean & defined',
+                muscleGain: 'Muscle Gain', muscleGainDesc: 'Build strength & size',
+                howFast: 'How fast do you want results?',
+                slow: 'Slow', moderate: 'Moderate', fast: 'Fast',
+                sustainable: 'Sustainable', balanced: 'Balanced', aggressive: 'Aggressive',
+                step3Title: 'Training Experience', step3Subtitle: 'How long have you been training?',
+                beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced',
+                beginnerDesc: '< 6 months', intermediateDesc: '6-24 months', advancedDesc: '2+ years',
+                step4Title: 'Review & Edit', step4Subtitle: 'Make final adjustments',
+                metrics: 'Metrics', goalSpeed: 'Goal & Speed', experience: 'Experience',
+                edit: 'Edit', next: 'Next', back: 'Back',
+                createPlan: 'Create My Plan', creatingPlan: 'Creating Your Plan...',
+                disclaimer: 'Educational purposes only. Consult healthcare professionals before starting any fitness program.',
+                planCreated: 'Plan Created!', planReady: 'Your personalized fitness plan is ready',
+                dailyCalories: 'Daily Calories', protein: 'Protein', training: 'Training', goal: 'Goal',
+                grams: 'grams', daysPerWeek: 'days/week', viewFullPlan: 'View Full Plan', goToDashboard: 'Go to Dashboard'
+            },
+            pt: {
+                step1Title: 'Suas Metricas', step1Subtitle: 'Medidas atuais',
+                currentWeight: 'Peso Atual (kg)', targetWeight: 'Peso Alvo (kg)',
+                height: 'Altura (cm)', bodyFat: 'Gordura Corporal % (Opcional)', yourBMI: 'Seu IMC',
+                step2Title: 'Seu Objetivo', step2Subtitle: 'O que deseja alcancar?',
+                fatLoss: 'Perda de Gordura', fatLossDesc: 'Emagrecer & definir',
+                muscleGain: 'Ganho Muscular', muscleGainDesc: 'Construir forca & massa',
+                howFast: 'Quao rapido quer resultados?',
+                slow: 'Lento', moderate: 'Moderado', fast: 'Rapido',
+                sustainable: 'Sustentavel', balanced: 'Equilibrado', aggressive: 'Agressivo',
+                step3Title: 'Experiencia de Treino', step3Subtitle: 'Ha quanto tempo treina?',
+                beginner: 'Iniciante', intermediate: 'Intermediario', advanced: 'Avancado',
+                beginnerDesc: '< 6 meses', intermediateDesc: '6-24 meses', advancedDesc: '2+ anos',
+                step4Title: 'Rever & Editar', step4Subtitle: 'Faca ajustes finais',
+                metrics: 'Metricas', goalSpeed: 'Objetivo & Velocidade', experience: 'Experiencia',
+                edit: 'Editar', next: 'Proximo', back: 'Voltar',
+                createPlan: 'Criar Meu Plano', creatingPlan: 'Criando Seu Plano...',
+                disclaimer: 'Apenas propositos educacionais. Consulte profissionais de saude antes de iniciar qualquer programa de fitness.',
+                planCreated: 'Plano Criado!', planReady: 'Seu plano de fitness personalizado esta pronto',
+                dailyCalories: 'Calorias Diarias', protein: 'Proteina', training: 'Treino', goal: 'Objetivo',
+                grams: 'gramas', daysPerWeek: 'dias/semana', viewFullPlan: 'Ver Plano Completo', goToDashboard: 'Ir ao Painel'
+            }
+        };
+
+        const t = translations[locale] || translations.en;
+
+        function updateTranslations() {
+            const mapping = {
+                'step1Title': t.step1Title, 'step1Subtitle': t.step1Subtitle,
+                'currentWeightLabel': t.currentWeight, 'targetWeightLabel': t.targetWeight,
+                'heightLabel': t.height, 'bodyFatLabel': t.bodyFat, 'yourBMILabel': t.yourBMI,
+                'step2Title': t.step2Title, 'step2Subtitle': t.step2Subtitle,
+                'fatLossText': t.fatLoss, 'fatLossDesc': t.fatLossDesc,
+                'muscleGainText': t.muscleGain, 'muscleGainDesc': t.muscleGainDesc,
+                'howFastLabel': t.howFast, 'slowText': t.slow, 'slowDesc': t.sustainable,
+                'moderateText': t.moderate, 'moderateDesc': t.balanced,
+                'fastText': t.fast, 'fastDesc': t.aggressive,
+                'step3Title': t.step3Title, 'step3Subtitle': t.step3Subtitle,
+                'beginnerText': t.beginner, 'beginnerDesc': t.beginnerDesc,
+                'intermediateText': t.intermediate, 'intermediateDesc': t.intermediateDesc,
+                'advancedText': t.advanced, 'advancedDesc': t.advancedDesc,
+                'step4Title': t.step4Title, 'step4Subtitle': t.step4Subtitle,
+                'metricsLabel': t.metrics, 'goalSpeedLabel': t.goalSpeed, 'experienceLabel': t.experience,
+                'editMetricsBtn': t.edit, 'editGoalBtn': t.edit, 'editExpBtn': t.edit,
+                'nextBtn1': t.next, 'nextBtn2': t.next, 'nextBtn3': t.next,
+                'backBtn': t.back, 'createPlanText': t.createPlan, 'disclaimerText': t.disclaimer,
+                'successTitle': t.planCreated, 'successSubtitle': t.planReady,
+                'caloriesLabel': t.dailyCalories, 'proteinLabel': t.protein,
+                'trainingLabel': t.training, 'goalLabelSuccess': t.goal,
+                'gramsLabel': t.grams, 'daysPerWeekLabel': t.daysPerWeek,
+                'viewPlanBtn': t.viewFullPlan, 'dashboardBtn': t.goToDashboard,
+                'summaryFatLossText': t.fatLoss, 'summaryMuscleGainText': t.muscleGain
+            };
+            for (const [id, text] of Object.entries(mapping)) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            }
+            document.getElementById('currentWeightLabel2').textContent = locale === 'en' ? 'Current Weight' : 'Peso Atual';
+            document.getElementById('targetWeightLabel2').textContent = locale === 'en' ? 'Target Weight' : 'Peso Alvo';
+            document.getElementById('heightLabel2').textContent = locale === 'en' ? 'Height (cm)' : 'Altura (cm)';
+            document.getElementById('bodyFatLabel2').textContent = locale === 'en' ? 'Body Fat % (Optional)' : 'Gordura Corporal % (Opcional)';
+            document.getElementById('bmiLabelSummary').textContent = locale === 'en' ? 'BMI' : 'IMC';
+        }
+
+        function updateBMI() {
+            if (height > 0 && weight > 0) {
+                const bmi = calculateBMI(weight, height);
+                document.getElementById('bmiDisplay').textContent = bmi.value.toFixed(1);
+                document.getElementById('summaryBMI').textContent = bmi.value.toFixed(1);
+            } else {
+                document.getElementById('bmiDisplay').textContent = '--';
+                document.getElementById('summaryBMI').textContent = '--';
+            }
+        }
+
+        function updateProgressIndicator() {
+            const container = document.getElementById('progressIndicator');
+            container.innerHTML = '';
+            for (let num = 1; num <= 4; num++) {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'flex items-center';
+                let html = '';
+                if (num < currentStep) {
+                    html = `<span style="font-size:14px;font-weight:900;color:#22c55e;">✓</span>`;
+                } else if (num === currentStep) {
+                    html = `<span style="font-size:16px;font-weight:900;color:#a855f7;">${num}</span>`;
+                } else {
+                    html = `<span style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.25);">${num}</span>`;
+                }
+                if (num < 4) {
+                    const lineColor = num < currentStep ? '#22c55e' : 'rgba(255,255,255,0.1)';
+                    html += `<div style="width:40px;height:1px;background:${lineColor};margin:0 6px;"></div>`;
+                }
+                stepDiv.innerHTML = html;
+                container.appendChild(stepDiv);
+            }
+        }
+
+        window.goToStep = function(step) {
+            currentStep = step;
+            ['step1', 'step2', 'step3', 'step4'].forEach(s => document.getElementById(s).style.display = 'none');
+            document.getElementById('step' + step).style.display = 'block';
+            if (step === 4) {
+                document.getElementById('summaryWeightInput').value = weight;
+                document.getElementById('summaryTargetInput').value = targetWeight;
+                document.getElementById('summaryHeightInput').value = height;
+                document.getElementById('summaryBodyFatInput').value = bodyFat || '';
+            }
+            updateProgressIndicator();
+            updateGoalUI();
+            updateSpeedUI();
+            updateExperienceUI();
+        };
+
+        window.selectGoal = function(g) { goal = g; updateGoalUI(); };
+
+        function updateGoalUI() {
+            const fatLossBtn = document.getElementById('fatLossBtn');
+            const muscleGainBtn = document.getElementById('muscleGainBtn');
+            const summaryFatLossBtn = document.getElementById('summaryFatLossBtn');
+            const summaryMuscleGainBtn = document.getElementById('summaryMuscleGainBtn');
+            if (goal === 'fat_loss') {
+                fatLossBtn.style.background = 'linear-gradient(to bottom right, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.2))';
+                fatLossBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                fatLossBtn.style.boxShadow = '0 25px 50px -12px rgba(239, 68, 68, 0.2)';
+                muscleGainBtn.style.background = 'rgba(255,255,255,0.05)';
+                muscleGainBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                muscleGainBtn.style.boxShadow = 'none';
+                summaryFatLossBtn.style.background = 'rgba(239, 68, 68, 0.2)';
+                summaryFatLossBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                summaryMuscleGainBtn.style.background = 'rgba(255,255,255,0.05)';
+                summaryMuscleGainBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+            } else {
+                muscleGainBtn.style.background = 'linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2))';
+                muscleGainBtn.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+                muscleGainBtn.style.boxShadow = '0 25px 50px -12px rgba(59, 130, 246, 0.2)';
+                fatLossBtn.style.background = 'rgba(255,255,255,0.05)';
+                fatLossBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                fatLossBtn.style.boxShadow = 'none';
+                summaryMuscleGainBtn.style.background = 'rgba(59, 130, 246, 0.2)';
+                summaryMuscleGainBtn.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+                summaryFatLossBtn.style.background = 'rgba(255,255,255,0.05)';
+                summaryFatLossBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+            }
+        }
+
+        window.selectSpeed = function(s) { goalSpeed = s; updateSpeedUI(); };
+
+        function updateSpeedUI() {
+            ['slow', 'moderate', 'fast'].forEach(s => {
+                const btn = document.getElementById(s + 'Btn');
+                const summaryBtn = document.getElementById('summary' + s.charAt(0).toUpperCase() + s.slice(1) + 'Btn');
+                if (goalSpeed === s) {
+                    btn.style.background = 'rgba(255,255,255,0.15)';
+                    btn.style.backdropFilter = 'blur(16px)';
+                    btn.style.borderColor = 'rgba(255,255,255,0.2)';
+                    btn.classList.remove('text-gray-400');
+                    btn.classList.add('text-white');
+                    summaryBtn.style.background = 'rgba(255,255,255,0.15)';
+                    summaryBtn.style.borderColor = 'rgba(255,255,255,0.2)';
+                    summaryBtn.classList.remove('text-gray-400');
+                    summaryBtn.classList.add('text-white');
+                } else {
+                    btn.style.background = 'rgba(255,255,255,0.05)';
+                    btn.style.backdropFilter = 'none';
+                    btn.style.borderColor = 'rgba(255,255,255,0.1)';
+                    btn.classList.remove('text-white');
+                    btn.classList.add('text-gray-400');
+                    summaryBtn.style.background = 'rgba(255,255,255,0.05)';
+                    summaryBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                    summaryBtn.classList.remove('text-white');
+                    summaryBtn.classList.add('text-gray-400');
+                }
+            });
+        }
+
+        window.selectExperience = function(e) { experience = e; updateExperienceUI(); };
+
+        function updateExperienceUI() {
+            ['beginner', 'intermediate', 'advanced'].forEach(e => {
+                const btn = document.getElementById(e + 'Btn');
+                const summaryBtn = document.getElementById('summary' + e.charAt(0).toUpperCase() + e.slice(1) + 'Btn');
+                if (experience === e) {
+                    btn.style.background = 'rgba(255,255,255,0.15)';
+                    btn.style.backdropFilter = 'blur(16px)';
+                    btn.style.borderColor = 'rgba(255,255,255,0.2)';
+                    summaryBtn.style.background = 'rgba(255,255,255,0.15)';
+                    summaryBtn.style.borderColor = 'rgba(255,255,255,0.2)';
+                    summaryBtn.classList.remove('text-gray-400');
+                    summaryBtn.classList.add('text-white');
+                } else {
+                    btn.style.background = 'rgba(255,255,255,0.05)';
+                    btn.style.backdropFilter = 'none';
+                    btn.style.borderColor = 'rgba(255,255,255,0.1)';
+                    summaryBtn.style.background = 'rgba(255,255,255,0.05)';
+                    summaryBtn.style.borderColor = 'rgba(255,255,255,0.1)';
+                    summaryBtn.classList.remove('text-white');
+                    summaryBtn.classList.add('text-gray-400');
+                }
+            });
+        }
+
+        function generateNutritionPlan(macros, mealsPerDay, dietPreference) {
+            return {
+                exampleDay: [
+                    { meal: 'Breakfast', items: [{ food: 'Oatmeal', qty: '100g' }, { food: 'Eggs', qty: '3 whole' }, { food: 'Banana', qty: '1 medium' }] },
+                    { meal: 'Lunch', items: [{ food: 'Chicken Breast', qty: '150g' }, { food: 'Brown Rice', qty: '150g' }, { food: 'Mixed Vegetables', qty: '200g' }] },
+                    { meal: 'Dinner', items: [{ food: 'Salmon', qty: '150g' }, { food: 'Sweet Potato', qty: '200g' }, { food: 'Broccoli', qty: '150g' }] },
+                    { meal: 'Snack', items: [{ food: 'Greek Yogurt', qty: '200g' }, { food: 'Almonds', qty: '30g' }] }
+                ],
+                shoppingList: ['Oatmeal', 'Eggs', 'Bananas', 'Chicken Breast', 'Brown Rice', 'Mixed Vegetables', 'Salmon', 'Sweet Potato', 'Broccoli', 'Greek Yogurt', 'Almonds', 'Olive Oil', 'Spinach', 'Berries']
+            };
+        }
+
+        function generateLifestyleTips(weight) {
+            return [
+                'Aim for 7-9 hours of quality sleep each night',
+                'Stay hydrated - drink at least 2-3 liters of water daily',
+                'Take 10,000 steps daily for general health',
+                'Practice stress management through meditation or breathing exercises',
+                'Limit alcohol consumption to occasional moderate amounts',
+                'Meal prep on weekends to stay consistent during the week'
+            ];
+        }
+
+        window.handleComplete = function() {
+            if (loading) return;
+            loading = true;
+            const btn = document.getElementById('createPlanBtn');
+            btn.innerHTML = `<svg class="w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> <span>${t.creatingPlan}</span>`;
+            btn.disabled = true;
+
+            weight = parseFloat(document.getElementById('summaryWeightInput').value) || weight;
+            targetWeight = parseFloat(document.getElementById('summaryTargetInput').value) || targetWeight;
+            height = parseFloat(document.getElementById('summaryHeightInput').value) || height;
+            bodyFat = document.getElementById('summaryBodyFatInput').value ? parseFloat(document.getElementById('summaryBodyFatInput').value) : undefined;
+
+            setTimeout(() => {
+                const inputs = { units: 'metric', weight, height, activityLevel: 'moderate', experience, goal, mealsPerDay: 4, dietPreference: 'omnivore' };
+                const bmi = calculateBMI(weight, height);
+                const calorieResult = calculateCaloriesAndMacros(inputs);
+                const trainingPlan = generateTrainingPlan(experience, goal);
+                const nutritionPlan = generateNutritionPlan(calorieResult.macros, 4, 'omnivore');
+                const lifestyleTips = generateLifestyleTips(weight);
+
+                const plan = {
+                    weight, height, targetWeight, bodyFat, goalSpeed, units: 'metric', goal, experience,
+                    activityLevel: 'moderate', dietPreference: 'omnivore', mealsPerDay: 4,
+                    bmi: bmi.value, bmr: calorieResult.bmr, tdee: calorieResult.tdee, calories: calorieResult.calories,
+                    proteinG: calorieResult.macros.protein_g, carbG: calorieResult.macros.carb_g, fatG: calorieResult.macros.fat_g,
+                    trainingPlan, nutritionPlan, lifestyleTips, createdAt: new Date().toISOString()
+                };
+
+                savePlan(plan);
+                if (!localStorage.getItem('firstUseTime')) localStorage.setItem('firstUseTime', new Date().toISOString());
+
+                document.getElementById('successCalories').textContent = Math.round(plan.calories);
+                document.getElementById('successProtein').textContent = Math.round(plan.proteinG);
+                document.getElementById('successTraining').textContent = plan.trainingPlan.daysPerWeek;
+                document.getElementById('successGoal').textContent = plan.goal.replace('_', ' ');
+                document.getElementById('successBMI').textContent = plan.bmi.toFixed(1);
+                document.getElementById('successTargetWeight').textContent = plan.targetWeight + ' kg';
+                document.getElementById('successLevel').textContent = plan.experience;
+
+                document.getElementById('successPopup').style.display = 'flex';
+                loading = false;
+                btn.innerHTML = `<span>${t.createPlan}</span> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>`;
+                btn.disabled = false;
+            }, 500);
+        };
+
+        document.getElementById('weightInput').addEventListener('input', function(e) { weight = parseFloat(e.target.value) || 0; updateBMI(); });
+        document.getElementById('heightInput').addEventListener('input', function(e) { height = parseFloat(e.target.value) || 0; updateBMI(); });
+        document.getElementById('targetWeightInput').addEventListener('input', function(e) { targetWeight = parseFloat(e.target.value) || 0; });
+        document.getElementById('bodyFatInput').addEventListener('input', function(e) { bodyFat = e.target.value ? parseFloat(e.target.value) : undefined; });
+        document.getElementById('summaryWeightInput').addEventListener('input', function(e) { weight = parseFloat(e.target.value) || 0; document.getElementById('weightInput').value = weight; updateBMI(); });
+        document.getElementById('summaryHeightInput').addEventListener('input', function(e) { height = parseFloat(e.target.value) || 0; document.getElementById('heightInput').value = height; updateBMI(); });
+        document.getElementById('summaryTargetInput').addEventListener('input', function(e) { targetWeight = parseFloat(e.target.value) || 0; document.getElementById('targetWeightInput').value = targetWeight; });
+        document.getElementById('summaryBodyFatInput').addEventListener('input', function(e) { bodyFat = e.target.value ? parseFloat(e.target.value) : undefined; document.getElementById('bodyFatInput').value = bodyFat || ''; });
+
+        updateTranslations();
+        updateProgressIndicator();
+        updateBMI();
+        updateGoalUI();
+        updateSpeedUI();
+        updateExperienceUI();
+    </script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        .stat-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .stat-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+        }
+        .stat-unit {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        .chart-container {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        #weightChart {
+            width: 100%;
+            height: 350px;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            color: white;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #6366f1, #a855f7);
+        }
+        .form-container {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .form-group {
+            text-align: center;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.75rem;
+            color: white;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            border-color: #6366f1;
+        }
+        .form-input::placeholder {
+            color: #4b5563;
+        }
+        .measurements-section {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.25rem;
+            margin-top: 1.25rem;
+        }
+        .measurements-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .measurements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .measurements-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .measurement-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+        .measurement-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.5rem;
+            color: white;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .measurement-input:focus {
+            border-color: #6366f1;
+        }
+        .notes-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.75rem;
+            color: white;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .notes-textarea:focus {
+            border-color: #6366f1;
+        }
+        .notes-textarea::placeholder {
+            color: #4b5563;
+        }
+        .btn-save {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            color: white;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-save:hover {
+            background: linear-gradient(to right, #6366f1, #a855f7);
+        }
+        .history-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .entry-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .entry-date {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+        }
+        .entry-weight-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .entry-weight {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .entry-weight-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        .entry-bodyfat {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        .entry-bodyfat span {
+            font-weight: 500;
+            color: #fbbf24;
+        }
+        .btn-delete {
+            padding: 0.5rem;
+            color: #9ca3af;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .btn-delete:hover {
+            color: #f87171;
+        }
+        .measurements-display {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.75rem;
+        }
+        .measurements-display-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #d1d5db;
+            margin-bottom: 0.75rem;
+        }
+        .measurements-display-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .measurements-display-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        .measurement-item span:first-child {
+            color: #6b7280;
+        }
+        .measurement-item span:last-child {
+            font-weight: 500;
+            color: white;
+        }
+        .notes-display {
+            padding: 0.75rem;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+        .notes-display p {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            font-style: italic;
+        }
+        .empty-state {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+        }
+        .empty-icon {
+            width: 3rem;
+            height: 3rem;
+            color: #4b5563;
+            margin: 0 auto 1rem;
+        }
+        .empty-text {
+            color: #9ca3af;
+        }
+        .text-green { color: #4ade80; }
+        .text-orange { color: #fb923c; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path>
+                </svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="plan.html" class="nav-link">Plan</a>
+                <a href="track.html" class="nav-link">Track</a>
+                <a href="meals.html" class="nav-link">Meals</a>
+                <a href="progress.html" class="nav-link active">Progress</a>
+                <a href="coach.html" class="nav-link">Coach</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="language-dropdown hidden" id="languageDropdown">
+                        <button onclick="setLanguage('en')">English</button>
+                        <button onclick="setLanguage('pt')">Português</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-top: 6rem;">
+        <div class="container" style="max-width: 72rem;">
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #9ca3af; transition: color 0.3s; margin-bottom: 1rem; text-decoration: none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span style="font-size: 0.875rem;" data-i18n="dashboard">Dashboard</span>
+                </a>
+                <h1 style="font-size: 3rem; font-weight: 900; color: white; margin-bottom: 0.5rem;" data-i18n="progress">Progress</h1>
+                <p style="color: #9ca3af;" data-i18n="progressSubtitle">Weight, measurements & body composition</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Stats Grid -->
+                <div id="statsGrid" class="stats-grid hidden">
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+                            </svg>
+                            <span data-i18n="start">Start</span>
+                        </div>
+                        <div class="stat-value" id="startWeight">--</div>
+                        <div class="stat-unit">kg</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+                            </svg>
+                            <span data-i18n="current">Current</span>
+                        </div>
+                        <div class="stat-value" id="currentWeight">--</div>
+                        <div class="stat-unit">kg</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" id="totalChangeLabel">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="trendIcon">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                <polyline points="17 6 23 6 23 12"/>
+                            </svg>
+                            <span data-i18n="total">Total</span>
+                        </div>
+                        <div class="stat-value" id="totalChange">--</div>
+                        <div class="stat-unit">kg</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-i18n="weeklyAvg">Weekly Avg</div>
+                        <div class="stat-value" id="weeklyAvg">--</div>
+                        <div class="stat-unit">kg/week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span data-i18n="days">Days</span>
+                        </div>
+                        <div class="stat-value" id="totalDays">--</div>
+                        <div class="stat-unit" data-i18n="tracked">tracked</div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div id="chartContainer" class="chart-container hidden">
+                    <h2 class="chart-title" data-i18n="weightTrend">Weight Trend</h2>
+                    <canvas id="weightChart"></canvas>
+                </div>
+
+                <!-- New Entry Button -->
+                <div style="display: flex; justify-content: center;">
+                    <button class="btn-primary" onclick="toggleForm()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span id="formToggleText" data-i18n="newEntry">New Entry</span>
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <div id="entryForm" class="form-container hidden">
+                    <h2 class="form-title" data-i18n="newProgressEntry">New Progress Entry</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="date">Date</label>
+                            <input type="date" id="entryDate" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="weightKg">Weight (kg)</label>
+                            <input type="number" step="0.1" id="entryWeight" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="bodyFatPercent">Body Fat %</label>
+                            <input type="number" step="0.1" id="entryBodyFat" class="form-input" placeholder="Optional">
+                        </div>
+                    </div>
+
+                    <div class="measurements-section">
+                        <div class="measurements-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2">
+                                <line x1="4" y1="21" x2="4" y2="14"/>
+                                <line x1="4" y1="10" x2="4" y2="3"/>
+                                <line x1="12" y1="21" x2="12" y2="12"/>
+                                <line x1="12" y1="8" x2="12" y2="3"/>
+                                <line x1="20" y1="21" x2="20" y2="16"/>
+                                <line x1="20" y1="12" x2="20" y2="3"/>
+                            </svg>
+                            <span data-i18n="measurementsCm">Measurements (cm)</span>
+                        </div>
+                        <div class="measurements-grid">
+                            <div>
+                                <label class="measurement-label" data-i18n="chest">Chest</label>
+                                <input type="number" step="0.1" id="entryChest" class="measurement-input" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="measurement-label" data-i18n="waist">Waist</label>
+                                <input type="number" step="0.1" id="entryWaist" class="measurement-input" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="measurement-label" data-i18n="hips">Hips</label>
+                                <input type="number" step="0.1" id="entryHips" class="measurement-input" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="measurement-label" data-i18n="arms">Arms</label>
+                                <input type="number" step="0.1" id="entryArms" class="measurement-input" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="measurement-label" data-i18n="thighs">Thighs</label>
+                                <input type="number" step="0.1" id="entryThighs" class="measurement-input" placeholder="Optional">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem;">
+                        <label class="form-label" data-i18n="notes">Notes</label>
+                        <textarea id="entryNotes" class="notes-textarea" placeholder="How are you feeling? Any observations?"></textarea>
+                    </div>
+
+                    <button class="btn-save" onclick="saveEntry()" data-i18n="saveEntry">Save Entry</button>
+                </div>
+
+                <!-- History -->
+                <div>
+                    <h2 class="history-title" data-i18n="history">History</h2>
+                    <div id="historyContainer">
+                        <!-- Entries will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                dashboard: 'Dashboard',
+                progress: 'Progress',
+                progressSubtitle: 'Weight, measurements & body composition',
+                start: 'Start',
+                current: 'Current',
+                total: 'Total',
+                weeklyAvg: 'Weekly Avg',
+                days: 'Days',
+                tracked: 'tracked',
+                weightTrend: 'Weight Trend',
+                newEntry: 'New Entry',
+                cancel: 'Cancel',
+                newProgressEntry: 'New Progress Entry',
+                date: 'Date',
+                weightKg: 'Weight (kg)',
+                bodyFatPercent: 'Body Fat %',
+                measurementsCm: 'Measurements (cm)',
+                chest: 'Chest',
+                waist: 'Waist',
+                hips: 'Hips',
+                arms: 'Arms',
+                thighs: 'Thighs',
+                notes: 'Notes',
+                notesPlaceholder: 'How are you feeling? Any observations?',
+                saveEntry: 'Save Entry',
+                history: 'History',
+                noEntries: 'No entries yet. Start tracking your progress!',
+                measurements: 'Measurements',
+                deleteConfirm: 'Delete this entry?',
+                validWeightError: 'Please enter a valid weight',
+                optional: 'Optional'
+            },
+            pt: {
+                dashboard: 'Painel',
+                progress: 'Progresso',
+                progressSubtitle: 'Peso, medidas e composição corporal',
+                start: 'Início',
+                current: 'Atual',
+                total: 'Total',
+                weeklyAvg: 'Média Semanal',
+                days: 'Dias',
+                tracked: 'registrados',
+                weightTrend: 'Tendência de Peso',
+                newEntry: 'Nova Entrada',
+                cancel: 'Cancelar',
+                newProgressEntry: 'Nova Entrada de Progresso',
+                date: 'Data',
+                weightKg: 'Peso (kg)',
+                bodyFatPercent: 'Gordura Corporal %',
+                measurementsCm: 'Medidas (cm)',
+                chest: 'Peito',
+                waist: 'Cintura',
+                hips: 'Quadril',
+                arms: 'Braços',
+                thighs: 'Coxas',
+                notes: 'Notas',
+                notesPlaceholder: 'Como você está se sentindo? Alguma observação?',
+                saveEntry: 'Salvar Entrada',
+                history: 'Histórico',
+                noEntries: 'Nenhuma entrada ainda. Comece a registrar seu progresso!',
+                measurements: 'Medidas',
+                deleteConfirm: 'Excluir esta entrada?',
+                validWeightError: 'Por favor, insira um peso válido',
+                optional: 'Opcional'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('locale') || 'en';
+        let entries = [];
+        let showForm = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEntries();
+            updateLanguage();
+            setTodayDate();
+            render();
+        });
+
+        function loadEntries() {
+            const stored = localStorage.getItem('progressEntries');
+            if (stored) {
+                entries = JSON.parse(stored).sort((a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime()
+                );
+            }
+        }
+
+        function saveEntries(updatedEntries) {
+            const sorted = updatedEntries.sort((a, b) =>
+                new Date(a.date).getTime() - new Date(b.date).getTime()
+            );
+            localStorage.setItem('progressEntries', JSON.stringify(sorted));
+            entries = sorted;
+        }
+
+        function setTodayDate() {
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function getStats() {
+            if (entries.length === 0) return null;
+
+            const startWeight = entries[0].weight;
+            const currentWeight = entries[entries.length - 1].weight;
+            const totalWeightChange = currentWeight - startWeight;
+            const daysDiff = Math.max(1, Math.floor(
+                (new Date(entries[entries.length - 1].date).getTime() - new Date(entries[0].date).getTime()) / (1000 * 60 * 60 * 24)
+            ));
+            const weeks = daysDiff / 7;
+            const averageWeeklyChange = weeks > 0 ? totalWeightChange / weeks : 0;
+
+            return { startWeight, currentWeight, totalWeightChange, averageWeeklyChange, totalDays: daysDiff };
+        }
+
+        function render() {
+            const stats = getStats();
+
+            // Stats Grid
+            const statsGrid = document.getElementById('statsGrid');
+            if (stats) {
+                statsGrid.classList.remove('hidden');
+                document.getElementById('startWeight').textContent = stats.startWeight.toFixed(1);
+                document.getElementById('currentWeight').textContent = stats.currentWeight.toFixed(1);
+
+                const totalChangeEl = document.getElementById('totalChange');
+                const sign = stats.totalWeightChange > 0 ? '+' : '';
+                totalChangeEl.textContent = sign + stats.totalWeightChange.toFixed(1);
+                totalChangeEl.className = 'stat-value ' + (stats.totalWeightChange < 0 ? 'text-green' : 'text-orange');
+
+                // Update trend icon
+                const trendIcon = document.getElementById('trendIcon');
+                if (stats.totalWeightChange < 0) {
+                    trendIcon.innerHTML = '<polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/>';
+                } else {
+                    trendIcon.innerHTML = '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>';
+                }
+
+                const weeklySign = stats.averageWeeklyChange > 0 ? '+' : '';
+                document.getElementById('weeklyAvg').textContent = weeklySign + stats.averageWeeklyChange.toFixed(2);
+                document.getElementById('totalDays').textContent = stats.totalDays;
+            } else {
+                statsGrid.classList.add('hidden');
+            }
+
+            // Chart
+            const chartContainer = document.getElementById('chartContainer');
+            if (entries.length > 1) {
+                chartContainer.classList.remove('hidden');
+                drawChart();
+            } else {
+                chartContainer.classList.add('hidden');
+            }
+
+            // History
+            renderHistory();
+        }
+
+        function drawChart() {
+            const canvas = document.getElementById('weightChart');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width - 48;
+            canvas.height = 350;
+
+            const padding = { top: 30, right: 30, bottom: 50, left: 60 };
+            const chartWidth = canvas.width - padding.left - padding.right;
+            const chartHeight = canvas.height - padding.top - padding.bottom;
+
+            // Get data
+            const weights = entries.map(e => e.weight);
+            const minWeight = Math.min(...weights) - 2;
+            const maxWeight = Math.max(...weights) + 2;
+            const weightRange = maxWeight - minWeight;
+
+            // Clear
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw grid
+            ctx.strokeStyle = '#262626';
+            ctx.lineWidth = 1;
+
+            // Horizontal grid lines
+            const ySteps = 5;
+            for (let i = 0; i <= ySteps; i++) {
+                const y = padding.top + (chartHeight / ySteps) * i;
+                ctx.beginPath();
+                ctx.setLineDash([5, 5]);
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(canvas.width - padding.right, y);
+                ctx.stroke();
+
+                // Y-axis labels
+                const value = maxWeight - (weightRange / ySteps) * i;
+                ctx.fillStyle = '#666';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(value.toFixed(1), padding.left - 10, y + 4);
+            }
+            ctx.setLineDash([]);
+
+            // Draw line
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+
+            entries.forEach((entry, i) => {
+                const x = padding.left + (chartWidth / (entries.length - 1)) * i;
+                const y = padding.top + chartHeight - ((entry.weight - minWeight) / weightRange) * chartHeight;
+
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+
+            // Draw points
+            entries.forEach((entry, i) => {
+                const x = padding.left + (chartWidth / (entries.length - 1)) * i;
+                const y = padding.top + chartHeight - ((entry.weight - minWeight) / weightRange) * chartHeight;
+
+                ctx.fillStyle = '#6366f1';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // X-axis labels
+            ctx.fillStyle = '#666';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+
+            const maxLabels = Math.min(entries.length, 8);
+            const step = Math.ceil(entries.length / maxLabels);
+
+            entries.forEach((entry, i) => {
+                if (i % step === 0 || i === entries.length - 1) {
+                    const x = padding.left + (chartWidth / (entries.length - 1)) * i;
+                    const date = new Date(entry.date);
+                    const label = date.toLocaleDateString(currentLanguage === 'pt' ? 'pt-BR' : 'en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    ctx.fillText(label, x, canvas.height - padding.bottom + 20);
+                }
+            });
+
+            // Body fat line if available
+            const bodyFatEntries = entries.filter(e => e.bodyFat);
+            if (bodyFatEntries.length > 1) {
+                const bfValues = bodyFatEntries.map(e => e.bodyFat);
+                const minBf = Math.min(...bfValues) - 2;
+                const maxBf = Math.max(...bfValues) + 2;
+                const bfRange = maxBf - minBf;
+
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                let first = true;
+                entries.forEach((entry, i) => {
+                    if (entry.bodyFat) {
+                        const x = padding.left + (chartWidth / (entries.length - 1)) * i;
+                        const y = padding.top + chartHeight - ((entry.bodyFat - minBf) / bfRange) * chartHeight;
+
+                        if (first) {
+                            ctx.moveTo(x, y);
+                            first = false;
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    }
+                });
+                ctx.stroke();
+            }
+
+            // Legend
+            ctx.fillStyle = '#6366f1';
+            ctx.fillRect(canvas.width - 150, 10, 12, 12);
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Weight (kg)', canvas.width - 130, 20);
+
+            if (bodyFatEntries.length > 1) {
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(canvas.width - 150, 28, 12, 12);
+                ctx.fillStyle = '#fff';
+                ctx.fillText('Body Fat %', canvas.width - 130, 38);
+            }
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyContainer');
+            const t = translations[currentLanguage];
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+                        </svg>
+                        <p class="empty-text">${t.noEntries}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const reversedEntries = [...entries].reverse();
+            container.innerHTML = reversedEntries.map(entry => {
+                const date = new Date(entry.date);
+                const dateStr = date.toLocaleDateString(currentLanguage === 'pt' ? 'pt-BR' : 'en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+
+                const hasMeasurements = entry.measurements &&
+                    Object.values(entry.measurements).some(v => v);
+
+                let measurementsHtml = '';
+                if (hasMeasurements) {
+                    const m = entry.measurements;
+                    const items = [];
+                    if (m.chest) items.push(`<div class="measurement-item"><span>${t.chest}:</span> <span>${m.chest} cm</span></div>`);
+                    if (m.waist) items.push(`<div class="measurement-item"><span>${t.waist}:</span> <span>${m.waist} cm</span></div>`);
+                    if (m.hips) items.push(`<div class="measurement-item"><span>${t.hips}:</span> <span>${m.hips} cm</span></div>`);
+                    if (m.arms) items.push(`<div class="measurement-item"><span>${t.arms}:</span> <span>${m.arms} cm</span></div>`);
+                    if (m.thighs) items.push(`<div class="measurement-item"><span>${t.thighs}:</span> <span>${m.thighs} cm</span></div>`);
+
+                    measurementsHtml = `
+                        <div class="measurements-display">
+                            <div class="measurements-display-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2">
+                                    <line x1="4" y1="21" x2="4" y2="14"/>
+                                    <line x1="4" y1="10" x2="4" y2="3"/>
+                                    <line x1="12" y1="21" x2="12" y2="12"/>
+                                    <line x1="12" y1="8" x2="12" y2="3"/>
+                                    <line x1="20" y1="21" x2="20" y2="16"/>
+                                    <line x1="20" y1="12" x2="20" y2="3"/>
+                                </svg>
+                                ${t.measurements}
+                            </div>
+                            <div class="measurements-display-grid">${items.join('')}</div>
+                        </div>
+                    `;
+                }
+
+                let notesHtml = '';
+                if (entry.notes) {
+                    notesHtml = `
+                        <div class="notes-display">
+                            <p>${entry.notes}</p>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="entry-card">
+                        <div class="entry-header">
+                            <div style="flex: 1; text-align: center;">
+                                <div class="entry-date">${dateStr}</div>
+                                <div class="entry-weight-row">
+                                    <div class="entry-weight">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2">
+                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+                                        </svg>
+                                        <span class="entry-weight-value">${entry.weight} kg</span>
+                                    </div>
+                                    ${entry.bodyFat ? `
+                                        <div class="entry-bodyfat">
+                                            Body Fat: <span>${entry.bodyFat}%</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <button class="btn-delete" onclick="deleteEntry('${entry.id}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                        ${measurementsHtml}
+                        ${notesHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.toggleForm = function() {
+            showForm = !showForm;
+            const form = document.getElementById('entryForm');
+            const toggleText = document.getElementById('formToggleText');
+            const t = translations[currentLanguage];
+
+            if (showForm) {
+                form.classList.remove('hidden');
+                toggleText.textContent = t.cancel;
+            } else {
+                form.classList.add('hidden');
+                toggleText.textContent = t.newEntry;
+                resetForm();
+            }
+        };
+
+        function resetForm() {
+            setTodayDate();
+            document.getElementById('entryWeight').value = '';
+            document.getElementById('entryBodyFat').value = '';
+            document.getElementById('entryChest').value = '';
+            document.getElementById('entryWaist').value = '';
+            document.getElementById('entryHips').value = '';
+            document.getElementById('entryArms').value = '';
+            document.getElementById('entryThighs').value = '';
+            document.getElementById('entryNotes').value = '';
+        }
+
+        window.saveEntry = function() {
+            const t = translations[currentLanguage];
+            const weight = parseFloat(document.getElementById('entryWeight').value);
+
+            if (!weight || weight <= 0) {
+                alert(t.validWeightError);
+                return;
+            }
+
+            const date = document.getElementById('entryDate').value;
+            const bodyFat = parseFloat(document.getElementById('entryBodyFat').value) || undefined;
+            const chest = parseFloat(document.getElementById('entryChest').value) || undefined;
+            const waist = parseFloat(document.getElementById('entryWaist').value) || undefined;
+            const hips = parseFloat(document.getElementById('entryHips').value) || undefined;
+            const arms = parseFloat(document.getElementById('entryArms').value) || undefined;
+            const thighs = parseFloat(document.getElementById('entryThighs').value) || undefined;
+            const notes = document.getElementById('entryNotes').value;
+
+            const newEntry = {
+                id: Date.now().toString(),
+                date,
+                weight,
+                bodyFat,
+                measurements: { chest, waist, hips, arms, thighs },
+                notes
+            };
+
+            saveEntries([...entries, newEntry]);
+            showForm = false;
+            document.getElementById('entryForm').classList.add('hidden');
+            document.getElementById('formToggleText').textContent = t.newEntry;
+            resetForm();
+            render();
+        };
+
+        window.deleteEntry = function(id) {
+            const t = translations[currentLanguage];
+            if (confirm(t.deleteConfirm)) {
+                saveEntries(entries.filter(e => e.id !== id));
+                render();
+            }
+        };
+
+        // Language functions
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('locale', lang);
+            updateLanguage();
+            document.getElementById('languageDropdown').classList.add('hidden');
+            render();
+        }
+
+        function updateLanguage() {
+            document.getElementById('currentLang').textContent = currentLanguage.toUpperCase();
+            const t = translations[currentLanguage];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // Update placeholders
+            const notesTextarea = document.getElementById('entryNotes');
+            if (notesTextarea) {
+                notesTextarea.placeholder = t.notesPlaceholder;
+            }
+
+            // Update optional placeholders
+            const optionalInputs = ['entryBodyFat', 'entryChest', 'entryWaist', 'entryHips', 'entryArms', 'entryThighs'];
+            optionalInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.placeholder = t.optional;
+                }
+            });
+
+            // Update form toggle button text
+            const toggleText = document.getElementById('formToggleText');
+            if (toggleText) {
+                toggleText.textContent = showForm ? t.cancel : t.newEntry;
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const selector = document.getElementById('languageSelector');
+            if (!selector.contains(e.target)) {
+                document.getElementById('languageDropdown').classList.add('hidden');
+            }
+        });
+
+        // Redraw chart on resize
+        window.addEventListener('resize', function() {
+            if (entries.length > 1) {
+                drawChart();
+            }
+        });
+    </script>
+    <script src="/js/weight-progress-bar.js"></script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>

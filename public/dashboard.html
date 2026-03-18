@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Shanti's Fitness And Wellness</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg style="width: 28px; height: 28px; color: #a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path>
+                </svg>
+                <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="plan.html" class="nav-link">Plan</a>
+                <a href="track.html" class="nav-link">Track</a>
+                <a href="meals.html" class="nav-link">Meals</a>
+                <a href="progress.html" class="nav-link">Progress</a>
+                <a href="coach.html" class="nav-link">Coach</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="language-dropdown hidden" id="languageDropdown">
+                        <button onclick="setLanguage('en')">English</button>
+                        <button onclick="setLanguage('pt')">Português</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
+        <div class="flex-1 overflow-y-auto">
+            <div class="w-full max-w-7xl mx-auto px-6 py-6">
+                <!-- Header -->
+                <div class="text-center mb-6">
+                    <h1 class="text-4xl font-black text-white mb-2" data-i18n="yourDashboard">Your Dashboard</h1>
+                    <p class="text-gray-400 text-sm" data-i18n="dashboardSubtitle">Track your progress and stay on top of your goals</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Current Plan Summary -->
+                    <div class="glass-effect rounded-2xl p-6" id="planSection" style="display: none;">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <svg class="icon-md text-purple-400" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            Your Plan
+                        </h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="planStats">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Today's Summary -->
+                    <div class="glass-effect rounded-2xl p-6" id="todaySummary">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Today's Summary
+                        </h2>
+                        <div class="grid grid-cols-3 gap-4" id="todayStats">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="start.html" class="card-enhanced p-6 text-center block">
+                            <div class="w-12 h-12 bg-gradient-purple rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg">
+                                <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                            </div>
+                            <div class="text-lg font-bold text-white" data-i18n="createPlan">Create Plan</div>
+                            <div class="text-xs text-gray-500 mt-1" data-i18n="personalizedForYou">Personalized for you</div>
+                        </a>
+
+                        <a href="track.html" class="card-enhanced p-6 text-center block">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg" style="background: linear-gradient(to bottom right, #10b981, #059669);">
+                                <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            </div>
+                            <div class="text-lg font-bold text-white" data-i18n="quickTrack">Quick Track</div>
+                            <div class="text-xs text-gray-500 mt-1" data-i18n="quickTrackDesc">10-second daily log</div>
+                        </a>
+
+                        <a href="progress.html" class="card-enhanced p-6 text-center block">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg" style="background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);">
+                                <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            </div>
+                            <div class="text-lg font-bold text-white" data-i18n="viewProgress">View Progress</div>
+                            <div class="text-xs text-gray-500 mt-1" data-i18n="trackJourney">Track your journey</div>
+                        </a>
+                    </div>
+
+                    <!-- No plan message -->
+                    <div id="noPlanSection" style="display: none;" class="text-center py-12">
+                        <div class="inline-block p-8 glass-effect rounded-2xl">
+                            <svg class="icon-xl mx-auto mb-4 text-purple-400" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.913a2 2 0 001.899 1.381h6.212l-5.027 3.653a2 2 0 00-.727 2.236l1.931 5.952-5.028-3.654a2 2 0 00-2.344 0l-5.028 3.654 1.931-5.952a2 2 0 00-.727-2.236L2 10.294h6.212a2 2 0 001.899-1.381L12 3z"></path></svg>
+                            <h3 class="text-2xl font-black text-white mb-2" data-i18n="readyToStart">Ready to Start?</h3>
+                            <p class="text-gray-400 mb-6 max-w-md" data-i18n="createPlanDesc">Create your personalized fitness and nutrition plan in just 60 seconds</p>
+                            <a href="start.html" class="btn btn-primary" data-i18n="createYourPlan">Create Your Plan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                dashboard: 'Dashboard',
+                yourDashboard: 'Your Dashboard',
+                dashboardSubtitle: 'Track your progress and stay on top of your goals',
+                yourPlan: 'Your Plan',
+                goal: 'Goal',
+                calories: 'Calories',
+                protein: 'Protein',
+                training: 'Training',
+                createPlan: 'Create Plan',
+                personalizedForYou: 'Personalized for you',
+                quickTrack: 'Quick Track',
+                quickTrackDesc: '10-second daily log',
+                viewProgress: 'View Progress',
+                trackJourney: 'Track your journey',
+                readyToStart: 'Ready to Start?',
+                createPlanDesc: 'Create your personalized fitness and nutrition plan in just 60 seconds',
+                createYourPlan: 'Create Your Plan',
+                fatLoss: 'Fat Loss',
+                muscleGain: 'Muscle Gain'
+            },
+            pt: {
+                dashboard: 'Painel',
+                yourDashboard: 'Seu Painel',
+                dashboardSubtitle: 'Acompanhe seu progresso e mantenha-se em dia com seus objetivos',
+                yourPlan: 'Seu Plano',
+                goal: 'Objetivo',
+                calories: 'Calorias',
+                protein: 'Proteína',
+                training: 'Treino',
+                createPlan: 'Criar Plano',
+                personalizedForYou: 'Personalizado para você',
+                quickTrack: 'Registro Rápido',
+                quickTrackDesc: 'Registro diário em 10 segundos',
+                viewProgress: 'Ver Progresso',
+                trackJourney: 'Acompanhe sua jornada',
+                readyToStart: 'Pronto para Começar?',
+                createPlanDesc: 'Crie seu plano personalizado de fitness e nutrição em apenas 60 segundos',
+                createYourPlan: 'Criar Seu Plano',
+                fatLoss: 'Perda de Gordura',
+                muscleGain: 'Ganho Muscular'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('locale') || 'en';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
+            loadPlan();
+            loadTodaySummary();
+        });
+
+        function loadTodaySummary() {
+            const today = new Date().toISOString().split('T')[0];
+
+            // Calories from meal logs
+            let meals = []; try { meals = JSON.parse(localStorage.getItem('mealLogs') || '[]'); } catch(e) { localStorage.removeItem('mealLogs'); }
+            const todayMeals = meals.filter(m => m.date === today);
+            const totalCalories = Math.round(todayMeals.reduce((s, m) => s + m.totalCalories, 0));
+            let plan = null; try { plan = JSON.parse(localStorage.getItem('fitnessPlan') || 'null'); } catch(e) { localStorage.removeItem('fitnessPlan'); }
+            const goalCalories = plan ? Math.round(plan.calories) : null;
+
+            // Workout & weight from tracking logs
+            let logs = []; try { logs = JSON.parse(localStorage.getItem('trackingLogs') || '[]'); } catch(e) { localStorage.removeItem('trackingLogs'); }
+            const todayLog = logs.find(l => l.date === today);
+            const workoutDone = todayLog ? todayLog.workoutDone : null;
+            const weight = todayLog ? todayLog.weight : null;
+
+            // Calorie color
+            const calColor = !goalCalories ? 'white' : totalCalories >= goalCalories ? '#f87171' : '#a855f7';
+
+            document.getElementById('todayStats').innerHTML = `
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                    <div class="text-xs text-gray-400 mb-2">Calories</div>
+                    <div class="text-2xl font-black" style="color:${calColor}">${totalCalories}</div>
+                    ${goalCalories ? `<div class="text-xs text-gray-500 mt-1">of ${goalCalories} kcal</div>` : '<div class="text-xs text-gray-500 mt-1">kcal logged</div>'}
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                    <div class="text-xs text-gray-400 mb-2">Workout</div>
+                    ${workoutDone === true
+                        ? '<div class="text-2xl font-black text-green-400">✓</div><div class="text-xs text-gray-500 mt-1">Done!</div>'
+                        : workoutDone === false
+                            ? '<div class="text-2xl font-black text-red-400">✗</div><div class="text-xs text-gray-500 mt-1">Skipped</div>'
+                            : '<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">Not logged</div>'
+                    }
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                    <div class="text-xs text-gray-400 mb-2">Weight</div>
+                    ${weight
+                        ? `<div class="text-2xl font-black text-purple-400">${weight}</div><div class="text-xs text-gray-500 mt-1">kg</div>`
+                        : '<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">Not logged</div>'
+                    }
+                </div>
+            `;
+        }
+
+        function loadPlan() {
+            const planStr = localStorage.getItem('fitnessPlan');
+            const t = translations[currentLanguage];
+
+            if (planStr) {
+                const plan = JSON.parse(planStr);
+                document.getElementById('planSection').style.display = 'block';
+
+                const goalText = plan.goal === 'fat_loss' ? t.fatLoss : t.muscleGain;
+
+                const statsHtml = `
+                    <div class="bg-white/5 rounded-xl p-4 text-center border border-white-10">
+                        <div class="text-xs text-gray-400 mb-1">${t.goal}</div>
+                        <div class="text-lg font-black text-white capitalize">${goalText}</div>
+                    </div>
+                    <div class="bg-white/5 rounded-xl p-4 text-center border border-white-10">
+                        <div class="text-xs text-gray-400 mb-1">${t.calories}</div>
+                        <div class="text-lg font-black text-white">${Math.round(plan.calories)}</div>
+                    </div>
+                    <div class="bg-white/5 rounded-xl p-4 text-center border border-white-10">
+                        <div class="text-xs text-gray-400 mb-1">${t.protein}</div>
+                        <div class="text-lg font-black text-white">${Math.round(plan.proteinG)}g</div>
+                    </div>
+                    <div class="bg-white/5 rounded-xl p-4 text-center border border-white-10">
+                        <div class="text-xs text-gray-400 mb-1">${t.training}</div>
+                        <div class="text-sm font-black text-white capitalize">${plan.experience}</div>
+                    </div>
+                `;
+
+                document.getElementById('planStats').innerHTML = statsHtml;
+            } else {
+                document.getElementById('noPlanSection').style.display = 'block';
+            }
+        }
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('locale', lang);
+            updateLanguage();
+            loadPlan();
+            document.getElementById('languageDropdown').classList.add('hidden');
+        }
+
+        function updateLanguage() {
+            document.getElementById('currentLang').textContent = currentLanguage.toUpperCase();
+            const t = translations[currentLanguage];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.textContent = t[key];
+                }
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const selector = document.getElementById('languageSelector');
+            if (!selector.contains(e.target)) {
+                document.getElementById('languageDropdown').classList.add('hidden');
+            }
+        });
+    </script>
+    <script src="/js/weight-progress-bar.js"></script>
+    <script src="/js/auth-nav.js"></script>
+</body>
+</html>
