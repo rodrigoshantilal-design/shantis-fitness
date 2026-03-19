@@ -1,14 +1,21 @@
 <!DOCTYPE html>
+<!-- Página de Check-In Diário: permite ao utilizador registar o seu peso, gordura corporal, treino e dieta do dia -->
 <html lang="en">
 <head>
+    <!-- Codificação de caracteres UTF-8 -->
     <meta charset="UTF-8">
+    <!-- Viewport responsivo para dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da aba do browser -->
     <title>Daily Track - Shanti's Fitness And Wellness</title>
+    <!-- Folha de estilos principal do projeto -->
     <link rel="stylesheet" href="css/styles.css">
     <style>
+        /* Esconde a barra de scroll em WebKit (Chrome, Safari) */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+        /* Esconde a barra de scroll em Firefox e IE */
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -16,18 +23,23 @@
     </style>
 </head>
 <body>
+    <!-- Botão de login fixo no canto superior esquerdo -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navbar -->
+    <!-- Barra de navegação principal -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo ligado ao Dashboard com ícone SVG roxo -->
             <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                 <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <!-- Nome do site com gradiente roxo-rosa -->
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+            <!-- Links de navegação; "Track" é a página atual -->
             <div class="nav-links">
                 <a href="dashboard.html">Dashboard</a>
                 <a href="plan.html">Plan</a>
+                <!-- "Track" é a página atual -->
                 <a href="track.html">Track</a>
                 <a href="meals.html">Meals</a>
                 <a href="progress.html">Progress</a>
@@ -36,26 +48,32 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Conteúdo principal com scroll vertical -->
     <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
         <div class="flex-1 overflow-y-auto">
             <div class="w-full max-w-4xl mx-auto px-6 py-6">
-                <!-- Header -->
+                <!-- Cabeçalho da página com título e subtítulo traduzíveis -->
                 <div class="text-center mb-6">
+                    <!-- Título principal traduzível "Daily Check-In" / "Check-In Diário" -->
                     <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Daily Check-In</h1>
+                    <!-- Subtítulo descritivo traduzível -->
                     <p id="pageSubtitle" class="text-gray-400 text-sm">Track your daily progress</p>
                 </div>
 
                 <div class="space-y-6">
-                    <!-- Today's Log Form -->
+                    <!-- Formulário de Check-In do dia de hoje (oculto se já registado hoje) -->
                     <div id="logForm" class="glass-effect rounded-2xl p-6">
+                        <!-- Título do formulário traduzível -->
                         <h2 id="todayCheckInTitle" class="text-xl font-bold text-white mb-6 text-center">Today's Check-In</h2>
 
                         <div class="space-y-5 max-w-xl mx-auto">
-                            <!-- Weight & Body Fat -->
+                            <!-- Secção: Peso e Gordura Corporal em grelha de 2 colunas -->
                             <div class="grid grid-cols-2 gap-4">
+                                <!-- Campo de peso em kg -->
                                 <div>
+                                    <!-- Rótulo traduzível "Peso (kg)" -->
                                     <label id="weightLabel" class="block text-sm font-bold text-gray-400 mb-2 text-center">Weight (kg)</label>
+                                    <!-- Input numérico de peso com incremento de 0.1kg; em grande para leitura fácil -->
                                     <input
                                         type="number"
                                         step="0.1"
@@ -64,8 +82,11 @@
                                         class="w-full px-4 py-4 bg-black/40 border border-white/10 rounded-xl text-white text-center text-2xl font-black outline-none focus:border-purple-500"
                                     >
                                 </div>
+                                <!-- Campo de percentagem de gordura corporal -->
                                 <div>
+                                    <!-- Rótulo traduzível "Gordura %" -->
                                     <label id="bodyFatLabel" class="block text-sm font-bold text-gray-400 mb-2 text-center">Body Fat %</label>
+                                    <!-- Input numérico de BF% com incremento de 0.1 -->
                                     <input
                                         type="number"
                                         step="0.1"
@@ -76,62 +97,82 @@
                                 </div>
                             </div>
 
-                            <!-- Workout -->
+                            <!-- Secção: Pergunta sobre treino do dia (botões Sim/Não) -->
                             <div>
+                                <!-- Pergunta traduzível "Treinou hoje?" -->
                                 <label id="workoutLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">Did you workout today?</label>
+                                <!-- Grelha de 2 botões: Sim e Não -->
                                 <div class="grid grid-cols-2 gap-4">
+                                    <!-- Botão "Sim": chama setWorkout(true) ao clicar -->
                                     <button
                                         id="workoutYesBtn"
                                         onclick="setWorkout(true)"
-                                        class="p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                        class="p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10"
                                     >
+                                        <!-- Ícone de círculo com visto verde (sim) -->
                                         <svg class="w-10 h-10 text-green-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                                        <!-- Texto "Sim" traduzível -->
                                         <div id="yesText" class="font-black text-white">Yes</div>
                                     </button>
+                                    <!-- Botão "Não": chama setWorkout(false) ao clicar -->
                                     <button
                                         id="workoutNoBtn"
                                         onclick="setWorkout(false)"
-                                        class="p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                        class="p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10"
                                     >
+                                        <!-- Ícone de círculo com "X" vermelho (não) -->
                                         <svg class="w-10 h-10 text-red-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                                        <!-- Texto "Não" traduzível -->
                                         <div id="noText" class="font-black text-white">No</div>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Diet Quality -->
+                            <!-- Secção: Avaliação da dieta do dia (3 botões: Excelente/Boa/Má) -->
                             <div>
+                                <!-- Pergunta traduzível "Como foi a tua dieta?" -->
                                 <label id="dietLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">How was your diet?</label>
+                                <!-- Grelha de 3 botões de avaliação da dieta -->
                                 <div class="grid grid-cols-3 gap-3">
+                                    <!-- Botão "Excelente": verde, chama setDiet('excellent') -->
                                     <button
                                         id="dietExcellentBtn"
                                         onclick="setDiet('excellent')"
-                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                        class="p-5 rounded-xl transition-all bg-white/5 hover:bg-white/10"
                                     >
+                                        <!-- Ícone de emoji feliz (sorriso largo) verde -->
                                         <svg class="w-10 h-10 text-green-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <!-- Texto "Excelente" traduzível -->
                                         <div id="excellentText" class="font-black text-white text-sm">Excellent</div>
                                     </button>
+                                    <!-- Botão "Boa": amarelo, chama setDiet('good') -->
                                     <button
                                         id="dietGoodBtn"
                                         onclick="setDiet('good')"
-                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                        class="p-5 rounded-xl transition-all bg-white/5 hover:bg-white/10"
                                     >
+                                        <!-- Ícone de emoji neutro (linha reta) amarelo -->
                                         <svg class="w-10 h-10 text-yellow-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" x2="16" y1="15" y2="15"></line><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <!-- Texto "Boa" traduzível -->
                                         <div id="goodText" class="font-black text-white text-sm">Good</div>
                                     </button>
+                                    <!-- Botão "Má": vermelho, chama setDiet('poor') -->
                                     <button
                                         id="dietPoorBtn"
                                         onclick="setDiet('poor')"
-                                        class="p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10"
+                                        class="p-5 rounded-xl transition-all bg-white/5 hover:bg-white/10"
                                     >
+                                        <!-- Ícone de emoji triste (sorriso invertido) vermelho -->
                                         <svg class="w-10 h-10 text-red-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
+                                        <!-- Texto "Má" traduzível -->
                                         <div id="poorText" class="font-black text-white text-sm">Poor</div>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Notes -->
+                            <!-- Campo de notas opcionais sobre o dia -->
                             <div>
+                                <!-- Área de texto para observações adicionais do utilizador -->
                                 <textarea
                                     id="notesInput"
                                     placeholder="Notes (optional)"
@@ -140,7 +181,7 @@
                                 ></textarea>
                             </div>
 
-                            <!-- Submit -->
+                            <!-- Botão de submissão do check-in: chama handleSubmit() -->
                             <button
                                 id="submitBtn"
                                 onclick="handleSubmit()"
@@ -151,21 +192,28 @@
                         </div>
                     </div>
 
-                    <!-- Already Logged Message -->
+                    <!-- Mensagem de confirmação: exibida quando o check-in do dia já foi feito -->
                     <div id="alreadyLogged" class="glass-effect rounded-2xl p-10 text-center" style="display: none;">
+                        <!-- Ícone grande de visto verde -->
                         <svg class="w-20 h-20 text-green-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        <!-- Título "Já Registado Hoje!" traduzível -->
                         <h2 id="alreadyLoggedTitle" class="text-3xl font-black text-white mb-2">Already Logged Today!</h2>
+                        <!-- Mensagem a convidar o utilizador a voltar amanhã -->
                         <p id="alreadyLoggedSubtitle" class="text-gray-400 text-sm">Come back tomorrow to log again</p>
                     </div>
 
-                    <!-- Recent Logs -->
+                    <!-- Secção de registos recentes (oculta até haver pelo menos 1 registo) -->
                     <div id="recentLogsSection" class="glass-effect rounded-2xl p-6" style="display: none;">
+                        <!-- Título com ícone de calendário -->
                         <h2 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
+                            <!-- Ícone de calendário SVG -->
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <!-- Título "Registos Recentes" traduzível -->
                             <span id="recentLogsTitle">Recent Logs</span>
                         </h2>
+                        <!-- Lista de registos recentes (preenchida pelo JavaScript, máx. 7 entradas) -->
                         <div id="logsList" class="space-y-3">
-                            <!-- Populated by JS -->
+                            <!-- Registos gerados dinamicamente pelo JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -173,17 +221,19 @@
         </div>
     </main>
 
+    <!-- Script de módulo ES6: usa import para as funções de storage -->
     <script type="module">
+        // Importa funções de leitura e escrita dos registos de acompanhamento do módulo de storage
         import { getTrackingLogs, saveTrackingLog } from '/js/storage.js';
 
-        // State
-        let workoutDone = null;
-        let dietQuality = null;
-        let todayLogged = false;
-        let locale = localStorage.getItem('locale') || 'en';
-        const today = new Date().toISOString().split('T')[0];
+        // Estado da aplicação
+        let workoutDone = null;    // null = não selecionado, true = sim, false = não
+        let dietQuality = null;    // null = não selecionado, 'excellent'/'good'/'poor'
+        let todayLogged = false;   // Controla se o check-in de hoje já foi feito
+        let locale = localStorage.getItem('locale') || 'en'; // Idioma atual
+        const today = new Date().toISOString().split('T')[0]; // Data de hoje em formato ISO
 
-        // Translations
+        // Objeto de traduções para todos os textos da página em inglês e português
         const translations = {
             en: {
                 title: 'Daily Check-In',
@@ -229,8 +279,10 @@
             }
         };
 
+        // Seleciona o conjunto de traduções para o idioma atual
         const t = translations[locale] || translations.en;
 
+        // Atualiza todos os textos traduzíveis da página
         function updateTranslations() {
             document.getElementById('pageTitle').textContent = t.title;
             document.getElementById('pageSubtitle').textContent = t.subtitle;
@@ -251,38 +303,47 @@
             document.getElementById('recentLogsTitle').textContent = t.recentLogs;
         }
 
+        // Define o estado do treino (true=sim, false=não) e atualiza o visual
         window.setWorkout = function(value) {
             workoutDone = value;
             updateWorkoutUI();
         };
 
+        // Atualiza o visual dos botões de treino conforme a seleção atual
         function updateWorkoutUI() {
             const yesBtn = document.getElementById('workoutYesBtn');
             const noBtn = document.getElementById('workoutNoBtn');
 
             if (workoutDone === true) {
-                yesBtn.className = 'p-6 rounded-xl transition-all border bg-green-600/20 border-green-500/40 shadow-lg';
+                // Botão "Sim" ativo: fundo verde com sombra colorida
+                yesBtn.className = 'p-6 rounded-xl transition-all bg-green-600/20 shadow-lg';
                 yesBtn.style.boxShadow = '0 10px 40px rgba(34, 197, 94, 0.2)';
-                noBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                // Botão "Não" inativo: fundo semitransparente
+                noBtn.className = 'p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10';
                 noBtn.style.boxShadow = 'none';
             } else if (workoutDone === false) {
-                noBtn.className = 'p-6 rounded-xl transition-all border bg-red-600/20 border-red-500/40 shadow-lg';
+                // Botão "Não" ativo: fundo vermelho com sombra colorida
+                noBtn.className = 'p-6 rounded-xl transition-all bg-red-600/20 shadow-lg';
                 noBtn.style.boxShadow = '0 10px 40px rgba(239, 68, 68, 0.2)';
-                yesBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                // Botão "Sim" inativo
+                yesBtn.className = 'p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10';
                 yesBtn.style.boxShadow = 'none';
             } else {
-                yesBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                // Nenhum selecionado: ambos no estado neutro
+                yesBtn.className = 'p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10';
                 yesBtn.style.boxShadow = 'none';
-                noBtn.className = 'p-6 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                noBtn.className = 'p-6 rounded-xl transition-all bg-white/5 hover:bg-white/10';
                 noBtn.style.boxShadow = 'none';
             }
         }
 
+        // Define a qualidade da dieta e atualiza o visual dos botões
         window.setDiet = function(value) {
             dietQuality = value;
             updateDietUI();
         };
 
+        // Atualiza o visual dos 3 botões de dieta conforme a seleção atual
         function updateDietUI() {
             const buttons = {
                 excellent: document.getElementById('dietExcellentBtn'),
@@ -290,24 +351,30 @@
                 poor: document.getElementById('dietPoorBtn')
             };
 
+            // Cores de fundo e sombra para cada opção de dieta
             const colors = {
                 excellent: { bg: 'bg-green-600/20', border: 'border-green-500/40', shadow: 'rgba(34, 197, 94, 0.2)' },
                 good: { bg: 'bg-yellow-600/20', border: 'border-yellow-500/40', shadow: 'rgba(234, 179, 8, 0.2)' },
                 poor: { bg: 'bg-red-600/20', border: 'border-red-500/40', shadow: 'rgba(239, 68, 68, 0.2)' }
             };
 
+            // Aplica o estilo ativo ao botão selecionado e inativo aos restantes
             Object.keys(buttons).forEach(key => {
                 if (key === dietQuality) {
-                    buttons[key].className = `p-5 rounded-xl transition-all border ${colors[key].bg} ${colors[key].border} shadow-lg`;
+                    // Botão ativo: cor correspondente com sombra
+                    buttons[key].className = `p-5 rounded-xl transition-all ${colors[key].bg} shadow-lg`;
                     buttons[key].style.boxShadow = `0 10px 40px ${colors[key].shadow}`;
                 } else {
-                    buttons[key].className = 'p-5 rounded-xl transition-all border bg-white/5 border-white/10 hover:bg-white/10';
+                    // Botão inativo: fundo semitransparente neutro
+                    buttons[key].className = 'p-5 rounded-xl transition-all bg-white/5 hover:bg-white/10';
                     buttons[key].style.boxShadow = 'none';
                 }
             });
         }
 
+        // Valida e submete o check-in diário
         window.handleSubmit = function() {
+            // Validação: obrigatório selecionar treino e dieta
             if (workoutDone === null || dietQuality === null) {
                 alert(locale === 'en' ? 'Please answer all questions' : 'Por favor responda todas as perguntas');
                 return;
@@ -317,15 +384,18 @@
             const bodyFat = parseFloat(document.getElementById('bodyFatInput').value);
             const notes = document.getElementById('notesInput').value;
 
+            // Validação: peso deve estar entre 20 e 500 kg (se fornecido)
             if (!isNaN(weight) && (weight < 20 || weight > 500)) {
                 alert(locale === 'en' ? 'Please enter a valid weight (20–500 kg)' : 'Por favor insira um peso válido (20–500 kg)');
                 return;
             }
+            // Validação: % gordura deve estar entre 1 e 70 (se fornecida)
             if (!isNaN(bodyFat) && (bodyFat < 1 || bodyFat > 70)) {
                 alert(locale === 'en' ? 'Please enter a valid body fat % (1–70)' : 'Por favor insira uma % de gordura válida (1–70)');
                 return;
             }
 
+            // Guarda o registo de acompanhamento no localStorage via módulo de storage
             saveTrackingLog({
                 date: today,
                 weight: !isNaN(weight) ? weight : undefined,
@@ -335,88 +405,108 @@
                 notes
             });
 
-            // Reset form
+            // Limpa todos os campos do formulário após submissão
             document.getElementById('weightInput').value = '';
             document.getElementById('bodyFatInput').value = '';
             document.getElementById('notesInput').value = '';
             workoutDone = null;
             dietQuality = null;
 
+            // Recarrega os registos para mostrar o novo check-in
             loadLogs();
         };
 
+        // Retorna o ícone SVG de emoji correspondente à qualidade da dieta
         function getDietIcon(quality) {
             switch (quality) {
                 case 'excellent':
+                    // Emoji feliz verde
                     return '<svg class="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
                 case 'good':
+                    // Emoji neutro amarelo
                     return '<svg class="w-4 h-4 text-yellow-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" x2="16" y1="15" y2="15"></line><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
                 case 'poor':
+                    // Emoji triste vermelho
                     return '<svg class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>';
                 default:
                     return '';
             }
         }
 
+        // Carrega os registos do localStorage e atualiza o ecrã
         function loadLogs() {
+            // Obtém todos os registos e ordena do mais recente para o mais antigo
             const allLogs = getTrackingLogs();
             const sortedLogs = allLogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-            // Check if today is already logged
+            // Verifica se o check-in de hoje já foi feito
             const todayLog = sortedLogs.find(log => log.date === today);
             todayLogged = !!todayLog;
 
-            // Show/hide form and already logged message
+            // Mostra o formulário ou a mensagem de "já registado", conforme o estado
             document.getElementById('logForm').style.display = todayLogged ? 'none' : 'block';
             document.getElementById('alreadyLogged').style.display = todayLogged ? 'block' : 'none';
 
-            // Show recent logs
+            // Se há registos, mostra a secção de registos recentes
             if (sortedLogs.length > 0) {
                 document.getElementById('recentLogsSection').style.display = 'block';
                 const logsList = document.getElementById('logsList');
 
+                // Renderiza os últimos 7 registos
                 logsList.innerHTML = sortedLogs.slice(0, 7).map(log => `
                     <div class="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
                         <div class="flex justify-between items-center">
                             <div class="flex-1">
+                                <!-- Data do registo formatada com dia da semana e mês -->
                                 <div class="font-bold text-white text-sm mb-2">
                                     ${new Date(log.date).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', { weekday: 'short', month: 'short', day: 'numeric' })}
                                 </div>
+                                <!-- Indicadores: peso, gordura, treino e dieta numa linha -->
                                 <div class="flex items-center gap-3 text-xs flex-wrap">
+                                    <!-- Peso em roxo (se disponível) -->
                                     ${log.weight ? `<span class="text-purple-400 font-bold">${log.weight} kg</span>` : ''}
+                                    <!-- Gordura corporal em rosa (se disponível) -->
                                     ${log.bodyFat ? `<span class="text-pink-400 font-bold">${log.bodyFat}% BF</span>` : ''}
+                                    <!-- Indicador de treino com ícone verde (sim) ou vermelho (não) -->
                                     <span class="flex items-center gap-1">
                                         ${t.workout}: ${log.workoutDone
                                             ? '<svg class="w-3 h-3 text-green-400" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>'
                                             : '<svg class="w-3 h-3 text-red-400" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>'
                                         }
                                     </span>
+                                    <!-- Indicador de dieta com emoji correspondente à avaliação -->
                                     <span class="flex items-center gap-1">
                                         ${t.diet}: ${getDietIcon(log.dietQuality)}
                                     </span>
                                 </div>
                             </div>
+                            <!-- Peso em grande no lado direito do cartão (se disponível) -->
                             <div class="text-right">
                                 ${log.weight ? `<div class="text-2xl font-black text-purple-400">${log.weight}</div>` : ''}
                                 ${log.bodyFat ? `<div class="text-sm font-bold text-pink-400">${log.bodyFat}%</div>` : ''}
                             </div>
                         </div>
+                        <!-- Notas do registo (se existirem) numa linha separada em itálico -->
                         ${log.notes ? `<div class="mt-2 pt-2 border-t border-white/5 text-xs text-gray-500 italic">${log.notes}</div>` : ''}
                     </div>
                 `).join('');
             }
         }
 
+        // Função de inicialização: aplica traduções, atualiza UI e carrega os registos
         function init() {
             updateTranslations();
-            updateWorkoutUI();
-            updateDietUI();
-            loadLogs();
+            updateWorkoutUI();   // Garante que os botões estão no estado neutro
+            updateDietUI();      // Garante que os botões estão no estado neutro
+            loadLogs();          // Carrega e renderiza os registos existentes
         }
 
+        // Executa a inicialização quando o módulo carrega
         init();
     </script>
+    <!-- Script da barra de progresso de peso -->
     <script src="/js/weight-progress-bar.js"></script>
+    <!-- Script de autenticação e gestão do navbar -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

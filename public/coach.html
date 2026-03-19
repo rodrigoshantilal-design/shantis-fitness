@@ -1,11 +1,17 @@
 <!DOCTYPE html>
+<!-- Página do Coach com Inteligência Artificial: permite ao utilizador conversar com um assistente virtual de fitness -->
 <html lang="en">
 <head>
+    <!-- Definição do conjunto de caracteres como UTF-8 para suportar caracteres especiais -->
     <meta charset="UTF-8">
+    <!-- Configuração para que a página seja responsiva em dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da aba do browser -->
     <title>AI Coach - Shanti's Fitness And Wellness</title>
+    <!-- Ligação ao ficheiro de estilos principal do projeto -->
     <link rel="stylesheet" href="css/styles.css">
     <style>
+        /* Contentor principal do coach: ocupa a altura do ecrã menos o navbar, disposição em coluna */
         .coach-container {
             height: calc(100vh - 6rem);
             display: flex;
@@ -14,10 +20,12 @@
             margin: 0 auto;
             padding: 1.5rem;
         }
+        /* Cabeçalho do coach: centrado */
         .coach-header {
             text-align: center;
             margin-bottom: 1rem;
         }
+        /* Wrapper do ícone do coach: disposição em linha com o título */
         .coach-icon-wrapper {
             display: inline-flex;
             align-items: center;
@@ -25,6 +33,7 @@
             gap: 0.5rem;
             margin-bottom: 0.5rem;
         }
+        /* Ícone circular decorativo com efeito de vidro fosco (glassmorphism) */
         .coach-icon {
             width: 2.5rem;
             height: 2.5rem;
@@ -37,15 +46,18 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             border: 1px solid rgba(255,255,255,0.2);
         }
+        /* Título principal da página do coach */
         .coach-title {
             font-size: 1.875rem;
             font-weight: 900;
             color: white;
         }
+        /* Subtítulo descritivo do coach */
         .coach-subtitle {
             color: #9ca3af;
             font-size: 0.875rem;
         }
+        /* Contentor do chat: ocupa o espaço restante, estilo glassmorphism */
         .chat-container {
             flex: 1;
             display: flex;
@@ -56,6 +68,7 @@
             border-radius: 1rem;
             overflow: hidden;
         }
+        /* Área de mensagens: com scroll vertical para histórico de conversação */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -64,6 +77,7 @@
             flex-direction: column;
             gap: 1rem;
         }
+        /* Estado vazio: exibido quando não há mensagens no chat */
         .empty-state {
             display: flex;
             flex-direction: column;
@@ -71,23 +85,27 @@
             justify-content: center;
             height: 100%;
         }
+        /* Ícone de estado vazio */
         .empty-icon {
             width: 4rem;
             height: 4rem;
             color: #374151;
             margin-bottom: 1rem;
         }
+        /* Texto de estado vazio */
         .empty-text {
             color: #9ca3af;
             margin-bottom: 1.5rem;
             text-align: center;
         }
+        /* Grelha de sugestões de perguntas: 2 colunas */
         .suggestions-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 0.5rem;
             max-width: 32rem;
         }
+        /* Botão de sugestão: clicável, com efeito hover */
         .suggestion-btn {
             padding: 0.75rem;
             background: rgba(255,255,255,0.05);
@@ -102,49 +120,60 @@
         .suggestion-btn:hover {
             background: rgba(255,255,255,0.1);
         }
+        /* Balão de mensagem: largura máxima de 80% do ecrã */
         .message {
             display: flex;
             max-width: 80%;
         }
+        /* Mensagem do utilizador: alinhada à direita */
         .message-user {
             align-self: flex-end;
         }
+        /* Mensagem do assistente: alinhada à esquerda */
         .message-assistant {
             align-self: flex-start;
         }
+        /* Interior do balão de mensagem */
         .message-bubble {
             padding: 1rem;
             border-radius: 0.75rem;
         }
+        /* Estilo do balão para mensagens do utilizador */
         .message-user .message-bubble {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
             color: white;
             border: 1px solid rgba(255,255,255,0.2);
         }
+        /* Estilo do balão para mensagens do assistente */
         .message-assistant .message-bubble {
             background: rgba(255,255,255,0.1);
             color: white;
             border: 1px solid rgba(255,255,255,0.1);
         }
+        /* Conteúdo textual da mensagem: preserva quebras de linha */
         .message-content {
             font-size: 0.875rem;
             white-space: pre-wrap;
             line-height: 1.5;
         }
+        /* Hora da mensagem: pequena e semitransparente */
         .message-time {
             font-size: 0.75rem;
             margin-top: 0.5rem;
             opacity: 0.6;
         }
+        /* Contentor da caixa de texto de entrada */
         .input-container {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding: 1rem;
         }
+        /* Linha de entrada: campo de texto + botões lado a lado */
         .input-row {
             display: flex;
             gap: 0.75rem;
         }
+        /* Campo de texto do chat */
         .chat-input {
             flex: 1;
             padding: 0.75rem 1rem;
@@ -156,15 +185,19 @@
             outline: none;
             transition: border-color 0.3s;
         }
+        /* Campo de texto em foco: borda roxa */
         .chat-input:focus {
             border-color: #9333ea;
         }
+        /* Placeholder do campo de texto */
         .chat-input::placeholder {
             color: #6b7280;
         }
+        /* Campo desativado durante o carregamento da resposta */
         .chat-input:disabled {
             opacity: 0.5;
         }
+        /* Botão de envio de mensagem */
         .btn-send {
             padding: 0.75rem 1.5rem;
             background: rgba(255,255,255,0.2);
@@ -182,10 +215,12 @@
         .btn-send:hover:not(:disabled) {
             background: rgba(255,255,255,0.25);
         }
+        /* Botão desativado durante envio */
         .btn-send:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
+        /* Botão de limpar histórico: estilo vermelho */
         .btn-clear {
             padding: 0.75rem 1rem;
             background: rgba(220,38,38,0.1);
@@ -198,17 +233,21 @@
         .btn-clear:hover {
             background: rgba(220,38,38,0.2);
         }
+        /* Spinner de carregamento: animação de rotação */
         .loading-spinner {
             width: 20px;
             height: 20px;
             animation: spin 1s linear infinite;
         }
+        /* Animação de rotação do spinner */
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        /* Utilitário para esconder elementos */
         .hidden { display: none !important; }
 
+        /* Responsividade para ecrãs pequenos: sugestões numa coluna e mensagens mais largas */
         @media (max-width: 640px) {
             .suggestions-grid {
                 grid-template-columns: 1fr;
@@ -220,35 +259,44 @@
     </style>
 </head>
 <body>
+    <!-- Botão de login fixo no canto superior esquerdo, visível em todas as páginas -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navigation -->
+    <!-- Barra de navegação principal do site -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo do site com ícone SVG e nome com gradiente -->
             <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                 <svg style="width: 28px; height: 28px; color: #a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path>
                 </svg>
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+            <!-- Links de navegação entre as secções principais da aplicação -->
             <div class="nav-links">
                 <a href="dashboard.html" class="nav-link">Dashboard</a>
                 <a href="plan.html" class="nav-link">Plan</a>
                 <a href="track.html" class="nav-link">Track</a>
                 <a href="meals.html" class="nav-link">Meals</a>
                 <a href="progress.html" class="nav-link">Progress</a>
+                <!-- Link "Coach" está ativo nesta página -->
                 <a href="coach.html" class="nav-link active">Coach</a>
             </div>
+            <!-- Ações do navbar: seletor de idioma -->
             <div class="nav-actions">
+                <!-- Seletor de idioma com dropdown para alternar entre Inglês e Português -->
                 <div class="language-selector" id="languageSelector">
                     <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <!-- Ícone de globo SVG representando idioma -->
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"/>
                             <line x1="2" y1="12" x2="22" y2="12"/>
                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                         </svg>
+                        <!-- Exibe o idioma atual (EN ou PT) -->
                         <span id="currentLang">EN</span>
                     </button>
+                    <!-- Dropdown oculto com as opções de idioma -->
                     <div class="language-dropdown hidden" id="languageDropdown">
                         <button onclick="setLanguage('en')">English</button>
                         <button onclick="setLanguage('pt')">Português</button>
@@ -258,12 +306,13 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Conteúdo principal da página -->
     <main class="main-content" style="padding-top: 6rem;">
         <div class="coach-container">
-            <!-- Header -->
+            <!-- Cabeçalho da secção do coach com ícone e título -->
             <div class="coach-header">
                 <div class="coach-icon-wrapper">
+                    <!-- Ícone decorativo do coach -->
                     <div class="coach-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
                             <path d="M12 3l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3-3.6-2.7h4.5z"/>
@@ -271,29 +320,36 @@
                             <path d="M19 19l-2-5"/>
                         </svg>
                     </div>
+                    <!-- Título traduzível: "AI Coach" em inglês, "Coach IA" em português -->
                     <h1 class="coach-title" data-i18n="title">AI Coach</h1>
                 </div>
+                <!-- Subtítulo traduzível que explica o propósito do coach -->
                 <p class="coach-subtitle" data-i18n="subtitle">Get personalized advice based on your plan</p>
             </div>
 
-            <!-- Chat Container -->
+            <!-- Área do chat: contém mensagens e campo de entrada -->
             <div class="chat-container">
-                <!-- Messages -->
+                <!-- Contentor de mensagens com scroll -->
                 <div class="messages-container" id="messagesContainer">
+                    <!-- Estado vazio: mostrado quando não há mensagens; escondido quando o chat tem histórico -->
                     <div class="empty-state" id="emptyState">
+                        <!-- Ícone de balão de conversa SVG -->
                         <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                         </svg>
+                        <!-- Texto de convite para o utilizador interagir -->
                         <p class="empty-text" data-i18n="askAnything">Ask me anything about your fitness plan!</p>
+                        <!-- Grelha de sugestões de perguntas rápidas; preenchida dinamicamente pelo JavaScript -->
                         <div class="suggestions-grid" id="suggestionsGrid">
-                            <!-- Suggestions will be rendered here -->
+                            <!-- As sugestões são geradas dinamicamente pelo JavaScript com base no idioma -->
                         </div>
                     </div>
                 </div>
 
-                <!-- Input -->
+                <!-- Área de entrada de texto e botões de envio/limpeza -->
                 <div class="input-container">
                     <div class="input-row">
+                        <!-- Campo de texto onde o utilizador escreve a sua pergunta ao coach -->
                         <input
                             type="text"
                             id="chatInput"
@@ -301,13 +357,17 @@
                             placeholder="Ask your coach..."
                             data-i18n-placeholder="placeholder"
                         >
+                        <!-- Botão de envio: chama a função handleSend() quando clicado -->
                         <button class="btn-send" id="sendBtn" onclick="handleSend()">
+                            <!-- Ícone de seta de envio SVG -->
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="sendIcon">
                                 <line x1="22" y1="2" x2="11" y2="13"/>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                             </svg>
                         </button>
+                        <!-- Botão de limpeza do histórico: inicialmente escondido, aparece quando há mensagens -->
                         <button class="btn-clear hidden" id="clearBtn" onclick="handleClear()">
+                            <!-- Ícone de caixote do lixo SVG -->
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"/>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -320,13 +380,14 @@
     </main>
 
     <script>
-        // Translations
+        // Objeto de traduções: contém todos os textos da página em inglês (en) e português (pt)
         const translations = {
             en: {
                 title: 'AI Coach',
                 subtitle: 'Get personalized advice based on your plan',
                 askAnything: 'Ask me anything about your fitness plan!',
                 placeholder: 'Ask your coach...',
+                // Sugestões de perguntas pré-definidas que aparecem no estado vazio
                 suggestions: [
                     'How can I improve my workout routine?',
                     'Am I eating enough protein?',
@@ -343,6 +404,7 @@
                 subtitle: 'Obtenha conselhos personalizados baseados no seu plano',
                 askAnything: 'Pergunte-me qualquer coisa sobre seu plano de fitness!',
                 placeholder: 'Pergunte ao seu coach...',
+                // Sugestões de perguntas em português
                 suggestions: [
                     'Como posso melhorar minha rotina de treino?',
                     'Estou comendo proteína suficiente?',
@@ -356,47 +418,58 @@
             }
         };
 
-        // Coach responses based on topics
+        // Respostas pré-definidas do coach organizadas por tema e idioma
+        // Usadas como fallback caso a API não responda
         const coachResponses = {
             en: {
+                // Respostas sobre treino
                 workout: [
                     "Based on your training level, here are some tips to improve your workout:\n\n1. **Progressive Overload**: Gradually increase weight, reps, or sets each week\n2. **Rest Periods**: Rest 60-90 seconds between sets for hypertrophy, 2-3 minutes for strength\n3. **Mind-Muscle Connection**: Focus on the muscle you're working, not just moving weight\n4. **Track Your Lifts**: Keep a log to ensure you're progressing\n5. **Warm Up Properly**: 5-10 minutes of cardio + dynamic stretches before lifting",
                     "To optimize your workouts:\n\n• **Compound Movements First**: Start with squats, deadlifts, bench press\n• **Isolation Last**: End with bicep curls, tricep extensions, etc.\n• **Full Range of Motion**: Don't cheat the movement\n• **Consistent Tempo**: Control the eccentric (lowering) phase\n• **Stay Hydrated**: Drink water throughout your session"
                 ],
+                // Respostas sobre proteína e nutrição
                 protein: [
                     "Based on your plan, here's your protein guide:\n\n**Your Daily Target**: Check your plan for exact grams\n\n**Protein Timing**:\n• Breakfast: 25-30g\n• Lunch: 30-40g\n• Dinner: 30-40g\n• Snacks: 15-20g each\n\n**Best Sources**:\n• Chicken breast (31g/100g)\n• Greek yogurt (10g/100g)\n• Eggs (6g each)\n• Fish (20-25g/100g)\n• Legumes (15-20g/cup)",
                     "Here's how to hit your protein goals:\n\n1. **Protein with every meal**: Don't skip any meal\n2. **Prep in advance**: Cook chicken/fish for the week\n3. **Quick options**: Greek yogurt, cottage cheese, protein shakes\n4. **Plant proteins count**: Tofu, tempeh, legumes\n5. **Track initially**: Use an app until you learn portions"
                 ],
+                // Respostas sobre dias de descanso
                 rest: [
                     "Rest days are crucial for progress! Here's how to maximize them:\n\n**Active Recovery**:\n• Light walking (20-30 minutes)\n• Stretching or yoga\n• Foam rolling\n\n**Nutrition**:\n• Keep protein intake high\n• Don't drastically cut calories\n• Stay hydrated\n\n**Recovery**:\n• Aim for 7-9 hours of sleep\n• Take a relaxing bath\n• Reduce stress with meditation",
                     "What to do on rest days:\n\n1. **Move Your Body**: Light activity helps recovery\n2. **Meal Prep**: Use the time to prepare healthy meals\n3. **Sleep Well**: This is when muscle growth happens\n4. **Stretch**: Focus on tight areas\n5. **Mental Reset**: Take a break from fitness content too"
                 ],
+                // Respostas sobre platôs de progresso
                 plateau: [
                     "Breaking through a plateau requires strategy:\n\n**Training Changes**:\n• Increase weight by 2.5-5%\n• Add an extra set per exercise\n• Change exercise order\n• Try different rep ranges\n\n**Nutrition Adjustments**:\n• Recalculate your TDEE (you may need more/less calories)\n• Increase protein slightly\n• Consider a diet break (1-2 weeks at maintenance)\n\n**Recovery Focus**:\n• Are you sleeping enough?\n• Manage stress levels\n• Take a deload week if needed",
                     "Plateaus are normal! Try these strategies:\n\n1. **Deload Week**: Reduce weight by 40-50% for a week\n2. **Change Rep Scheme**: If doing 8-12, try 5-8 or 12-15\n3. **New Exercises**: Swap some exercises for variations\n4. **Check Recovery**: Sleep, stress, and nutrition matter\n5. **Be Patient**: Progress isn't always linear"
                 ],
+                // Respostas gerais de fitness
                 general: [
                     "Here's some general advice based on your fitness plan:\n\n**Consistency is Key**:\n• Follow your plan for at least 8-12 weeks\n• Small progress adds up over time\n• Don't skip workouts unless necessary\n\n**Track Everything**:\n• Log your workouts\n• Track your food (at least initially)\n• Take progress photos monthly\n\n**Listen to Your Body**:\n• Rest when truly needed\n• Don't train through pain\n• Adjust intensity based on energy levels",
                     "Tips for success with your fitness journey:\n\n1. **Start where you are**: Don't compare to others\n2. **Focus on habits**: Make fitness part of your routine\n3. **Celebrate small wins**: Every workout counts\n4. **Learn as you go**: Fitness is a lifelong journey\n5. **Stay flexible**: Life happens, adjust and continue"
                 ]
             },
             pt: {
+                // Respostas sobre treino em português
                 workout: [
                     "Com base no seu nível de treino, aqui estão algumas dicas para melhorar:\n\n1. **Sobrecarga Progressiva**: Aumente gradualmente peso, repetições ou séries a cada semana\n2. **Períodos de Descanso**: Descanse 60-90 segundos entre séries para hipertrofia, 2-3 minutos para força\n3. **Conexão Mente-Músculo**: Foque no músculo que está trabalhando\n4. **Registre Seus Treinos**: Mantenha um log para garantir progressão\n5. **Aquecimento Adequado**: 5-10 minutos de cardio + alongamentos dinâmicos antes de treinar",
                     "Para otimizar seus treinos:\n\n• **Exercícios Compostos Primeiro**: Comece com agachamento, levantamento terra, supino\n• **Isolamento por Último**: Termine com rosca bíceps, tríceps, etc.\n• **Amplitude Total de Movimento**: Não trapaceie o movimento\n• **Tempo Consistente**: Controle a fase excêntrica (descida)\n• **Mantenha-se Hidratado**: Beba água durante o treino"
                 ],
+                // Respostas sobre proteína em português
                 protein: [
                     "Com base no seu plano, aqui está seu guia de proteína:\n\n**Sua Meta Diária**: Verifique seu plano para os gramas exatos\n\n**Timing de Proteína**:\n• Café da manhã: 25-30g\n• Almoço: 30-40g\n• Jantar: 30-40g\n• Lanches: 15-20g cada\n\n**Melhores Fontes**:\n• Peito de frango (31g/100g)\n• Iogurte grego (10g/100g)\n• Ovos (6g cada)\n• Peixe (20-25g/100g)\n• Leguminosas (15-20g/xícara)",
                     "Como atingir suas metas de proteína:\n\n1. **Proteína em cada refeição**: Não pule nenhuma refeição\n2. **Prepare com antecedência**: Cozinhe frango/peixe para a semana\n3. **Opções rápidas**: Iogurte grego, queijo cottage, shakes de proteína\n4. **Proteínas vegetais contam**: Tofu, tempeh, leguminosas\n5. **Registre inicialmente**: Use um app até aprender porções"
                 ],
+                // Respostas sobre descanso em português
                 rest: [
                     "Dias de descanso são cruciais para o progresso! Veja como maximizá-los:\n\n**Recuperação Ativa**:\n• Caminhada leve (20-30 minutos)\n• Alongamento ou yoga\n• Rolo de espuma\n\n**Nutrição**:\n• Mantenha a ingestão de proteína alta\n• Não corte calorias drasticamente\n• Mantenha-se hidratado\n\n**Recuperação**:\n• Mire em 7-9 horas de sono\n• Tome um banho relaxante\n• Reduza o estresse com meditação",
                     "O que fazer nos dias de descanso:\n\n1. **Mova Seu Corpo**: Atividade leve ajuda na recuperação\n2. **Prepare Refeições**: Use o tempo para preparar comidas saudáveis\n3. **Durma Bem**: É quando o crescimento muscular acontece\n4. **Alongue**: Foque em áreas tensas\n5. **Reset Mental**: Faça uma pausa de conteúdo fitness também"
                 ],
+                // Respostas sobre platôs em português
                 plateau: [
                     "Superar um platô requer estratégia:\n\n**Mudanças no Treino**:\n• Aumente o peso em 2.5-5%\n• Adicione uma série extra por exercício\n• Mude a ordem dos exercícios\n• Experimente diferentes faixas de repetição\n\n**Ajustes na Nutrição**:\n• Recalcule seu TDEE (pode precisar mais/menos calorias)\n• Aumente a proteína levemente\n• Considere uma pausa na dieta (1-2 semanas em manutenção)\n\n**Foco na Recuperação**:\n• Está dormindo o suficiente?\n• Gerencie níveis de estresse\n• Faça uma semana de deload se necessário",
                     "Platôs são normais! Tente estas estratégias:\n\n1. **Semana de Deload**: Reduza o peso em 40-50% por uma semana\n2. **Mude o Esquema de Reps**: Se faz 8-12, tente 5-8 ou 12-15\n3. **Novos Exercícios**: Troque alguns exercícios por variações\n4. **Verifique Recuperação**: Sono, estresse e nutrição importam\n5. **Seja Paciente**: Progresso nem sempre é linear"
                 ],
+                // Respostas gerais em português
                 general: [
                     "Aqui está um conselho geral baseado no seu plano de fitness:\n\n**Consistência é Chave**:\n• Siga seu plano por pelo menos 8-12 semanas\n• Pequenos progressos somam ao longo do tempo\n• Não pule treinos a menos que necessário\n\n**Registre Tudo**:\n• Anote seus treinos\n• Registre sua alimentação (pelo menos inicialmente)\n• Tire fotos de progresso mensalmente\n\n**Ouça Seu Corpo**:\n• Descanse quando realmente precisar\n• Não treine através da dor\n• Ajuste a intensidade baseado nos níveis de energia",
                     "Dicas para sucesso na sua jornada fitness:\n\n1. **Comece onde está**: Não se compare aos outros\n2. **Foque em hábitos**: Faça fitness parte da sua rotina\n3. **Celebre pequenas vitórias**: Todo treino conta\n4. **Aprenda conforme avança**: Fitness é uma jornada para toda vida\n5. **Seja flexível**: A vida acontece, ajuste e continue"
@@ -404,18 +477,25 @@
             }
         };
 
+        // Idioma atual: lido do localStorage, ou inglês por defeito
         let currentLanguage = localStorage.getItem('locale') || 'en';
+        // Array que guarda o histórico de mensagens do chat
         let messages = [];
+        // Variável de estado que indica se uma resposta está a ser carregada
         let loading = false;
 
-        // Initialize
+        // Inicialização da página quando o DOM está completamente carregado
         document.addEventListener('DOMContentLoaded', function() {
+            // Carrega o histórico de mensagens do localStorage
             loadMessages();
+            // Aplica as traduções ao idioma atual
             updateLanguage();
+            // Renderiza as sugestões de perguntas
             renderSuggestions();
+            // Renderiza as mensagens guardadas
             renderMessages();
 
-            // Enter key to send
+            // Listener para enviar mensagem ao pressionar Enter
             document.getElementById('chatInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     handleSend();
@@ -423,6 +503,7 @@
             });
         });
 
+        // Carrega o histórico de mensagens guardado no localStorage
         function loadMessages() {
             const stored = localStorage.getItem('chatHistory');
             if (stored) {
@@ -430,14 +511,17 @@
             }
         }
 
+        // Guarda o array de mensagens atual no localStorage
         function saveMessages() {
             localStorage.setItem('chatHistory', JSON.stringify(messages));
         }
 
+        // Renderiza os botões de sugestão com base no idioma atual
         function renderSuggestions() {
             const container = document.getElementById('suggestionsGrid');
             const t = translations[currentLanguage];
 
+            // Cria um botão para cada sugestão de pergunta
             container.innerHTML = t.suggestions.map(suggestion => `
                 <button class="suggestion-btn" onclick="useSuggestion('${suggestion.replace(/'/g, "\\'")}')">
                     ${suggestion}
@@ -445,34 +529,40 @@
             `).join('');
         }
 
+        // Renderiza todas as mensagens do array no ecrã
         function renderMessages() {
             const container = document.getElementById('messagesContainer');
             const emptyState = document.getElementById('emptyState');
             const clearBtn = document.getElementById('clearBtn');
 
+            // Se não há mensagens, mostra o estado vazio e esconde o botão de limpar
             if (messages.length === 0) {
                 if (emptyState) emptyState.classList.remove('hidden');
                 if (clearBtn) clearBtn.classList.add('hidden');
                 return;
             }
 
+            // Se há mensagens, esconde o estado vazio e mostra o botão de limpar
             if (emptyState) emptyState.classList.add('hidden');
             if (clearBtn) clearBtn.classList.remove('hidden');
 
-            // Remove only message bubbles, not emptyState/suggestions
+            // Remove apenas os balões de mensagem, preservando o emptyState
             Array.from(container.children).forEach(child => {
                 if (!child.classList.contains('empty-state')) child.remove();
             });
 
+            // Cria e adiciona um elemento HTML para cada mensagem
             messages.forEach(msg => {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message message-${msg.role}`;
 
+                // Formata a hora da mensagem de acordo com o idioma
                 const time = new Date(msg.timestamp).toLocaleTimeString(
                     currentLanguage === 'pt' ? 'pt-BR' : 'en-US',
                     { hour: '2-digit', minute: '2-digit' }
                 );
 
+                // Escapa HTML, converte markdown negrito (**texto**) em <strong> e quebras de linha
                 messageDiv.innerHTML = `
                     <div class="message-bubble">
                         <div class="message-content">${escapeHtml(msg.content).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</div>
@@ -483,29 +573,33 @@
                 container.appendChild(messageDiv);
             });
 
-            // Scroll to bottom
+            // Faz scroll automático até à última mensagem
             container.scrollTop = container.scrollHeight;
         }
 
+        // Função utilitária para escapar caracteres HTML e prevenir XSS
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
+        // Preenche o campo de texto com a sugestão e envia automaticamente
         window.useSuggestion = function(text) {
             document.getElementById('chatInput').value = text;
             handleSend();
         };
 
+        // Função principal de envio de mensagem (assíncrona para comunicar com a API)
         window.handleSend = async function() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             const t = translations[currentLanguage];
 
+            // Não envia se o campo estiver vazio ou se já estiver a carregar
             if (!message || loading) return;
 
-            // Add user message
+            // Cria e adiciona a mensagem do utilizador ao array
             const userMessage = {
                 role: 'user',
                 content: message,
@@ -515,18 +609,22 @@
             saveMessages();
             renderMessages();
 
+            // Limpa o campo de texto e ativa o estado de carregamento
             input.value = '';
             loading = true;
             updateSendButton();
 
             try {
+                // Lê o plano de fitness do utilizador do localStorage para enviar contexto ao coach
                 const plan = JSON.parse(localStorage.getItem('fitnessPlan') || 'null');
+                // Faz chamada à API do servidor para obter resposta do coach
                 const res = await fetch('/api/coach', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message, plan, language: currentLanguage })
                 });
                 const data = await res.json();
+                // Adiciona a resposta do assistente ao array de mensagens
                 const assistantMessage = {
                     role: 'assistant',
                     content: data.reply || 'Sorry, I could not get a response.',
@@ -535,20 +633,24 @@
                 messages.push(assistantMessage);
                 saveMessages();
             } catch (e) {
+                // Em caso de erro de rede, exibe mensagem de erro genérica
                 messages.push({ role: 'assistant', content: 'Something went wrong. Please try again.', timestamp: new Date().toISOString() });
             }
 
+            // Desativa o estado de carregamento e atualiza o ecrã
             loading = false;
             updateSendButton();
             renderMessages();
         };
 
+        // Gera uma resposta local com base no tema detectado na mensagem do utilizador
+        // Esta função é usada como fallback (não chamada diretamente no fluxo principal)
         function generateResponse(userMessage) {
             const lang = currentLanguage;
             const responses = coachResponses[lang];
             const lowerMessage = userMessage.toLowerCase();
 
-            // Detect topic
+            // Deteta o tema da mensagem por palavras-chave em inglês e português
             let topic = 'general';
 
             if (lowerMessage.includes('workout') || lowerMessage.includes('treino') ||
@@ -572,56 +674,67 @@
                 topic = 'plateau';
             }
 
-            // Get random response from topic
+            // Escolhe aleatoriamente uma das respostas disponíveis para o tema
             const topicResponses = responses[topic];
             const randomIndex = Math.floor(Math.random() * topicResponses.length);
             return topicResponses[randomIndex];
         }
 
+        // Atualiza o visual do botão de envio conforme o estado de carregamento
         function updateSendButton() {
             const btn = document.getElementById('sendBtn');
             const icon = document.getElementById('sendIcon');
 
             if (loading) {
+                // Desativa o botão e mostra o spinner de animação
                 btn.disabled = true;
                 icon.innerHTML = '<circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="31.4"><animate attributeName="stroke-dashoffset" values="31.4;0" dur="1s" repeatCount="indefinite"/></circle>';
                 icon.classList.add('loading-spinner');
             } else {
+                // Reativa o botão e restaura o ícone de envio
                 btn.disabled = false;
                 icon.innerHTML = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>';
                 icon.classList.remove('loading-spinner');
             }
         }
 
+        // Limpa todo o histórico do chat após confirmação do utilizador
         window.handleClear = function() {
             const t = translations[currentLanguage];
             if (confirm(t.clearConfirm)) {
                 messages = [];
+                // Remove o histórico do localStorage
                 localStorage.removeItem('chatHistory');
                 renderMessages();
                 renderSuggestions();
             }
         };
 
-        // Language functions
+        // Mostra/esconde o dropdown de seleção de idioma
         function toggleLanguageDropdown() {
             const dropdown = document.getElementById('languageDropdown');
             dropdown.classList.toggle('hidden');
         }
 
+        // Muda o idioma da aplicação e atualiza todos os textos
         function setLanguage(lang) {
             currentLanguage = lang;
+            // Guarda a preferência de idioma no localStorage
             localStorage.setItem('locale', lang);
             updateLanguage();
             renderSuggestions();
             renderMessages();
+            // Fecha o dropdown após selecionar o idioma
             document.getElementById('languageDropdown').classList.add('hidden');
         }
 
+        // Atualiza todos os textos traduzíveis da página com o idioma atual
         function updateLanguage() {
+            // Atualiza o texto da bandeira/idioma no botão
             document.getElementById('currentLang').textContent = currentLanguage.toUpperCase();
             const t = translations[currentLanguage];
 
+            // Atualiza todos os elementos com atributo data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) {
@@ -629,14 +742,14 @@
                 }
             });
 
-            // Update placeholder
+            // Atualiza o placeholder do campo de texto
             const input = document.getElementById('chatInput');
             if (input) {
                 input.placeholder = t.placeholder;
             }
         }
 
-        // Close dropdown when clicking outside
+        // Fecha o dropdown de idioma quando se clica fora dele
         document.addEventListener('click', function(e) {
             const selector = document.getElementById('languageSelector');
             if (!selector.contains(e.target)) {
@@ -644,7 +757,9 @@
             }
         });
     </script>
+    <!-- Script responsável pela barra de progresso de peso no topo da página -->
     <script src="/js/weight-progress-bar.js"></script>
+    <!-- Script de autenticação e gestão do estado do navbar (login/logout) -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

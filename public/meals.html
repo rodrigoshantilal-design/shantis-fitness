@@ -1,25 +1,36 @@
 <!DOCTYPE html>
+<!-- Página de Registo de Refeições: permite ao utilizador registar e acompanhar a sua alimentação diária -->
 <html lang="en">
 <head>
+    <!-- Codificação de caracteres UTF-8 para suporte a acentos e caracteres especiais -->
     <meta charset="UTF-8">
+    <!-- Viewport responsivo para dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da aba do browser -->
     <title>Meal Log - Shanti's Fitness And Wellness</title>
+    <!-- Folha de estilos principal do projeto (inclui classes utilitárias e glass-effect) -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Botão de login fixo no canto superior esquerdo -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navbar -->
+    <!-- Barra de navegação principal -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo clicável que redireciona para o Dashboard -->
             <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <!-- Ícone SVG do logótipo em cor roxa -->
                 <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <!-- Nome do site com gradiente roxo-rosa -->
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+            <!-- Links de navegação entre todas as secções da aplicação -->
             <div class="nav-links">
                 <a href="dashboard.html">Dashboard</a>
                 <a href="plan.html">Plan</a>
                 <a href="track.html">Track</a>
+                <!-- "Meals" é a página atual -->
                 <a href="meals.html">Meals</a>
                 <a href="progress.html">Progress</a>
                 <a href="coach.html">Coach</a>
@@ -27,43 +38,56 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Conteúdo principal: ocupa o ecrã completo com scroll interno -->
     <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
         <div class="flex-1 overflow-y-auto">
             <div class="w-full max-w-5xl mx-auto px-6 py-6">
-                <!-- Header -->
+                <!-- Cabeçalho da página com título e subtítulo traduzíveis -->
                 <div class="text-center mb-6">
+                    <!-- Título principal da página (atualizado pelo JavaScript com o idioma) -->
                     <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Meal Log</h1>
+                    <!-- Subtítulo descritivo -->
                     <p id="pageSubtitle" class="text-gray-400 text-sm">Track your daily nutrition</p>
                 </div>
 
                 <div class="space-y-6">
-                    <!-- Date & Daily Summary -->
+                    <!-- Secção: Data e Totais Diários em grelha de 3 colunas -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <!-- Cartão de seleção de data -->
                         <div class="glass-effect rounded-2xl p-5">
                             <div class="flex items-center justify-center gap-2 text-sm text-gray-400 mb-3">
+                                <!-- Ícone de calendário SVG -->
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                <!-- Rótulo "Data" traduzível -->
                                 <span id="dateLabel">Date</span>
                             </div>
+                            <!-- Campo de seleção de data: ao mudar, atualiza a lista de refeições do dia -->
                             <input type="date" id="dateInput" class="w-full px-4 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-center outline-none focus:border-purple-500">
                         </div>
 
+                        <!-- Cartão de totais nutricionais diários (ocupa 2 colunas em ecrãs grandes) -->
                         <div class="lg:col-span-2 glass-effect rounded-2xl p-5">
+                            <!-- Título da secção de totais -->
                             <div id="dailyTotalsLabel" class="text-sm text-gray-400 mb-3 text-center">Daily Totals</div>
+                            <!-- Grelha de 4 colunas com os totais: Calorias, Proteína, Hidratos, Gordura -->
                             <div class="grid grid-cols-4 gap-4">
                                 <div class="text-center">
+                                    <!-- Total de calorias do dia (atualizado pelo JavaScript) -->
                                     <div id="totalCalories" class="text-2xl font-bold text-white">0</div>
                                     <div class="text-xs text-gray-500">Calories</div>
                                 </div>
                                 <div class="text-center">
+                                    <!-- Total de proteína em gramas (exibido em vermelho) -->
                                     <div id="totalProtein" class="text-2xl font-bold text-red-400">0g</div>
                                     <div class="text-xs text-gray-500">Protein</div>
                                 </div>
                                 <div class="text-center">
+                                    <!-- Total de hidratos de carbono em gramas (exibido em azul) -->
                                     <div id="totalCarbs" class="text-2xl font-bold text-blue-400">0g</div>
                                     <div class="text-xs text-gray-500">Carbs</div>
                                 </div>
                                 <div class="text-center">
+                                    <!-- Total de gordura em gramas (exibido em amarelo) -->
                                     <div id="totalFat" class="text-2xl font-bold text-yellow-400">0g</div>
                                     <div class="text-xs text-gray-500">Fat</div>
                                 </div>
@@ -71,21 +95,27 @@
                         </div>
                     </div>
 
-                    <!-- Log Button -->
+                    <!-- Botão para abrir/fechar o formulário de registo de refeição -->
                     <div class="flex justify-center">
+                        <!-- Chama toggleForm() para alternar a visibilidade do formulário -->
                         <button id="logMealBtn" onclick="toggleForm()" class="px-8 py-4 text-white font-semibold rounded-xl transition-all flex items-center gap-2" style="background: linear-gradient(to right, #6366f1, #a855f7);">
+                            <!-- Ícone de "+" SVG -->
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <!-- Texto do botão: alterna entre "Registar Refeição" e "Cancelar" -->
                             <span id="logMealBtnText">Log Meal</span>
                         </button>
                     </div>
 
-                    <!-- Meal Form -->
+                    <!-- Formulário de registo de nova refeição (inicialmente escondido) -->
                     <div id="mealForm" class="glass-effect rounded-2xl p-6" style="display: none;">
+                        <!-- Título do formulário -->
                         <h2 id="logNewMealTitle" class="text-2xl font-bold text-white mb-6 text-center">Log New Meal</h2>
 
                         <div class="space-y-5 max-w-2xl mx-auto">
+                            <!-- Campo de seleção do tipo de refeição -->
                             <div>
                                 <label id="mealTypeLabel" class="block text-sm font-medium text-gray-300 mb-2 text-center">Meal Type</label>
+                                <!-- Dropdown com as 4 opções de tipo de refeição -->
                                 <select id="mealTypeSelect" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white text-center outline-none focus:border-purple-500">
                                     <option value="breakfast">Breakfast</option>
                                     <option value="lunch">Lunch</option>
@@ -94,51 +124,74 @@
                                 </select>
                             </div>
 
+                            <!-- Secção de adição de alimentos com pesquisa e campos manuais -->
                             <div class="border border-white/10 rounded-xl p-5 bg-black/40">
+                                <!-- Campo de pesquisa de alimentos na base de dados -->
                                 <div class="relative mb-4">
+                                    <!-- Ícone de lupa posicionado dentro do campo -->
                                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    <!-- Campo de pesquisa: ao digitar, filtra a base de dados de alimentos -->
                                     <input type="text" id="searchInput" placeholder="Search 100+ foods..." class="w-full pl-12 pr-4 py-3 bg-black border border-white/10 rounded-xl text-white placeholder:text-gray-600 outline-none focus:border-purple-500">
                                 </div>
 
+                                <!-- Área de resultados da pesquisa: aparece quando há resultados -->
                                 <div id="searchResults" class="max-h-60 overflow-y-auto border border-white/10 rounded-xl mb-4" style="display: none;"></div>
 
+                                <!-- Grelha de 2x3 com campos manuais de informação nutricional -->
                                 <div class="grid grid-cols-2 gap-3 mb-3">
+                                    <!-- Nome do alimento -->
                                     <input type="text" id="foodNameInput" placeholder="Food name" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <!-- Quantidade (ex: "100g", "1 cup") -->
                                     <input type="text" id="quantityInput" placeholder="Quantity" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <!-- Calorias (número) -->
                                     <input type="number" id="caloriesInput" placeholder="Calories" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <!-- Proteína em gramas -->
                                     <input type="number" id="proteinInput" placeholder="Protein (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <!-- Hidratos de carbono em gramas -->
                                     <input type="number" id="carbsInput" placeholder="Carbs (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
+                                    <!-- Gordura em gramas -->
                                     <input type="number" id="fatInput" placeholder="Fat (g)" class="px-3 py-2 bg-black border border-white/10 rounded-lg text-white placeholder:text-gray-600 text-center outline-none focus:border-purple-500">
                                 </div>
 
+                                <!-- Botão para adicionar o alimento à lista da refeição atual -->
                                 <button onclick="addFood()" class="w-full px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all flex items-center justify-center gap-2">
+                                    <!-- Ícone "+" -->
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                     <span id="addFoodBtnText">Add Food</span>
                                 </button>
 
+                                <!-- Lista de alimentos adicionados à refeição atual (atualizada pelo JavaScript) -->
                                 <div id="foodsList" class="mt-4 space-y-2"></div>
                             </div>
 
+                            <!-- Campo de notas opcionais sobre a refeição -->
                             <div>
                                 <label id="notesLabel" class="block text-sm font-medium text-gray-300 mb-2 text-center">Notes</label>
+                                <!-- Área de texto para o utilizador descrever como se sentiu após a refeição -->
                                 <textarea id="notesInput" rows="2" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white placeholder:text-gray-600 outline-none focus:border-purple-500" placeholder="How did you feel after this meal?"></textarea>
                             </div>
                         </div>
 
+                        <!-- Botão de guardar a refeição: chama saveMeal() -->
                         <button onclick="saveMeal()" class="w-full mt-6 px-6 py-4 text-white font-semibold rounded-xl transition-all" style="background: linear-gradient(to right, #6366f1, #a855f7);">
                             <span id="saveMealBtnText">Save Meal</span>
                         </button>
                     </div>
 
-                    <!-- Meals List -->
+                    <!-- Lista de refeições do dia selecionado -->
                     <div>
+                        <!-- Título da secção de refeições do dia -->
                         <h2 id="todaysMealsTitle" class="text-2xl font-bold text-white mb-6 text-center">Today's Meals</h2>
 
+                        <!-- Mensagem exibida quando não há refeições registadas para o dia selecionado -->
                         <div id="noMealsMessage" class="glass-effect rounded-2xl p-12 text-center" style="display: none;">
+                            <!-- Ícone de garfo e faca SVG -->
                             <svg class="w-12 h-12 text-gray-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+                            <!-- Texto "Nenhuma refeição registada" traduzível -->
                             <p id="noMealsText" class="text-gray-400">No meals logged for this day</p>
                         </div>
 
+                        <!-- Contentor das refeições registadas (preenchido pelo JavaScript) -->
                         <div id="mealsList" class="space-y-4"></div>
                     </div>
                 </div>
@@ -147,6 +200,8 @@
     </main>
 
     <script>
+        // Base de dados local com mais de 30 alimentos comuns e os seus valores nutricionais por porção
+        // Cada alimento tem: nome, calorias, proteína, hidratos, gordura e tamanho de porção
         const FOOD_DATABASE = [
             { name: 'Chicken Breast', calories: 165, protein: 31, carbs: 0, fat: 3.6, servingSize: '100g' },
             { name: 'Turkey Breast', calories: 135, protein: 30, carbs: 0, fat: 1, servingSize: '100g' },
@@ -182,17 +237,20 @@
             { name: 'Protein Bar', calories: 200, protein: 20, carbs: 22, fat: 7, servingSize: '1 bar' }
         ];
 
+        // Pesquisa na base de dados de alimentos por nome (mínimo 2 caracteres, máximo 10 resultados)
         function searchFood(query) {
             if (!query || query.length < 2) return [];
             return FOOD_DATABASE.filter(f => f.name.toLowerCase().includes(query.toLowerCase())).slice(0, 10);
         }
 
-        let meals = [];
-        let foods = [];
-        let showForm = false;
-        let selectedDate = new Date().toISOString().split('T')[0];
-        let locale = localStorage.getItem('locale') || 'en';
+        // Estado da aplicação:
+        let meals = [];          // Array com todas as refeições guardadas
+        let foods = [];          // Array com os alimentos da refeição que está a ser criada
+        let showForm = false;    // Controla se o formulário está visível
+        let selectedDate = new Date().toISOString().split('T')[0]; // Data selecionada (hoje por defeito)
+        let locale = localStorage.getItem('locale') || 'en';       // Idioma atual
 
+        // Objeto de traduções: textos em português (pt) ou inglês (en)
         const t = locale === 'pt' ? {
             title: 'Registro de Refeicoes', subtitle: 'Acompanhe sua nutricao diaria', date: 'Data',
             dailyTotals: 'Totais Diarios', logMeal: 'Registrar Refeicao', cancel: 'Cancelar',
@@ -207,6 +265,7 @@
             noMeals: 'No meals logged for this day', deleteMeal: 'Delete this meal?'
         };
 
+        // Aplica as traduções a todos os elementos de texto da página
         function updateTranslations() {
             document.getElementById('pageTitle').textContent = t.title;
             document.getElementById('pageSubtitle').textContent = t.subtitle;
@@ -221,59 +280,84 @@
             document.getElementById('noMealsText').textContent = t.noMeals;
         }
 
+        // Alterna a visibilidade do formulário de refeição e atualiza o texto do botão
         window.toggleForm = function() {
             showForm = !showForm;
             document.getElementById('mealForm').style.display = showForm ? 'block' : 'none';
+            // Alterna o texto entre "Log Meal" e "Cancel"
             document.getElementById('logMealBtnText').textContent = showForm ? t.cancel : t.logMeal;
+            // Limpa a lista de alimentos ao fechar o formulário
             if (!showForm) { foods = []; renderFoodsList(); }
         };
 
+        // Adiciona um alimento à lista temporária da refeição atual
         window.addFood = function() {
             const name = document.getElementById('foodNameInput').value;
             const quantity = document.getElementById('quantityInput').value;
+            // Garante que os valores numéricos não sejam negativos
             const calories = Math.max(0, Number(document.getElementById('caloriesInput').value) || 0);
             const protein = Math.max(0, Number(document.getElementById('proteinInput').value) || 0);
             const carbs = Math.max(0, Number(document.getElementById('carbsInput').value) || 0);
             const fat = Math.max(0, Number(document.getElementById('fatInput').value) || 0);
+            // Validação: nome e quantidade são obrigatórios
             if (!name || !quantity) { alert('Please enter food name and quantity'); return; }
+            // Validação: calorias acima de 5000 são provavelmente um erro
             if (calories > 5000) { alert('Calories seem too high. Please check the value.'); return; }
+            // Adiciona o alimento ao array temporário
             foods.push({ name, quantity, calories, protein, carbs, fat });
+            // Limpa todos os campos de input do formulário de alimento
             ['foodNameInput', 'quantityInput', 'caloriesInput', 'proteinInput', 'carbsInput', 'fatInput'].forEach(id => document.getElementById(id).value = '');
             renderFoodsList();
         };
 
+        // Remove um alimento da lista pelo seu índice no array
         window.removeFood = function(index) { foods.splice(index, 1); renderFoodsList(); };
 
+        // Renderiza a lista de alimentos adicionados com botão de remoção para cada um
         function renderFoodsList() {
             const container = document.getElementById('foodsList');
             container.innerHTML = foods.map((food, i) => `
                 <div class="flex justify-between items-start p-3 bg-black border border-white/10 rounded-xl">
                     <div class="flex-1 text-center">
+                        <!-- Nome e quantidade do alimento -->
                         <div class="font-medium text-white text-sm">${food.name} - ${food.quantity}</div>
+                        <!-- Valores nutricionais resumidos -->
                         <div class="text-xs text-gray-500 mt-1">${food.calories} cal | P: ${food.protein}g | C: ${food.carbs}g | F: ${food.fat}g</div>
                     </div>
+                    <!-- Botão "X" para remover o alimento da lista -->
                     <button onclick="removeFood(${i})" class="p-1 text-gray-400 hover:text-red-400"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
             `).join('');
         }
 
+        // Guarda a refeição atual no localStorage com todos os alimentos e totais calculados
         window.saveMeal = function() {
+            // Validação: precisa de pelo menos um alimento
             if (foods.length === 0) { alert('Please add at least one food item'); return; }
+            // Cria o objeto de refeição com ID único baseado no timestamp
             const newMeal = {
                 id: Date.now().toString(), date: selectedDate, mealType: document.getElementById('mealTypeSelect').value,
-                foods: [...foods], totalCalories: foods.reduce((s, f) => s + f.calories, 0),
-                totalProtein: foods.reduce((s, f) => s + f.protein, 0), totalCarbs: foods.reduce((s, f) => s + f.carbs, 0),
-                totalFat: foods.reduce((s, f) => s + f.fat, 0), notes: document.getElementById('notesInput').value
+                foods: [...foods],
+                // Calcula os totais somando os valores de todos os alimentos
+                totalCalories: foods.reduce((s, f) => s + f.calories, 0),
+                totalProtein: foods.reduce((s, f) => s + f.protein, 0),
+                totalCarbs: foods.reduce((s, f) => s + f.carbs, 0),
+                totalFat: foods.reduce((s, f) => s + f.fat, 0),
+                notes: document.getElementById('notesInput').value
             };
             meals.push(newMeal);
+            // Persiste no localStorage
             localStorage.setItem('mealLogs', JSON.stringify(meals));
+            // Fecha o formulário e atualiza a lista e os totais
             toggleForm();
             renderMealsList();
             updateDailyTotals();
         };
 
+        // Elimina uma refeição pelo ID após confirmação do utilizador
         window.deleteMeal = function(id) {
             if (confirm(t.deleteMeal)) {
+                // Filtra o array removendo a refeição com o ID correspondente
                 meals = meals.filter(m => m.id !== id);
                 localStorage.setItem('mealLogs', JSON.stringify(meals));
                 renderMealsList();
@@ -281,6 +365,7 @@
             }
         };
 
+        // Preenche automaticamente os campos do formulário com os dados do alimento selecionado na pesquisa
         window.selectFood = function(index) {
             const food = FOOD_DATABASE[index];
             document.getElementById('foodNameInput').value = food.name;
@@ -289,15 +374,19 @@
             document.getElementById('proteinInput').value = food.protein;
             document.getElementById('carbsInput').value = food.carbs;
             document.getElementById('fatInput').value = food.fat;
+            // Limpa o campo de pesquisa e esconde os resultados
             document.getElementById('searchInput').value = '';
             document.getElementById('searchResults').style.display = 'none';
         };
 
+        // Realiza a pesquisa e renderiza os resultados na lista dropdown
         function handleSearch(query) {
             const results = searchFood(query);
             const container = document.getElementById('searchResults');
+            // Esconde os resultados se a pesquisa não retornar nada
             if (results.length === 0) { container.style.display = 'none'; return; }
             container.style.display = 'block';
+            // Cria um botão para cada resultado com nome e informação nutricional
             container.innerHTML = results.map(food => {
                 const idx = FOOD_DATABASE.findIndex(f => f.name === food.name);
                 return `<button type="button" onclick="selectFood(${idx})" class="w-full text-left px-4 py-3 hover:bg-white/5 border-b border-white/10 last:border-b-0">
@@ -307,23 +396,32 @@
             }).join('');
         }
 
+        // Calcula e exibe os totais nutricionais de todas as refeições do dia selecionado
         function updateDailyTotals() {
+            // Filtra apenas as refeições da data selecionada
             const dayMeals = meals.filter(m => m.date === selectedDate);
+            // Soma e exibe cada nutriente total
             document.getElementById('totalCalories').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalCalories, 0));
             document.getElementById('totalProtein').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalProtein, 0)) + 'g';
             document.getElementById('totalCarbs').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalCarbs, 0)) + 'g';
             document.getElementById('totalFat').textContent = Math.round(dayMeals.reduce((s, m) => s + m.totalFat, 0)) + 'g';
         }
 
+        // Renderiza a lista de refeições do dia selecionado no HTML
         function renderMealsList() {
+            // Filtra refeições para a data atual
             const todayMeals = meals.filter(m => m.date === selectedDate);
             const container = document.getElementById('mealsList');
+            // Mostra/esconde a mensagem de "sem refeições"
             document.getElementById('noMealsMessage').style.display = todayMeals.length === 0 ? 'block' : 'none';
+            // Gera um cartão HTML para cada refeição com os alimentos e macros
             container.innerHTML = todayMeals.map(meal => `
                 <div class="glass-effect rounded-2xl p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div class="flex-1 text-center">
+                            <!-- Tipo de refeição em maiúscula (breakfast, lunch, etc.) -->
                             <h3 class="text-lg font-semibold text-white capitalize">${meal.mealType}</h3>
+                            <!-- Totais nutricionais da refeição com código de cores -->
                             <div class="flex gap-4 mt-2 text-sm justify-center">
                                 <span class="text-gray-400">${Math.round(meal.totalCalories)} cal</span>
                                 <span class="text-red-400">P: ${Math.round(meal.totalProtein)}g</span>
@@ -331,32 +429,45 @@
                                 <span class="text-yellow-400">F: ${Math.round(meal.totalFat)}g</span>
                             </div>
                         </div>
+                        <!-- Botão de eliminar refeição com ícone de caixote -->
                         <button onclick="deleteMeal('${meal.id}')" class="p-2 text-gray-400 hover:text-red-400"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
                     </div>
+                    <!-- Lista dos alimentos individuais da refeição -->
                     <div class="space-y-1 mb-4 text-center">${meal.foods.map(f => `<div class="text-sm text-gray-400"><span class="text-white">${f.name}</span> - ${f.quantity}</div>`).join('')}</div>
+                    <!-- Notas da refeição (apenas se existirem) -->
                     ${meal.notes ? `<div class="p-3 bg-black/40 border border-white/10 rounded-xl text-center"><p class="text-sm text-gray-300 italic">${meal.notes}</p></div>` : ''}
                 </div>
             `).join('');
         }
 
+        // Função de inicialização: carrega dados, aplica traduções e configura os listeners
         function init() {
+            // Carrega o histórico de refeições do localStorage
             const stored = localStorage.getItem('mealLogs');
             if (stored) meals = JSON.parse(stored);
+            // Aplica as traduções ao idioma atual
             updateTranslations();
+            // Define a data de hoje no campo de data
             document.getElementById('dateInput').value = selectedDate;
+            // Listener: ao mudar a data, atualiza a lista de refeições e os totais
             document.getElementById('dateInput').addEventListener('change', function(e) {
                 selectedDate = e.target.value;
                 renderMealsList();
                 updateDailyTotals();
             });
+            // Listener: ao digitar no campo de pesquisa, realiza a pesquisa na base de dados
             document.getElementById('searchInput').addEventListener('input', function(e) { handleSearch(e.target.value); });
+            // Renderização inicial
             renderMealsList();
             updateDailyTotals();
         }
 
+        // Executa a inicialização quando a página carrega
         init();
     </script>
+    <!-- Script da barra de progresso de peso -->
     <script src="/js/weight-progress-bar.js"></script>
+    <!-- Script de autenticação e gestão do navbar -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

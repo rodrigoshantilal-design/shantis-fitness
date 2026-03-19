@@ -1,11 +1,21 @@
 <!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 -->
 <html lang="en">
+<!-- Elemento raiz da página; lang="en" define inglês como idioma principal -->
 <head>
+    <!-- Secção de metadados: configurações técnicas da página, não visíveis no ecrã -->
     <meta charset="UTF-8">
+    <!-- Codificação UTF-8 para suportar caracteres especiais e acentuados -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Garante responsividade em dispositivos móveis -->
     <title>Quick Quiz - Shanti's Fitness And Wellness</title>
+    <!-- Título exibido na aba do navegador -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Liga a folha de estilos CSS partilhada por toda a aplicação -->
+
+    <!-- Estilos CSS específicos desta página (inline) -->
     <style>
+        /* Animação de rotação contínua - usada no ícone de carregamento (spinner) */
         .animate-spin {
             animation: spin 1s linear infinite;
         }
@@ -13,6 +23,8 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        /* Animação de entrada com zoom suave - usada no popup de sucesso */
         .animate-in {
             animation: zoomIn 0.3s ease-out;
         }
@@ -20,34 +32,52 @@
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        /* Esconde a barra de scroll do WebKit (Chrome, Safari) numa área de rolagem interna */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+        /* Esconde a barra de scroll no IE/Edge e Firefox */
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Utilitário de escala - usado para efeitos de hover/seleção */
         .scale-110 {
             transform: scale(1.1);
         }
+
+        /* Utilitário de rotação de 180 graus - usado na seta "Voltar" */
         .rotate-180 {
             transform: rotate(180deg);
         }
+
+        /* Utilitário de posicionamento absoluto em todas as direções (cobre o elemento pai) */
         .inset-0 {
             top: 0; right: 0; bottom: 0; left: 0;
         }
     </style>
 </head>
 <body>
+<!-- Corpo da página - contém o questionário de 4 passos para criar o plano personalizado -->
+
+    <!-- Botão de Login fixo no canto superior esquerdo -->
+    <!-- Visível para utilizadores não autenticados -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navbar -->
+    <!-- Barra de Navegação Principal (Navbar) -->
+    <!-- Permite navegar para outras secções da aplicação -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo: clicável, leva ao dashboard -->
             <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <!-- Ícone SVG da marca em roxo -->
                 <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
+                <!-- Nome da marca com gradiente roxo-rosa -->
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+            <!-- Links de navegação para as páginas principais -->
             <div class="nav-links">
                 <a href="dashboard.html">Dashboard</a>
                 <a href="plan.html">Plan</a>
@@ -59,49 +89,72 @@
         </div>
     </nav>
 
-    <!-- Success Popup (hidden by default) -->
+    <!-- Popup de Sucesso (Success Popup) -->
+    <!-- Aparece após o plano ser criado com sucesso; escondido por padrão -->
+    <!-- O JavaScript torna-o visível ao completar o questionário (handleComplete) -->
+    <!-- Fundo escuro semitransparente com desfoque (backdrop-filter) para o efeito de modal -->
     <div id="successPopup" class="fixed inset-0 z-50 flex items-center justify-center px-6" style="display: none; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);">
+        <!-- Cartão do popup com animação de entrada (animate-in) -->
         <div class="glass-effect rounded-3xl p-8 max-w-2xl w-full border-2 animate-in" style="border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.5);">
+
+            <!-- Cabeçalho do Popup: ícone de confirmação e título -->
             <div class="text-center mb-6">
+                <!-- Ícone de confirmação (visto verde) num quadrado verde -->
                 <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl" style="background: linear-gradient(to bottom right, #16a34a, #059669); box-shadow: 0 25px 50px -12px rgba(22, 163, 74, 0.5);">
+                    <!-- Ícone de círculo com visto (SVG) -->
                     <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                 </div>
+                <!-- Título e subtítulo do popup (preenchidos/traduzidos pelo JavaScript) -->
                 <h2 id="successTitle" class="text-4xl font-black text-white mb-2">Plan Created!</h2>
                 <p id="successSubtitle" class="text-gray-400">Your personalized fitness plan is ready</p>
             </div>
 
+            <!-- Grelha de Resultados do Plano: 4 cartões com os valores calculados -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <!-- Cartão 1: Calorias Diárias -->
                 <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(147, 51, 234, 0.3);">
+                    <!-- Label traduzível; id="caloriesLabel" é atualizado pelo JS -->
                     <div class="text-xs text-gray-400 mb-1" id="caloriesLabel">Daily Calories</div>
+                    <!-- Valor calculado das calorias; preenchido pelo JS -->
                     <div id="successCalories" class="text-3xl font-black text-white">0</div>
                     <div class="text-xs text-gray-500">kcal</div>
                 </div>
+                <!-- Cartão 2: Proteína Diária -->
                 <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(239, 68, 68, 0.2), rgba(236, 72, 153, 0.2)); border: 1px solid rgba(239, 68, 68, 0.3);">
                     <div class="text-xs text-gray-400 mb-1" id="proteinLabel">Protein</div>
+                    <!-- Valor calculado de proteína em gramas; preenchido pelo JS -->
                     <div id="successProtein" class="text-3xl font-black text-white">0</div>
                     <div class="text-xs text-gray-500" id="gramsLabel">grams</div>
                 </div>
+                <!-- Cartão 3: Dias de Treino por Semana -->
                 <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2)); border: 1px solid rgba(59, 130, 246, 0.3);">
                     <div class="text-xs text-gray-400 mb-1" id="trainingLabel">Training</div>
+                    <!-- Número de dias de treino recomendados; preenchido pelo JS -->
                     <div id="successTraining" class="text-xl font-black text-white">3</div>
                     <div class="text-xs text-gray-500" id="daysPerWeekLabel">days/week</div>
                 </div>
+                <!-- Cartão 4: Objetivo do Utilizador -->
                 <div class="rounded-xl p-4 text-center" style="background: linear-gradient(to bottom right, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 1px solid rgba(34, 197, 94, 0.3);">
                     <div class="text-xs text-gray-400 mb-1" id="goalLabelSuccess">Goal</div>
+                    <!-- Objetivo selecionado (Fat Loss / Muscle Gain); preenchido pelo JS -->
                     <div id="successGoal" class="text-sm font-black text-white capitalize">Fat Loss</div>
                 </div>
             </div>
 
+            <!-- Secção de Métricas Adicionais: IMC, Peso Alvo, Nível de Experiência -->
             <div class="rounded-xl p-4 mb-6" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
                 <div class="grid grid-cols-3 gap-4 text-center">
+                    <!-- IMC calculado com base no peso e altura introduzidos -->
                     <div>
                         <div class="text-xs text-gray-400 mb-1">BMI</div>
                         <div id="successBMI" class="text-2xl font-black text-white">0</div>
                     </div>
+                    <!-- Peso alvo definido pelo utilizador no passo 1 -->
                     <div>
                         <div class="text-xs text-gray-400 mb-1">Target Weight</div>
                         <div id="successTargetWeight" class="text-2xl font-black text-white">0 kg</div>
                     </div>
+                    <!-- Nível de experiência selecionado no passo 3 -->
                     <div>
                         <div class="text-xs text-gray-400 mb-1">Level</div>
                         <div id="successLevel" class="text-lg font-black text-white capitalize">Beginner</div>
@@ -109,104 +162,155 @@
                 </div>
             </div>
 
+            <!-- Botões de Ação do Popup -->
             <div class="flex gap-3" style="flex-direction: row;">
+                <!-- Botão "Ver Plano Completo": leva para plan.html onde está o plano detalhado -->
                 <a href="plan.html" class="flex-1 px-6 py-4 text-white font-black rounded-xl transition-all shadow-xl flex items-center justify-center gap-2" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                    <!-- Ícone de estrela/plano (SVG) -->
                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                    <!-- Texto traduzível pelo JS -->
                     <span id="viewPlanBtn">View Full Plan</span>
                 </a>
+                <!-- Botão "Ir ao Painel": leva para dashboard.html -->
                 <a href="dashboard.html" class="flex-1 px-6 py-4 glass-effect text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
                     <span id="dashboardBtn">Go to Dashboard</span>
+                    <!-- Ícone de seta para a direita (SVG) -->
                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Conteúdo Principal do Questionário (4 Passos) -->
+    <!-- h-screen: ocupa todo o ecrã; pt-20: espaço para a navbar no topo -->
     <main class="h-screen overflow-hidden flex flex-col pt-20">
         <div class="flex-1 flex items-center justify-center px-6">
             <div class="w-full max-w-2xl">
-                <!-- Progress -->
+
+                <!-- Indicador de Progresso do Questionário -->
+                <!-- Barra de passos (1 → 2 → 3 → 4) no topo do cartão -->
+                <!-- Preenchida dinamicamente pelo JavaScript (updateProgressIndicator) -->
                 <div class="flex justify-center mb-6">
                     <div id="progressIndicator" class="flex items-center gap-2"></div>
                 </div>
 
-                <!-- Content -->
+                <!-- Cartão Principal do Questionário -->
+                <!-- Contém os 4 passos; apenas um é visível de cada vez (os outros têm display:none) -->
                 <div class="glass-effect rounded-3xl p-8">
-                    <!-- Step 1: Basics -->
+
+                    <!-- ==================== PASSO 1: Métricas Corporais ==================== -->
+                    <!-- Solicita ao utilizador os dados físicos: peso atual, peso alvo, altura e % gordura -->
                     <div id="step1" class="space-y-5">
                         <div class="text-center mb-4">
+                            <!-- Título e subtítulo traduzíveis (ids usados pelo JS para tradução) -->
                             <h2 id="step1Title" class="text-3xl font-black text-white mb-2">Your Metrics</h2>
                             <p id="step1Subtitle" class="text-gray-400 text-sm">Current measurements</p>
                         </div>
 
                         <div class="space-y-3">
+                            <!-- Linha com dois campos lado a lado: Peso Atual e Peso Alvo -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
+                                    <!-- Label traduzível; id="currentWeightLabel" -->
                                     <label id="currentWeightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Current Weight (kg)</label>
+                                    <!-- Campo numérico para o peso atual; valor padrão: 70 kg -->
+                                    <!-- step="0.1" permite decimais; o JavaScript lê e atualiza o IMC ao alterar -->
                                     <input type="number" step="0.1" id="weightInput" value="70" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
                                 </div>
                                 <div>
+                                    <!-- Label traduzível; id="targetWeightLabel" -->
                                     <label id="targetWeightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Target Weight (kg)</label>
+                                    <!-- Campo numérico para o peso alvo; valor padrão: 65 kg -->
                                     <input type="number" step="0.1" id="targetWeightInput" value="65" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
                                 </div>
                             </div>
 
+                            <!-- Campo de Altura -->
                             <div>
                                 <label id="heightLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Height (cm)</label>
+                                <!-- Campo numérico para a altura em centímetros; valor padrão: 170 cm -->
                                 <input type="number" id="heightInput" value="170" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-2xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
                             </div>
 
+                            <!-- Campo de Percentagem de Gordura Corporal (Opcional) -->
                             <div>
                                 <label id="bodyFatLabel" class="block text-xs font-bold text-gray-400 mb-2 text-center">Body Fat % (Optional)</label>
+                                <!-- Campo opcional; placeholder indica um exemplo de valor -->
                                 <input type="number" step="0.1" id="bodyFatInput" placeholder="e.g., 18" class="w-full px-4 py-3 bg-black/40 border rounded-xl text-white text-center text-xl font-black outline-none" style="border-color: rgba(255,255,255,0.1);">
                             </div>
 
+                            <!-- Visualização do IMC (Índice de Massa Corporal) em tempo real -->
+                            <!-- O valor é recalculado pelo JavaScript sempre que o peso ou altura é alterado -->
                             <div class="rounded-xl p-5 text-center" style="background: linear-gradient(to bottom right, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(147, 51, 234, 0.3);">
                                 <div id="yourBMILabel" class="text-xs text-gray-400 mb-1">Your BMI</div>
+                                <!-- Valor numérico do IMC calculado pelo JavaScript (calculateBMI) -->
                                 <div id="bmiDisplay" class="text-5xl font-black text-white">24.2</div>
                             </div>
                         </div>
 
+                        <!-- Botão "Próximo" do Passo 1 -->
+                        <!-- onclick="goToStep(2)": chama a função JS que avança para o passo 2 -->
                         <button onclick="goToStep(2)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
+                            <!-- Texto traduzível; id="nextBtn1" -->
                             <span id="nextBtn1">Next</span>
+                            <!-- Ícone de seta para a direita (SVG) -->
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                         </button>
                     </div>
 
-                    <!-- Step 2: Goal & Speed -->
+                    <!-- ==================== PASSO 2: Objetivo e Velocidade ==================== -->
+                    <!-- Permite ao utilizador escolher o seu objetivo (perda de gordura ou ganho muscular)
+                         e a velocidade de progressão desejada (lento, moderado, rápido) -->
+                    <!-- Escondido inicialmente; fica visível quando goToStep(2) é chamado -->
                     <div id="step2" class="space-y-5" style="display: none;">
                         <div class="text-center mb-4">
                             <h2 id="step2Title" class="text-3xl font-black text-white mb-2">Your Goal</h2>
                             <p id="step2Subtitle" class="text-gray-400 text-sm">What do you want to achieve?</p>
                         </div>
 
+                        <!-- Seleção de Objetivo: dois botões grandes, lado a lado -->
                         <div class="grid grid-cols-2 gap-5">
+                            <!-- Botão "Perda de Gordura" -->
+                            <!-- onclick="selectGoal('fat_loss')": chama JS para registar a seleção e atualizar visuais -->
+                            <!-- id="fatLossBtn": o JS altera o estilo visual quando este objetivo está selecionado -->
                             <button id="fatLossBtn" onclick="selectGoal('fat_loss')" class="p-8 rounded-2xl text-center transition-all border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                <!-- Ícone de chama (SVG) em vermelho -->
                                 <svg class="w-12 h-12 text-red-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
                                 <div id="fatLossText" class="font-black text-white text-xl">Fat Loss</div>
                                 <div id="fatLossDesc" class="text-xs text-gray-500 mt-2">Get lean & defined</div>
                             </button>
+                            <!-- Botão "Ganho Muscular" -->
+                            <!-- onclick="selectGoal('muscle_gain')": similar ao anterior mas para ganho de massa -->
                             <button id="muscleGainBtn" onclick="selectGoal('muscle_gain')" class="p-8 rounded-2xl text-center transition-all border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
+                                <!-- Ícone de gráfico crescente (SVG) em azul -->
                                 <svg class="w-12 h-12 text-blue-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
                                 <div id="muscleGainText" class="font-black text-white text-xl">Muscle Gain</div>
                                 <div id="muscleGainDesc" class="text-xs text-gray-500 mt-2">Build strength & size</div>
                             </button>
                         </div>
 
+                        <!-- Seleção de Velocidade de Progressão -->
                         <div>
                             <label id="howFastLabel" class="block text-sm font-bold text-gray-400 mb-3 text-center">How fast do you want results?</label>
+                            <!-- Três botões para velocidade: Lento, Moderado, Rápido -->
                             <div class="grid grid-cols-3 gap-3">
+                                <!-- Botão "Lento" (Slow) -->
+                                <!-- Resultados mais graduais e sustentáveis; menor défice/superávit calórico -->
                                 <button id="slowBtn" onclick="selectSpeed('slow')" class="p-4 rounded-xl text-center transition-all bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">
+                                    <!-- Ícone de velocímetro baixo (SVG) -->
                                     <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
                                     <div id="slowText" class="font-bold text-sm">Slow</div>
                                     <div id="slowDesc" class="text-xs opacity-70">Sustainable</div>
                                 </button>
+                                <!-- Botão "Moderado" (Moderate) - selecionado por padrão -->
+                                <!-- Equilíbrio entre velocidade de resultados e sustentabilidade -->
                                 <button id="moderateBtn" onclick="selectSpeed('moderate')" class="p-4 rounded-xl text-center transition-all text-white border" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.2);">
                                     <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
                                     <div id="moderateText" class="font-bold text-sm">Moderate</div>
                                     <div id="moderateDesc" class="text-xs opacity-70">Balanced</div>
                                 </button>
+                                <!-- Botão "Rápido" (Fast) -->
+                                <!-- Resultados mais rápidos mas com maior exigência; maior défice calórico -->
                                 <button id="fastBtn" onclick="selectSpeed('fast')" class="p-4 rounded-xl text-center transition-all bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">
                                     <svg class="w-6 h-6 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
                                     <div id="fastText" class="font-bold text-sm">Fast</div>
@@ -215,94 +319,129 @@
                             </div>
                         </div>
 
+                        <!-- Botão "Próximo" do Passo 2 -->
+                        <!-- Avança para o passo 3 (Experiência de Treino) -->
                         <button onclick="goToStep(3)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
                             <span id="nextBtn2">Next</span>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                         </button>
                     </div>
 
-                    <!-- Step 3: Experience -->
+                    <!-- ==================== PASSO 3: Experiência de Treino ==================== -->
+                    <!-- Permite ao utilizador indicar o seu nível de experiência com treino -->
+                    <!-- Afeta o plano de treino gerado (número de dias, intensidade, exercícios) -->
+                    <!-- Escondido inicialmente; fica visível quando goToStep(3) é chamado -->
                     <div id="step3" class="space-y-5" style="display: none;">
                         <div class="text-center mb-4">
                             <h2 id="step3Title" class="text-3xl font-black text-white mb-2">Training Experience</h2>
                             <p id="step3Subtitle" class="text-gray-400 text-sm">How long have you been training?</p>
                         </div>
 
+                        <!-- Três botões de seleção de nível de experiência -->
                         <div class="grid grid-cols-3 gap-4">
+                            <!-- Botão "Iniciante" (Beginner) - selecionado por padrão -->
+                            <!-- Para utilizadores com menos de 6 meses de treino -->
                             <button id="beginnerBtn" onclick="selectExperience('beginner')" class="p-6 rounded-xl text-center transition-all border" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.2);">
                                 <div id="beginnerText" class="font-black text-white text-lg mb-1">Beginner</div>
                                 <div id="beginnerDesc" class="text-xs text-gray-500">&lt; 6 months</div>
                             </button>
+                            <!-- Botão "Intermédio" (Intermediate) -->
+                            <!-- Para utilizadores com 6 a 24 meses de treino -->
                             <button id="intermediateBtn" onclick="selectExperience('intermediate')" class="p-6 rounded-xl text-center transition-all bg-white/5 border" style="border-color: rgba(255,255,255,0.1);">
                                 <div id="intermediateText" class="font-black text-white text-lg mb-1">Intermediate</div>
                                 <div id="intermediateDesc" class="text-xs text-gray-500">6-24 months</div>
                             </button>
+                            <!-- Botão "Avançado" (Advanced) -->
+                            <!-- Para utilizadores com mais de 2 anos de treino -->
                             <button id="advancedBtn" onclick="selectExperience('advanced')" class="p-6 rounded-xl text-center transition-all bg-white/5 border" style="border-color: rgba(255,255,255,0.1);">
                                 <div id="advancedText" class="font-black text-white text-lg mb-1">Advanced</div>
                                 <div id="advancedDesc" class="text-xs text-gray-500">2+ years</div>
                             </button>
                         </div>
 
+                        <!-- Botão "Próximo" do Passo 3 -->
+                        <!-- Avança para o passo 4 (Revisão e Confirmação) -->
                         <button onclick="goToStep(4)" class="w-full px-8 py-4 text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
                             <span id="nextBtn3">Next</span>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                         </button>
                     </div>
 
-                    <!-- Step 4: Summary -->
+                    <!-- ==================== PASSO 4: Revisão e Confirmação ==================== -->
+                    <!-- Apresenta um resumo editável de todas as escolhas feitas nos passos anteriores -->
+                    <!-- Permite fazer ajustes finais antes de criar o plano -->
+                    <!-- Escondido inicialmente; fica visível quando goToStep(4) é chamado -->
                     <div id="step4" class="space-y-3" style="display: none;">
                         <div class="text-center mb-3">
                             <h2 id="step4Title" class="text-3xl font-black text-white mb-2">Review & Edit</h2>
                             <p id="step4Subtitle" class="text-gray-400 text-sm">Make final adjustments</p>
                         </div>
 
+                        <!-- Área com scroll interno para os cartões de revisão -->
+                        <!-- max-h-96: limita a altura; scrollbar-hide: esconde a barra de scroll visualmente -->
                         <div class="space-y-3 max-h-96 overflow-y-auto scrollbar-hide">
-                            <!-- Editable Metrics -->
+
+                            <!-- Cartão Editável: Métricas (Passo 1) -->
+                            <!-- Permite rever e editar os valores de peso, altura e gordura corporal -->
                             <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 id="metricsLabel" class="text-xs font-bold text-gray-400">Metrics</h3>
+                                    <!-- Botão "Editar": volta ao passo 1 para fazer alterações -->
                                     <button onclick="goToStep(1)" class="text-xs text-blue-400 hover:text-blue-300" id="editMetricsBtn">Edit</button>
                                 </div>
+                                <!-- Campos editáveis sincronizados com os do Passo 1 -->
+                                <!-- O JS preenche estes campos com os valores do passo 1 ao entrar no passo 4 -->
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="currentWeightLabel2" class="block text-xs text-gray-500 mb-1">Current Weight</label>
+                                        <!-- id="summaryWeightInput": sincronizado bidireccionalmente com weightInput do passo 1 -->
                                         <input type="number" step="0.1" id="summaryWeightInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
                                     </div>
                                     <div>
                                         <label id="targetWeightLabel2" class="block text-xs text-gray-500 mb-1">Target Weight</label>
+                                        <!-- id="summaryTargetInput": sincronizado com targetWeightInput do passo 1 -->
                                         <input type="number" step="0.1" id="summaryTargetInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
                                     </div>
                                     <div>
                                         <label id="heightLabel2" class="block text-xs text-gray-500 mb-1">Height (cm)</label>
+                                        <!-- id="summaryHeightInput": sincronizado com heightInput do passo 1 -->
                                         <input type="number" id="summaryHeightInput" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
                                     </div>
                                     <div>
                                         <label id="bodyFatLabel2" class="block text-xs text-gray-500 mb-1">Body Fat % (Optional)</label>
+                                        <!-- id="summaryBodyFatInput": sincronizado com bodyFatInput do passo 1 -->
                                         <input type="number" step="0.1" id="summaryBodyFatInput" placeholder="--" class="w-full px-2 py-2 bg-black/40 border rounded-lg text-white text-center text-sm font-bold outline-none" style="border-color: rgba(255,255,255,0.1);">
                                     </div>
                                 </div>
+                                <!-- IMC recalculado em tempo real ao editar peso/altura neste passo -->
                                 <div class="mt-2 text-center">
                                     <div id="bmiLabelSummary" class="text-xs text-gray-500">BMI</div>
                                     <div id="summaryBMI" class="text-xl font-black text-white">24.2</div>
                                 </div>
                             </div>
 
-                            <!-- Editable Goal -->
+                            <!-- Cartão Editável: Objetivo e Velocidade (Passo 2) -->
+                            <!-- Permite rever e alterar o objetivo e a velocidade sem voltar ao passo 2 -->
                             <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 id="goalSpeedLabel" class="text-xs font-bold text-gray-400">Goal & Speed</h3>
+                                    <!-- Botão "Editar": volta ao passo 2 -->
                                     <button onclick="goToStep(2)" class="text-xs text-blue-400 hover:text-blue-300" id="editGoalBtn">Edit</button>
                                 </div>
+                                <!-- Botões de seleção de objetivo (versão compacta para o resumo) -->
                                 <div class="grid grid-cols-2 gap-2">
+                                    <!-- Botão compacto "Fat Loss" no resumo -->
                                     <button id="summaryFatLossBtn" onclick="selectGoal('fat_loss')" class="p-2 rounded-lg border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
                                         <svg class="w-5 h-5 text-red-400 mx-auto mb-1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
                                         <div id="summaryFatLossText" class="text-xs font-bold text-white">Fat Loss</div>
                                     </button>
+                                    <!-- Botão compacto "Muscle Gain" no resumo -->
                                     <button id="summaryMuscleGainBtn" onclick="selectGoal('muscle_gain')" class="p-2 rounded-lg border bg-white/5" style="border-color: rgba(255,255,255,0.1);">
                                         <svg class="w-5 h-5 text-blue-400 mx-auto mb-1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
                                         <div id="summaryMuscleGainText" class="text-xs font-bold text-white">Muscle Gain</div>
                                     </button>
                                 </div>
+                                <!-- Botões compactos de velocidade no resumo -->
                                 <div class="grid grid-cols-3 gap-2 mt-2">
                                     <button id="summarySlowBtn" onclick="selectSpeed('slow')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">slow</button>
                                     <button id="summaryModerateBtn" onclick="selectSpeed('moderate')" class="p-2 rounded-lg text-xs font-bold capitalize text-white border" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2);">moderate</button>
@@ -310,12 +449,15 @@
                                 </div>
                             </div>
 
-                            <!-- Editable Experience -->
+                            <!-- Cartão Editável: Experiência de Treino (Passo 3) -->
+                            <!-- Permite rever e alterar o nível de experiência sem voltar ao passo 3 -->
                             <div class="bg-white/5 rounded-xl p-3 border" style="border-color: rgba(255,255,255,0.1);">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 id="experienceLabel" class="text-xs font-bold text-gray-400">Experience</h3>
+                                    <!-- Botão "Editar": volta ao passo 3 -->
                                     <button onclick="goToStep(3)" class="text-xs text-blue-400 hover:text-blue-300" id="editExpBtn">Edit</button>
                                 </div>
+                                <!-- Botões compactos de experiência no resumo -->
                                 <div class="grid grid-cols-3 gap-2">
                                     <button id="summaryBeginnerBtn" onclick="selectExperience('beginner')" class="p-2 rounded-lg text-xs font-bold capitalize text-white border" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2);">beginner</button>
                                     <button id="summaryIntermediateBtn" onclick="selectExperience('intermediate')" class="p-2 rounded-lg text-xs font-bold capitalize bg-white/5 text-gray-400 border" style="border-color: rgba(255,255,255,0.1);">intermediate</button>
@@ -324,17 +466,23 @@
                             </div>
                         </div>
 
-                        <!-- Disclaimer -->
+                        <!-- Aviso de Isenção de Responsabilidade (Disclaimer) -->
+                        <!-- Informa que o plano é para fins educacionais e não substitui aconselhamento médico -->
                         <div class="rounded-xl p-3 mt-3" style="background: rgba(202, 138, 4, 0.1); border: 1px solid rgba(202, 138, 4, 0.3);">
                             <p id="disclaimerText" class="text-xs text-gray-300 text-center">Educational purposes only. Consult healthcare professionals before starting any fitness program.</p>
                         </div>
 
-                        <!-- Navigation Buttons -->
+                        <!-- Botões de Navegação do Passo 4 -->
                         <div class="flex gap-3 mt-3">
+                            <!-- Botão "Voltar": regressa ao passo 3 -->
                             <button onclick="goToStep(3)" class="px-6 py-3 glass-effect text-white font-bold rounded-xl transition-all flex items-center gap-2">
+                                <!-- Seta para a esquerda (seta para a direita rodada 180°) -->
                                 <svg class="w-4 h-4 rotate-180" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                                 <span id="backBtn">Back</span>
                             </button>
+                            <!-- Botão Principal "Criar Meu Plano" -->
+                            <!-- onclick="handleComplete()": chama a função JS que gera e guarda o plano -->
+                            <!-- Durante o processamento, fica desativado e mostra um spinner de carregamento -->
                             <button id="createPlanBtn" onclick="handleComplete()" class="flex-1 px-6 py-3 text-white font-black rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.3);">
                                 <span id="createPlanText">Create My Plan</span>
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
@@ -346,23 +494,30 @@
         </div>
     </main>
 
+    <!-- Script de Módulo JavaScript Principal do Questionário -->
+    <!-- type="module" permite usar imports ES6 para funções de outros ficheiros -->
     <script type="module">
+        // Importa a função para guardar o plano no backend/localStorage
         import { savePlan } from './js/storage.js';
+        // Importa funções de cálculo: IMC, calorias/macros, e plano de treino
         import { calculateBMI, calculateCaloriesAndMacros, generateTrainingPlan } from './js/calculations.js';
 
-        // State
-        let currentStep = 1;
-        let weight = 70;
-        let height = 170;
-        let targetWeight = 65;
-        let bodyFat = undefined;
-        let goal = 'fat_loss';
-        let goalSpeed = 'moderate';
-        let experience = 'beginner';
-        let locale = localStorage.getItem('locale') || 'en';
-        let loading = false;
+        // ==================== VARIÁVEIS DE ESTADO ====================
+        // Guardam os valores selecionados pelo utilizador ao longo dos 4 passos
+        let currentStep = 1;          // Passo atual (1 a 4)
+        let weight = 70;              // Peso atual em kg (valor padrão)
+        let height = 170;             // Altura em cm (valor padrão)
+        let targetWeight = 65;        // Peso alvo em kg (valor padrão)
+        let bodyFat = undefined;      // % de gordura corporal (opcional, undefined por padrão)
+        let goal = 'fat_loss';        // Objetivo: 'fat_loss' ou 'muscle_gain'
+        let goalSpeed = 'moderate';   // Velocidade: 'slow', 'moderate', ou 'fast'
+        let experience = 'beginner';  // Experiência: 'beginner', 'intermediate', ou 'advanced'
+        let locale = localStorage.getItem('locale') || 'en'; // Idioma atual da aplicação
+        let loading = false;          // Impede cliques múltiplos no botão de criar plano
 
-        // Translations
+        // ==================== OBJETO DE TRADUÇÕES ====================
+        // Todos os textos da interface em inglês e português
+        // Chaves identificam cada elemento; valores são os textos traduzidos
         const translations = {
             en: {
                 step1Title: 'Your Metrics', step1Subtitle: 'Current measurements',
@@ -410,9 +565,12 @@
             }
         };
 
+        // Seleciona o objeto de traduções para o idioma atual (fallback para inglês se não encontrar)
         const t = translations[locale] || translations.en;
 
+        // Função que aplica as traduções a todos os elementos identificados no objeto "mapping"
         function updateTranslations() {
+            // Mapa entre id do elemento HTML e a chave de tradução correspondente
             const mapping = {
                 'step1Title': t.step1Title, 'step1Subtitle': t.step1Subtitle,
                 'currentWeightLabel': t.currentWeight, 'targetWeightLabel': t.targetWeight,
@@ -439,10 +597,12 @@
                 'viewPlanBtn': t.viewFullPlan, 'dashboardBtn': t.goToDashboard,
                 'summaryFatLossText': t.fatLoss, 'summaryMuscleGainText': t.muscleGain
             };
+            // Itera o mapa e atualiza o texto de cada elemento
             for (const [id, text] of Object.entries(mapping)) {
                 const el = document.getElementById(id);
                 if (el) el.textContent = text;
             }
+            // Traduz as labels do resumo que não estão no mapa principal
             document.getElementById('currentWeightLabel2').textContent = locale === 'en' ? 'Current Weight' : 'Peso Atual';
             document.getElementById('targetWeightLabel2').textContent = locale === 'en' ? 'Target Weight' : 'Peso Alvo';
             document.getElementById('heightLabel2').textContent = locale === 'en' ? 'Height (cm)' : 'Altura (cm)';
@@ -450,32 +610,43 @@
             document.getElementById('bmiLabelSummary').textContent = locale === 'en' ? 'BMI' : 'IMC';
         }
 
+        // Função que calcula e atualiza o IMC em tempo real no ecrã
+        // Chamada sempre que o peso ou a altura é alterado
         function updateBMI() {
             if (height > 0 && weight > 0) {
+                // Calcula o IMC usando a função importada de calculations.js
                 const bmi = calculateBMI(weight, height);
+                // Atualiza os dois displays de IMC (passo 1 e passo 4)
                 document.getElementById('bmiDisplay').textContent = bmi.value.toFixed(1);
                 document.getElementById('summaryBMI').textContent = bmi.value.toFixed(1);
             } else {
+                // Se os valores forem inválidos, mostra "--"
                 document.getElementById('bmiDisplay').textContent = '--';
                 document.getElementById('summaryBMI').textContent = '--';
             }
         }
 
+        // Função que atualiza o indicador visual de progresso (numeração dos 4 passos)
+        // Mostra: visto verde para passos concluídos, roxo para o atual, cinzento para futuros
         function updateProgressIndicator() {
             const container = document.getElementById('progressIndicator');
-            container.innerHTML = '';
+            container.innerHTML = ''; // Limpa o indicador antes de redesenhar
             for (let num = 1; num <= 4; num++) {
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'flex items-center';
                 let html = '';
                 if (num < currentStep) {
+                    // Passo já concluído: mostra visto verde
                     html = `<span style="font-size:14px;font-weight:900;color:#22c55e;">✓</span>`;
                 } else if (num === currentStep) {
+                    // Passo atual: mostra número em roxo
                     html = `<span style="font-size:16px;font-weight:900;color:#a855f7;">${num}</span>`;
                 } else {
+                    // Passo futuro: mostra número em cinzento claro
                     html = `<span style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.25);">${num}</span>`;
                 }
                 if (num < 4) {
+                    // Linha de conexão entre os passos: verde se concluído, cinzento caso contrário
                     const lineColor = num < currentStep ? '#22c55e' : 'rgba(255,255,255,0.1)';
                     html += `<div style="width:40px;height:1px;background:${lineColor};margin:0 6px;"></div>`;
                 }
@@ -484,47 +655,64 @@
             }
         }
 
+        // Função global para navegar entre os 4 passos do questionário
+        // Esconde todos os passos e mostra apenas o passo pedido
+        // Exposta no objeto window para ser chamada a partir de onclick nos botões HTML
         window.goToStep = function(step) {
             currentStep = step;
+            // Esconde todos os passos
             ['step1', 'step2', 'step3', 'step4'].forEach(s => document.getElementById(s).style.display = 'none');
+            // Mostra apenas o passo atual
             document.getElementById('step' + step).style.display = 'block';
+            // Se for o passo 4 (resumo), preenche os campos com os valores atuais
             if (step === 4) {
                 document.getElementById('summaryWeightInput').value = weight;
                 document.getElementById('summaryTargetInput').value = targetWeight;
                 document.getElementById('summaryHeightInput').value = height;
                 document.getElementById('summaryBodyFatInput').value = bodyFat || '';
             }
+            // Atualiza os visuais de progresso, objetivo, velocidade e experiência
             updateProgressIndicator();
             updateGoalUI();
             updateSpeedUI();
             updateExperienceUI();
         };
 
+        // Função global para selecionar o objetivo (fat_loss ou muscle_gain)
+        // Guarda a seleção e atualiza os estilos visuais dos botões
         window.selectGoal = function(g) { goal = g; updateGoalUI(); };
 
+        // Atualiza o estilo visual dos botões de objetivo conforme a seleção atual
+        // O botão selecionado fica destacado com cor e sombra; o outro fica neutro
         function updateGoalUI() {
             const fatLossBtn = document.getElementById('fatLossBtn');
             const muscleGainBtn = document.getElementById('muscleGainBtn');
             const summaryFatLossBtn = document.getElementById('summaryFatLossBtn');
             const summaryMuscleGainBtn = document.getElementById('summaryMuscleGainBtn');
             if (goal === 'fat_loss') {
+                // Destaca "Fat Loss" com fundo vermelho-laranja e sombra
                 fatLossBtn.style.background = 'linear-gradient(to bottom right, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.2))';
                 fatLossBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                 fatLossBtn.style.boxShadow = '0 25px 50px -12px rgba(239, 68, 68, 0.2)';
+                // Torna "Muscle Gain" neutro/não selecionado
                 muscleGainBtn.style.background = 'rgba(255,255,255,0.05)';
                 muscleGainBtn.style.borderColor = 'rgba(255,255,255,0.1)';
                 muscleGainBtn.style.boxShadow = 'none';
+                // Mesma lógica para os botões do resumo (passo 4)
                 summaryFatLossBtn.style.background = 'rgba(239, 68, 68, 0.2)';
                 summaryFatLossBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                 summaryMuscleGainBtn.style.background = 'rgba(255,255,255,0.05)';
                 summaryMuscleGainBtn.style.borderColor = 'rgba(255,255,255,0.1)';
             } else {
+                // Destaca "Muscle Gain" com fundo azul-roxo e sombra
                 muscleGainBtn.style.background = 'linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2))';
                 muscleGainBtn.style.borderColor = 'rgba(59, 130, 246, 0.4)';
                 muscleGainBtn.style.boxShadow = '0 25px 50px -12px rgba(59, 130, 246, 0.2)';
+                // Torna "Fat Loss" neutro/não selecionado
                 fatLossBtn.style.background = 'rgba(255,255,255,0.05)';
                 fatLossBtn.style.borderColor = 'rgba(255,255,255,0.1)';
                 fatLossBtn.style.boxShadow = 'none';
+                // Mesma lógica para os botões do resumo (passo 4)
                 summaryMuscleGainBtn.style.background = 'rgba(59, 130, 246, 0.2)';
                 summaryMuscleGainBtn.style.borderColor = 'rgba(59, 130, 246, 0.4)';
                 summaryFatLossBtn.style.background = 'rgba(255,255,255,0.05)';
@@ -532,13 +720,17 @@
             }
         }
 
+        // Função global para selecionar a velocidade de progressão (slow, moderate, fast)
         window.selectSpeed = function(s) { goalSpeed = s; updateSpeedUI(); };
 
+        // Atualiza o estilo visual dos 6 botões de velocidade (3 no passo 2 + 3 no resumo)
+        // O botão selecionado fica branco e com fundo semitransparente; os outros ficam cinzentos
         function updateSpeedUI() {
             ['slow', 'moderate', 'fast'].forEach(s => {
                 const btn = document.getElementById(s + 'Btn');
                 const summaryBtn = document.getElementById('summary' + s.charAt(0).toUpperCase() + s.slice(1) + 'Btn');
                 if (goalSpeed === s) {
+                    // Estilo selecionado: fundo semitransparente com desfoque, texto branco
                     btn.style.background = 'rgba(255,255,255,0.15)';
                     btn.style.backdropFilter = 'blur(16px)';
                     btn.style.borderColor = 'rgba(255,255,255,0.2)';
@@ -549,6 +741,7 @@
                     summaryBtn.classList.remove('text-gray-400');
                     summaryBtn.classList.add('text-white');
                 } else {
+                    // Estilo não selecionado: fundo quase transparente, texto cinzento
                     btn.style.background = 'rgba(255,255,255,0.05)';
                     btn.style.backdropFilter = 'none';
                     btn.style.borderColor = 'rgba(255,255,255,0.1)';
@@ -562,13 +755,17 @@
             });
         }
 
+        // Função global para selecionar o nível de experiência (beginner, intermediate, advanced)
         window.selectExperience = function(e) { experience = e; updateExperienceUI(); };
 
+        // Atualiza o estilo visual dos 6 botões de experiência (3 no passo 3 + 3 no resumo)
+        // O botão selecionado fica destacado; os outros ficam neutros
         function updateExperienceUI() {
             ['beginner', 'intermediate', 'advanced'].forEach(e => {
                 const btn = document.getElementById(e + 'Btn');
                 const summaryBtn = document.getElementById('summary' + e.charAt(0).toUpperCase() + e.slice(1) + 'Btn');
                 if (experience === e) {
+                    // Estilo selecionado
                     btn.style.background = 'rgba(255,255,255,0.15)';
                     btn.style.backdropFilter = 'blur(16px)';
                     btn.style.borderColor = 'rgba(255,255,255,0.2)';
@@ -577,6 +774,7 @@
                     summaryBtn.classList.remove('text-gray-400');
                     summaryBtn.classList.add('text-white');
                 } else {
+                    // Estilo não selecionado
                     btn.style.background = 'rgba(255,255,255,0.05)';
                     btn.style.backdropFilter = 'none';
                     btn.style.borderColor = 'rgba(255,255,255,0.1)';
@@ -588,6 +786,8 @@
             });
         }
 
+        // Função auxiliar que gera um plano nutricional de exemplo
+        // Retorna um dia típico de refeições e uma lista de compras sugerida
         function generateNutritionPlan(macros, mealsPerDay, dietPreference) {
             return {
                 exampleDay: [
@@ -600,6 +800,8 @@
             };
         }
 
+        // Função auxiliar que gera dicas de estilo de vida saudável para o utilizador
+        // Retorna um array de strings com recomendações gerais
         function generateLifestyleTips(weight) {
             return [
                 'Aim for 7-9 hours of quality sleep each night',
@@ -611,26 +813,42 @@
             ];
         }
 
+        // Função principal que é chamada quando o utilizador clica em "Criar Meu Plano"
+        // Recolhe todos os dados, calcula o plano completo, guarda no localStorage e mostra o popup
         window.handleComplete = function() {
+            // Impede execuções simultâneas (caso o utilizador clique rapidamente várias vezes)
             if (loading) return;
             loading = true;
+
+            // Muda o botão para estado de carregamento com spinner animado
             const btn = document.getElementById('createPlanBtn');
             btn.innerHTML = `<svg class="w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> <span>${t.creatingPlan}</span>`;
             btn.disabled = true;
 
+            // Atualiza as variáveis de estado com os valores dos campos editáveis do passo 4
+            // Usa o operador || para manter o valor anterior se o campo estiver vazio
             weight = parseFloat(document.getElementById('summaryWeightInput').value) || weight;
             targetWeight = parseFloat(document.getElementById('summaryTargetInput').value) || targetWeight;
             height = parseFloat(document.getElementById('summaryHeightInput').value) || height;
             bodyFat = document.getElementById('summaryBodyFatInput').value ? parseFloat(document.getElementById('summaryBodyFatInput').value) : undefined;
 
+            // Simula um pequeno atraso (500ms) para dar feedback visual de processamento
             setTimeout(() => {
+                // Define os parâmetros de entrada para os cálculos
                 const inputs = { units: 'metric', weight, height, activityLevel: 'moderate', experience, goal, mealsPerDay: 4, dietPreference: 'omnivore' };
+
+                // Calcula o IMC (Índice de Massa Corporal)
                 const bmi = calculateBMI(weight, height);
+                // Calcula calorias diárias, BMR (taxa metabólica basal) e macros (proteínas, hidratos, gorduras)
                 const calorieResult = calculateCaloriesAndMacros(inputs);
+                // Gera o plano de treino (dias por semana, exercícios) com base na experiência e objetivo
                 const trainingPlan = generateTrainingPlan(experience, goal);
+                // Gera um plano nutricional de exemplo com sugestões de refeições
                 const nutritionPlan = generateNutritionPlan(calorieResult.macros, 4, 'omnivore');
+                // Gera dicas de estilo de vida saudável
                 const lifestyleTips = generateLifestyleTips(weight);
 
+                // Constrói o objeto completo do plano de fitness a guardar
                 const plan = {
                     weight, height, targetWeight, bodyFat, goalSpeed, units: 'metric', goal, experience,
                     activityLevel: 'moderate', dietPreference: 'omnivore', mealsPerDay: 4,
@@ -639,40 +857,66 @@
                     trainingPlan, nutritionPlan, lifestyleTips, createdAt: new Date().toISOString()
                 };
 
+                // Guarda o plano no localStorage (e possivelmente no backend via Supabase)
                 savePlan(plan);
+                // Regista a data/hora da primeira utilização da aplicação (se ainda não existir)
                 if (!localStorage.getItem('firstUseTime')) localStorage.setItem('firstUseTime', new Date().toISOString());
 
+                // Preenche o popup de sucesso com os valores calculados do plano
                 document.getElementById('successCalories').textContent = Math.round(plan.calories);
                 document.getElementById('successProtein').textContent = Math.round(plan.proteinG);
                 document.getElementById('successTraining').textContent = plan.trainingPlan.daysPerWeek;
-                document.getElementById('successGoal').textContent = plan.goal.replace('_', ' ');
+                document.getElementById('successGoal').textContent = plan.goal.replace('_', ' '); // "fat_loss" → "fat loss"
                 document.getElementById('successBMI').textContent = plan.bmi.toFixed(1);
                 document.getElementById('successTargetWeight').textContent = plan.targetWeight + ' kg';
                 document.getElementById('successLevel').textContent = plan.experience;
 
+                // Torna o popup de sucesso visível (usando display: flex para centrar o conteúdo)
                 document.getElementById('successPopup').style.display = 'flex';
+
+                // Repõe o estado de carregamento
                 loading = false;
                 btn.innerHTML = `<span>${t.createPlan}</span> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>`;
                 btn.disabled = false;
             }, 500);
         };
 
+        // ==================== OUVINTES DE EVENTOS DOS CAMPOS (INPUT LISTENERS) ====================
+        // Cada listener atualiza a variável de estado correspondente e, quando relevante, recalcula o IMC
+
+        // Peso atual (Passo 1): atualiza a variável weight e recalcula o IMC
         document.getElementById('weightInput').addEventListener('input', function(e) { weight = parseFloat(e.target.value) || 0; updateBMI(); });
+        // Altura (Passo 1): atualiza a variável height e recalcula o IMC
         document.getElementById('heightInput').addEventListener('input', function(e) { height = parseFloat(e.target.value) || 0; updateBMI(); });
+        // Peso alvo (Passo 1): apenas atualiza a variável targetWeight
         document.getElementById('targetWeightInput').addEventListener('input', function(e) { targetWeight = parseFloat(e.target.value) || 0; });
+        // Gordura corporal (Passo 1): atualiza bodyFat (undefined se campo vazio)
         document.getElementById('bodyFatInput').addEventListener('input', function(e) { bodyFat = e.target.value ? parseFloat(e.target.value) : undefined; });
+
+        // Campos do Resumo (Passo 4): sincronizados bidirecionalmente com os campos do Passo 1
+        // Atualizar o resumo também atualiza o campo original e vice-versa
+
+        // Peso no resumo: sincroniza com weightInput e recalcula IMC
         document.getElementById('summaryWeightInput').addEventListener('input', function(e) { weight = parseFloat(e.target.value) || 0; document.getElementById('weightInput').value = weight; updateBMI(); });
+        // Altura no resumo: sincroniza com heightInput e recalcula IMC
         document.getElementById('summaryHeightInput').addEventListener('input', function(e) { height = parseFloat(e.target.value) || 0; document.getElementById('heightInput').value = height; updateBMI(); });
+        // Peso alvo no resumo: sincroniza com targetWeightInput
         document.getElementById('summaryTargetInput').addEventListener('input', function(e) { targetWeight = parseFloat(e.target.value) || 0; document.getElementById('targetWeightInput').value = targetWeight; });
+        // Gordura corporal no resumo: sincroniza com bodyFatInput
         document.getElementById('summaryBodyFatInput').addEventListener('input', function(e) { bodyFat = e.target.value ? parseFloat(e.target.value) : undefined; document.getElementById('bodyFatInput').value = bodyFat || ''; });
 
-        updateTranslations();
-        updateProgressIndicator();
-        updateBMI();
-        updateGoalUI();
-        updateSpeedUI();
-        updateExperienceUI();
+        // ==================== INICIALIZAÇÃO ====================
+        // Chamadas que configuram a interface ao carregar a página pela primeira vez
+        updateTranslations();      // Aplica as traduções ao idioma atual
+        updateProgressIndicator(); // Mostra o indicador de progresso no passo 1
+        updateBMI();               // Calcula e exibe o IMC com os valores padrão
+        updateGoalUI();            // Destaca o objetivo padrão (fat_loss)
+        updateSpeedUI();           // Destaca a velocidade padrão (moderate)
+        updateExperienceUI();      // Destaca a experiência padrão (beginner)
     </script>
+
+    <!-- Script de navegação com autenticação -->
+    <!-- Verifica se o utilizador está autenticado e ajusta os elementos de navegação -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

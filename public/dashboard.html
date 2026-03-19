@@ -1,43 +1,80 @@
 <!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 -->
 <html lang="en">
+<!-- Elemento raiz da página; lang="en" define inglês como idioma principal -->
 <head>
+    <!-- Secção de metadados da página: não visível diretamente no ecrã -->
     <meta charset="UTF-8">
+    <!-- Codificação UTF-8 para suportar caracteres especiais e acentuados -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Torna a página responsiva em dispositivos móveis e tablets -->
     <title>Dashboard - Shanti's Fitness And Wellness</title>
+    <!-- Título exibido na aba do navegador -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Liga a folha de estilos CSS partilhada por toda a aplicação -->
 </head>
 <body>
+<!-- Corpo da página - contém toda a estrutura visível do painel principal -->
+
+    <!-- Botão de Login fixo no canto superior esquerdo -->
+    <!-- Visível para utilizadores não autenticados; redireciona para login.html -->
+    <!-- O script auth-nav.js pode esconder este botão se o utilizador já estiver autenticado -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navbar -->
+    <!-- Barra de Navegação Principal (Navbar) -->
+    <!-- Presente em todas as páginas internas da aplicação para navegação entre secções -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo / Link para a Página Inicial -->
+            <!-- Clicar no logótipo redireciona para index.html -->
             <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <!-- Ícone SVG da marca em roxo -->
                 <svg style="width: 28px; height: 28px; color: #a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path>
                 </svg>
+                <!-- Nome da marca com estilo de gradiente -->
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+
+            <!-- Links de Navegação entre Páginas -->
+            <!-- Cada link direciona para uma secção diferente da aplicação -->
             <div class="nav-links">
                 <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <!-- "active" indica que esta é a página atual (Dashboard) -->
                 <a href="plan.html" class="nav-link">Plan</a>
+                <!-- Página do plano de fitness gerado -->
                 <a href="track.html" class="nav-link">Track</a>
+                <!-- Página de registo diário de treino e peso -->
                 <a href="meals.html" class="nav-link">Meals</a>
+                <!-- Página de registo de refeições e calorias -->
                 <a href="progress.html" class="nav-link">Progress</a>
+                <!-- Página de visualização do progresso ao longo do tempo -->
                 <a href="coach.html" class="nav-link">Coach</a>
+                <!-- Página do assistente de coaching com Inteligência Artificial -->
             </div>
+
+            <!-- Ações da Navbar: Seletor de Idioma -->
             <div class="nav-actions">
+                <!-- Contentor do seletor de idioma; id usado pelo JS para fechar ao clicar fora -->
                 <div class="language-selector" id="languageSelector">
+                    <!-- Botão que mostra o idioma atual e abre o dropdown ao clicar -->
+                    <!-- onclick="toggleLanguageDropdown()" chama a função JS de alternar visibilidade -->
                     <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <!-- Ícone de globo (SVG) - representa seleção de idioma/região -->
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"/>
                             <line x1="2" y1="12" x2="22" y2="12"/>
                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                         </svg>
+                        <!-- Texto do idioma atual; atualizado pelo JavaScript -->
                         <span id="currentLang">EN</span>
                     </button>
+                    <!-- Dropdown de seleção de idioma (inicialmente escondido) -->
+                    <!-- Fica visível quando toggleLanguageDropdown() remove a classe "hidden" -->
                     <div class="language-dropdown hidden" id="languageDropdown">
+                        <!-- Botão para selecionar inglês -->
                         <button onclick="setLanguage('en')">English</button>
+                        <!-- Botão para selecionar português -->
                         <button onclick="setLanguage('pt')">Português</button>
                     </div>
                 </div>
@@ -45,59 +82,90 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Conteúdo Principal do Dashboard -->
+    <!-- h-screen: altura total do ecrã; overflow-hidden: esconde barras de scroll externas -->
+    <!-- pt-20: padding-top para não sobrepor a navbar; pb-24: espaço para barra inferior -->
     <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
+        <!-- Área de rolagem interna do conteúdo -->
         <div class="flex-1 overflow-y-auto">
             <div class="w-full max-w-7xl mx-auto px-6 py-6">
-                <!-- Header -->
+
+                <!-- Cabeçalho do Dashboard -->
+                <!-- Título principal e subtítulo descritivo da página -->
                 <div class="text-center mb-6">
+                    <!-- data-i18n="yourDashboard": o texto é traduzido pelo sistema de i18n -->
                     <h1 class="text-4xl font-black text-white mb-2" data-i18n="yourDashboard">Your Dashboard</h1>
                     <p class="text-gray-400 text-sm" data-i18n="dashboardSubtitle">Track your progress and stay on top of your goals</p>
                 </div>
 
+                <!-- Área de conteúdo principal com espaçamento entre secções -->
                 <div class="space-y-6">
-                    <!-- Current Plan Summary -->
+
+                    <!-- Secção do Plano Atual (Current Plan Summary) -->
+                    <!-- Escondida por padrão (display: none); torna-se visível se o utilizador tiver um plano guardado -->
+                    <!-- O JavaScript verifica o localStorage e mostra esta secção se existir um plano -->
                     <div class="glass-effect rounded-2xl p-6" id="planSection" style="display: none;">
+                        <!-- Título da secção com ícone de relógio -->
                         <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <!-- Ícone de relógio (SVG) em roxo -->
                             <svg class="icon-md text-purple-400" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                             Your Plan
                         </h2>
+                        <!-- Grelha de estatísticas do plano: objetivo, calorias, proteínas, treino -->
+                        <!-- Preenchida dinamicamente pelo JavaScript com os dados do localStorage -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="planStats">
-                            <!-- Populated by JS -->
+                            <!-- Conteúdo gerado pelo JavaScript (função loadPlan) -->
                         </div>
                     </div>
 
-                    <!-- Today's Summary -->
+                    <!-- Resumo do Dia de Hoje (Today's Summary) -->
+                    <!-- Mostra as calorias consumidas, se treinou, e o peso registado hoje -->
                     <div class="glass-effect rounded-2xl p-6" id="todaySummary">
+                        <!-- Título da secção com ícone de calendário -->
                         <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <!-- Ícone de calendário (SVG) em roxo -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             Today's Summary
                         </h2>
+                        <!-- Grelha com 3 cartões: Calorias, Treino, Peso -->
+                        <!-- Preenchida dinamicamente pelo JavaScript (função loadTodaySummary) -->
                         <div class="grid grid-cols-3 gap-4" id="todayStats">
-                            <!-- Populated by JS -->
+                            <!-- Conteúdo gerado pelo JavaScript -->
                         </div>
                     </div>
 
-                    <!-- Quick Actions -->
+                    <!-- Ações Rápidas (Quick Actions) -->
+                    <!-- Três cartões clicáveis que levam às principais ações da aplicação -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                        <!-- Cartão 1: Criar Plano -->
+                        <!-- Leva o utilizador ao questionário inicial (start.html) para criar um plano personalizado -->
                         <a href="start.html" class="card-enhanced p-6 text-center block">
                             <div class="w-12 h-12 bg-gradient-purple rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg">
+                                <!-- Ícone SVG roxo de fitness -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
                             </div>
+                            <!-- Texto traduzível via data-i18n -->
                             <div class="text-lg font-bold text-white" data-i18n="createPlan">Create Plan</div>
                             <div class="text-xs text-gray-500 mt-1" data-i18n="personalizedForYou">Personalized for you</div>
                         </a>
 
+                        <!-- Cartão 2: Registo Rápido (Quick Track) -->
+                        <!-- Leva o utilizador à página de registo diário (track.html) -->
                         <a href="track.html" class="card-enhanced p-6 text-center block">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg" style="background: linear-gradient(to bottom right, #10b981, #059669);">
+                                <!-- Ícone de calendário (SVG) em verde -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                             </div>
                             <div class="text-lg font-bold text-white" data-i18n="quickTrack">Quick Track</div>
                             <div class="text-xs text-gray-500 mt-1" data-i18n="quickTrackDesc">10-second daily log</div>
                         </a>
 
+                        <!-- Cartão 3: Ver Progresso -->
+                        <!-- Leva o utilizador à página de análise de progresso (progress.html) -->
                         <a href="progress.html" class="card-enhanced p-6 text-center block">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto shadow-lg" style="background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);">
+                                <!-- Ícone de gráfico de barras (SVG) em azul-roxo -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                             </div>
                             <div class="text-lg font-bold text-white" data-i18n="viewProgress">View Progress</div>
@@ -105,12 +173,17 @@
                         </a>
                     </div>
 
-                    <!-- No plan message -->
+                    <!-- Mensagem de Ausência de Plano (No Plan Section) -->
+                    <!-- Escondida por padrão; aparece APENAS se o utilizador não tiver nenhum plano criado -->
+                    <!-- O JavaScript verifica o localStorage: se não houver plano, exibe esta secção -->
                     <div id="noPlanSection" style="display: none;" class="text-center py-12">
                         <div class="inline-block p-8 glass-effect rounded-2xl">
+                            <!-- Ícone de estrela grande (SVG) em roxo -->
                             <svg class="icon-xl mx-auto mb-4 text-purple-400" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.913a2 2 0 001.899 1.381h6.212l-5.027 3.653a2 2 0 00-.727 2.236l1.931 5.952-5.028-3.654a2 2 0 00-2.344 0l-5.028 3.654 1.931-5.952a2 2 0 00-.727-2.236L2 10.294h6.212a2 2 0 001.899-1.381L12 3z"></path></svg>
+                            <!-- Título e descrição convidando o utilizador a criar o primeiro plano -->
                             <h3 class="text-2xl font-black text-white mb-2" data-i18n="readyToStart">Ready to Start?</h3>
                             <p class="text-gray-400 mb-6 max-w-md" data-i18n="createPlanDesc">Create your personalized fitness and nutrition plan in just 60 seconds</p>
+                            <!-- Botão que leva ao questionário inicial (start.html) -->
                             <a href="start.html" class="btn btn-primary" data-i18n="createYourPlan">Create Your Plan</a>
                         </div>
                     </div>
@@ -119,8 +192,10 @@
         </div>
     </main>
 
+    <!-- Script JavaScript Principal do Dashboard -->
     <script>
-        // Translations
+        // Objeto de traduções com dois idiomas: inglês ('en') e português ('pt')
+        // Cada chave corresponde a um identificador único de texto na interface
         const translations = {
             en: {
                 dashboard: 'Dashboard',
@@ -166,33 +241,45 @@
             }
         };
 
+        // Recupera o idioma guardado pelo utilizador, ou usa inglês por defeito
         let currentLanguage = localStorage.getItem('locale') || 'en';
 
+        // Quando o DOM (estrutura HTML) estiver completamente carregado, executa as funções de inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            updateLanguage();
-            loadPlan();
-            loadTodaySummary();
+            updateLanguage();       // Aplica as traduções corretas
+            loadPlan();             // Carrega e exibe os dados do plano do utilizador
+            loadTodaySummary();     // Carrega e exibe o resumo do dia de hoje
         });
 
+        // Função que carrega o resumo de atividade do dia de hoje
         function loadTodaySummary() {
+            // Obtém a data de hoje no formato AAAA-MM-DD para filtrar os registos
             const today = new Date().toISOString().split('T')[0];
 
-            // Calories from meal logs
+            // --- Calorias: lê os registos de refeições do localStorage ---
+            // Tenta fazer parse do JSON; se falhar, limpa o item corrompido
             let meals = []; try { meals = JSON.parse(localStorage.getItem('mealLogs') || '[]'); } catch(e) { localStorage.removeItem('mealLogs'); }
+            // Filtra apenas as refeições registadas hoje
             const todayMeals = meals.filter(m => m.date === today);
+            // Soma o total de calorias de todas as refeições de hoje
             const totalCalories = Math.round(todayMeals.reduce((s, m) => s + m.totalCalories, 0));
+            // Lê o plano de fitness para saber o objetivo calórico diário
             let plan = null; try { plan = JSON.parse(localStorage.getItem('fitnessPlan') || 'null'); } catch(e) { localStorage.removeItem('fitnessPlan'); }
             const goalCalories = plan ? Math.round(plan.calories) : null;
 
-            // Workout & weight from tracking logs
+            // --- Treino e Peso: lê os registos de tracking do localStorage ---
             let logs = []; try { logs = JSON.parse(localStorage.getItem('trackingLogs') || '[]'); } catch(e) { localStorage.removeItem('trackingLogs'); }
+            // Procura o registo de hoje (se existir)
             const todayLog = logs.find(l => l.date === today);
+            // Verifica se o treino foi feito (true), ignorado (false) ou não registado (null)
             const workoutDone = todayLog ? todayLog.workoutDone : null;
+            // Obtém o peso registado hoje (se existir)
             const weight = todayLog ? todayLog.weight : null;
 
-            // Calorie color
+            // Define a cor das calorias: roxo se abaixo do objetivo, vermelho se atingiu/ultrapassou
             const calColor = !goalCalories ? 'white' : totalCalories >= goalCalories ? '#f87171' : '#a855f7';
 
+            // Gera o HTML dos 3 cartões de resumo (Calorias, Treino, Peso) e injeta-o no DOM
             document.getElementById('todayStats').innerHTML = `
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
                     <div class="text-xs text-gray-400 mb-2">Calories</div>
@@ -218,16 +305,22 @@
             `;
         }
 
+        // Função que carrega e exibe os dados do plano de fitness do utilizador
         function loadPlan() {
+            // Tenta ler o plano guardado no localStorage
             const planStr = localStorage.getItem('fitnessPlan');
+            // Obtém as traduções para o idioma atual
             const t = translations[currentLanguage];
 
             if (planStr) {
+                // Se existir um plano, torna visível a secção do plano
                 const plan = JSON.parse(planStr);
                 document.getElementById('planSection').style.display = 'block';
 
+                // Traduz o tipo de objetivo ('fat_loss' -> 'Fat Loss' ou 'Perda de Gordura')
                 const goalText = plan.goal === 'fat_loss' ? t.fatLoss : t.muscleGain;
 
+                // Gera o HTML com 4 estatísticas do plano: Objetivo, Calorias, Proteína, Nível de Treino
                 const statsHtml = `
                     <div class="bg-white/5 rounded-xl p-4 text-center border border-white-10">
                         <div class="text-xs text-gray-400 mb-1">${t.goal}</div>
@@ -247,29 +340,44 @@
                     </div>
                 `;
 
+                // Injeta o HTML das estatísticas no contentor planStats
                 document.getElementById('planStats').innerHTML = statsHtml;
             } else {
+                // Se não existir plano, mostra a secção de convite para criar o primeiro plano
                 document.getElementById('noPlanSection').style.display = 'block';
             }
         }
 
+        // Função que alterna a visibilidade do dropdown de seleção de idioma
+        // Chamada pelo botão da navbar ao clicar
         function toggleLanguageDropdown() {
             const dropdown = document.getElementById('languageDropdown');
+            // toggle('hidden'): adiciona a classe se não existir, remove se já existir
             dropdown.classList.toggle('hidden');
         }
 
+        // Função que define o idioma selecionado pelo utilizador
+        // Chamada pelos botões "English" e "Português" dentro do dropdown
         function setLanguage(lang) {
             currentLanguage = lang;
+            // Guarda o idioma no localStorage para persistência entre páginas e sessões
             localStorage.setItem('locale', lang);
+            // Atualiza os textos da interface
             updateLanguage();
+            // Recarrega o plano para que os textos (ex.: "Fat Loss" / "Perda de Gordura") sejam traduzidos
             loadPlan();
+            // Fecha o dropdown após a seleção
             document.getElementById('languageDropdown').classList.add('hidden');
         }
 
+        // Função que atualiza todos os elementos traduzíveis da interface
         function updateLanguage() {
+            // Atualiza o texto do botão de idioma (mostra "EN" ou "PT" em maiúsculas)
             document.getElementById('currentLang').textContent = currentLanguage.toUpperCase();
             const t = translations[currentLanguage];
 
+            // Percorre todos os elementos com o atributo data-i18n e substitui o seu texto
+            // pela tradução correspondente no objeto "translations"
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) {
@@ -278,15 +386,23 @@
             });
         }
 
-        // Close dropdown when clicking outside
+        // Fecha o dropdown de idioma quando o utilizador clica fora dele
+        // Evita que o dropdown fique aberto sem necessidade
         document.addEventListener('click', function(e) {
             const selector = document.getElementById('languageSelector');
+            // Se o clique não foi dentro do seletor de idioma, fecha o dropdown
             if (!selector.contains(e.target)) {
                 document.getElementById('languageDropdown').classList.add('hidden');
             }
         });
     </script>
+
+    <!-- Script para a barra de progresso de peso (componente visual separado) -->
     <script src="/js/weight-progress-bar.js"></script>
+
+    <!-- Script de navegação com autenticação -->
+    <!-- Verifica se o utilizador está autenticado e ajusta a navbar em conformidade -->
+    <!-- Por ex.: esconde o botão "Login" se já estiver autenticado, ou redireciona se não estiver -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

@@ -1,86 +1,136 @@
 <!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 -->
 <html lang="en">
+<!-- Elemento raiz da página; lang="en" indica inglês como idioma principal -->
 <head>
+    <!-- Secção de metadados: informações técnicas da página, não visíveis no ecrã -->
     <meta charset="UTF-8">
+    <!-- Define codificação de caracteres UTF-8 para suportar acentos e símbolos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Garante responsividade da página em dispositivos móveis -->
     <title>Sign Up - Shanti's Fitness And Wellness</title>
+    <!-- Título exibido na aba do navegador -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Importa a folha de estilos CSS partilhada por toda a aplicação -->
 </head>
 <body>
+<!-- Corpo da página - contém toda a estrutura visível da página de registo -->
+
+    <!-- Contentor principal que ocupa o ecrã inteiro com fundo preto -->
     <div class="min-h-screen w-full bg-black">
-        <!-- Background decorations -->
+
+        <!-- Decorações de Fundo (puramente visuais, sem interação) -->
+        <!-- Gradiente roxo/índigo subtil no canto superior esquerdo -->
         <div class="fixed" style="inset: 0; background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05), transparent); pointer-events: none;"></div>
+        <!-- Padrão de grelha discreto sobreposto ao fundo, cria profundidade visual -->
         <div class="fixed" style="inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, transparent 1px, transparent 64px), repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, transparent 1px, transparent 64px); pointer-events: none;"></div>
 
-        <!-- Back button -->
+        <!-- Botão "Voltar" fixo no canto superior esquerdo -->
+        <!-- Redireciona o utilizador de volta à página inicial (index.html) -->
         <a href="index.html" class="fixed top-8 left-8 flex items-center gap-2 text-gray-400 z-10" style="transition: color 0.2s;">
+            <!-- Ícone de seta para a esquerda (SVG inline) -->
             <svg class="icon-md" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             <span class="text-sm">Back to home</span>
         </a>
 
-        <!-- Centered content -->
+        <!-- Área de Conteúdo Centrado -->
+        <!-- Usa flexbox para centrar o cartão de registo no meio do ecrã -->
         <div class="min-h-screen w-full flex items-center justify-center p-6">
             <div class="w-full max-w-md">
+                <!-- Cartão de Registo -->
+                <!-- Caixa com fundo #111111, bordas arredondadas e sombra profunda -->
                 <div class="rounded-2xl p-8 shadow-2xl" style="background: #111111; border: 1px solid rgba(255,255,255,0.1);">
-                    <!-- Logo -->
+
+                    <!-- Logótipo / Cabeçalho do Cartão -->
+                    <!-- Apresenta o ícone da marca e o nome da aplicação -->
                     <div class="flex items-center justify-center gap-3 mb-8">
+                        <!-- Ícone com fundo em gradiente roxo -->
                         <div class="p-2 bg-gradient-purple rounded-xl">
+                            <!-- Ícone SVG de halteres/fitness em branco -->
                             <svg style="width: 24px; height: 24px; color: white;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
                         </div>
+                        <!-- Nome da marca com efeito de gradiente roxo-rosa no "Fitness & Wellness" -->
                         <h1 style="font-size: 18px; font-weight: 800;">
                             <span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span>
                         </h1>
                     </div>
 
+                    <!-- Cabeçalho do Formulário de Registo -->
+                    <!-- Título e subtítulo a convidar o utilizador a criar conta -->
                     <div class="text-center mb-8">
                         <h2 class="text-2xl font-bold text-white mb-2">Create your account</h2>
                         <p class="text-gray-400">Start your fitness journey today</p>
                     </div>
 
+                    <!-- Formulário de Registo -->
+                    <!-- id="signupForm" é utilizado pelo JavaScript para tratar a submissão -->
                     <form id="signupForm" class="space-y-5">
-                        <!-- Error message -->
+
+                        <!-- Caixa de Mensagem de Erro -->
+                        <!-- Oculta por padrão; aparece quando há erros no processo de registo -->
+                        <!-- Por ex.: email já registado, senha muito curta, erro de rede -->
                         <div id="errorMessage" class="hidden p-4 rounded-xl" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <!-- Parágrafo onde o JavaScript insere o texto do erro -->
                             <p class="text-sm text-red-400" id="errorText"></p>
                         </div>
 
-                        <!-- Name -->
+                        <!-- Campo de Nome -->
+                        <!-- Campo obrigatório onde o utilizador introduz o seu nome -->
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Name</label>
                             <div class="relative">
+                                <!-- Ícone de utilizador/pessoa posicionado à esquerda no campo (SVG) -->
                                 <svg class="absolute icon-md text-gray-500" style="left: 1rem; top: 50%; transform: translateY(-50%);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <!-- Campo de texto simples para o nome do utilizador -->
+                                <!-- required: campo obrigatório para envio do formulário -->
                                 <input type="text" id="name" required placeholder="Your name" style="padding-left: 3rem;">
                             </div>
                         </div>
 
-                        <!-- Email -->
+                        <!-- Campo de Email -->
+                        <!-- Campo obrigatório para o endereço de email do novo utilizador -->
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
                             <div class="relative">
+                                <!-- Ícone de envelope posicionado à esquerda no campo (SVG) -->
                                 <svg class="absolute icon-md text-gray-500" style="left: 1rem; top: 50%; transform: translateY(-50%);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 8 10-8"></path></svg>
+                                <!-- Campo do tipo "email" - valida automaticamente o formato do email -->
                                 <input type="email" id="email" required placeholder="you@example.com" style="padding-left: 3rem;">
                             </div>
                         </div>
 
-                        <!-- Password -->
+                        <!-- Campo de Palavra-passe -->
+                        <!-- Campo obrigatório para criar a senha da conta; mínimo de 6 caracteres -->
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
                             <div class="relative">
+                                <!-- Ícone de cadeado posicionado à esquerda no campo (SVG) -->
                                 <svg class="absolute icon-md text-gray-500" style="left: 1rem; top: 50%; transform: translateY(-50%);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <!-- Campo do tipo "password" que esconde o texto digitado -->
+                                <!-- minlength="6": o navegador recusa submissões com menos de 6 caracteres -->
                                 <input type="password" id="password" required placeholder="Create a password" style="padding-left: 3rem;" minlength="6">
                             </div>
+                            <!-- Indicação textual do requisito mínimo de segurança da senha -->
                             <p class="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
                         </div>
 
-                        <!-- Submit button -->
+                        <!-- Botão de Submissão do Formulário -->
+                        <!-- Ao clicar, dispara o evento "submit" capturado pelo JavaScript -->
+                        <!-- Durante o processo, é desativado para evitar envios duplicados -->
                         <button type="submit" class="btn btn-primary w-full" id="submitBtn">
+                            <!-- Ícone de adicionar utilizador (SVG) -->
                             <svg class="icon-md" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+                            <!-- Texto do botão; o JS altera para "Creating account..." durante o carregamento -->
                             <span id="submitText">Create Account</span>
                         </button>
                     </form>
 
+                    <!-- Rodapé do Cartão: Link para Login -->
+                    <!-- Para utilizadores que já têm conta e chegaram aqui por engano -->
                     <div class="mt-6 pt-6 text-center" style="border-top: 1px solid rgba(255,255,255,0.1);">
                         <p class="text-sm text-gray-400">
                             Already have an account?
+                            <!-- Link para login.html - redireciona para a página de autenticação -->
                             <a href="login.html" class="text-indigo-400 font-medium" style="transition: color 0.2s;">Sign in</a>
                         </p>
                     </div>
@@ -89,32 +139,43 @@
         </div>
     </div>
 
+    <!-- Script de Módulo JavaScript para Registo de Utilizador -->
+    <!-- type="module" permite usar imports de ES6 para carregar funções de outros ficheiros -->
     <script type="module">
+        // Importa a função signupUser responsável por criar a conta no backend/Supabase
         import { signupUser } from './js/storage.js';
 
-        const form = document.getElementById('signupForm');
-        const errorDiv = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-        const submitBtn = document.getElementById('submitBtn');
-        const submitText = document.getElementById('submitText');
+        // Obtém referências aos elementos do DOM necessários para controlar o formulário
+        const form = document.getElementById('signupForm');         // O formulário de registo
+        const errorDiv = document.getElementById('errorMessage'); // Caixa de mensagem de erro
+        const errorText = document.getElementById('errorText');   // Texto da mensagem de erro
+        const submitBtn = document.getElementById('submitBtn');   // Botão de submissão
+        const submitText = document.getElementById('submitText'); // Texto dentro do botão
 
+        // Adiciona um ouvinte ao evento "submit" do formulário
+        // async permite usar "await" para tratar a resposta assíncrona do servidor
         form.addEventListener('submit', async (e) => {
+            // Previne o comportamento padrão de recarregar a página ao submeter o formulário
             e.preventDefault();
 
+            // Lê os valores dos campos preenchidos pelo utilizador
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // Hide previous errors
+            // Esconde mensagens de erro de tentativas anteriores
             errorDiv.classList.add('hidden');
 
-            // Disable button
+            // Desativa o botão e altera o texto para informar o utilizador que está a processar
             submitBtn.disabled = true;
             submitText.textContent = 'Creating account...';
 
             try {
+                // Chama a função assíncrona de registo com os dados do formulário
+                // signupUser comunica com o serviço de autenticação (ex.: Supabase)
                 await signupUser(email, password, name);
-                // Show success message instead of redirecting
+                // Se o registo for bem-sucedido, substitui o conteúdo do formulário por uma
+                // mensagem a solicitar verificação de email (enviado automaticamente pelo sistema)
                 document.getElementById('signupForm').innerHTML = `
                     <div style="text-align:center;padding:20px;">
                         <div style="font-size:48px;margin-bottom:16px;">📧</div>
@@ -124,8 +185,11 @@
                     </div>
                 `;
             } catch (error) {
+                // Em caso de falha (email já existe, senha fraca, erro de rede, etc.)
+                // Mostra a mensagem de erro devolvida pelo servidor
                 errorText.textContent = error.message || 'Failed to create account';
                 errorDiv.classList.remove('hidden');
+                // Reativa o botão para o utilizador corrigir e tentar novamente
                 submitBtn.disabled = false;
                 submitText.textContent = 'Create Account';
             }

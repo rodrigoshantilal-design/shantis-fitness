@@ -1,94 +1,134 @@
 <!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 - indica ao navegador que este é um ficheiro HTML moderno -->
 <html lang="en">
+<!-- Elemento raiz da página; lang="en" define o idioma principal como inglês -->
 <head>
+    <!-- Secção <head>: contém metadados, título e ligações a folhas de estilo (não visível no ecrã) -->
     <meta charset="UTF-8">
+    <!-- Define a codificação de caracteres como UTF-8, permitindo letras acentuadas e símbolos especiais -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Garante que a página se adapta corretamente a diferentes tamanhos de ecrã (responsividade) -->
     <title>Shanti's Fitness And Wellness - Your Personal Fitness Journey</title>
+    <!-- Título da aba do navegador -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Importa a folha de estilos principal (CSS) que define toda a aparência visual da aplicação -->
 </head>
 <body>
-    <!-- Login Button (top left) -->
+<!-- Corpo da página: tudo o que é visível ao utilizador está aqui -->
+
+    <!-- Botão de Login fixo no canto superior esquerdo -->
+    <!-- Este botão está sempre visível enquanto o utilizador navega na página inicial -->
+    <!-- Ao clicar, redireciona para login.html -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Language Selector -->
+    <!-- Seletor de Idioma -->
+    <!-- Div que contém o botão para alternar entre inglês (EN) e português (PT) -->
     <div class="language-selector">
         <button id="languageBtn">
+            <!-- Mostra o idioma atual selecionado; o texto é atualizado pelo JavaScript -->
             <span id="currentLang">EN</span>
         </button>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Secção Principal (Hero Section) -->
+    <!-- Esta é a secção de destaque da página inicial - ocupa o ecrã inteiro e apresenta a marca -->
     <section class="h-screen overflow-hidden flex flex-col">
+        <!-- Contentor flexível que centra o conteúdo vertical e horizontalmente -->
         <div class="flex-1 flex items-center justify-center px-6 pt-20">
             <div class="max-w-5xl mx-auto w-full">
+                <!-- Bloco central com todo o conteúdo da hero section -->
                 <div class="text-center space-y-8">
-                    <!-- Brand Title -->
+
+                    <!-- Título da Marca (Brand Title) -->
+                    <!-- Apresenta o nome "Shanti's Fitness & Wellness" em tipografia grande e chamativa -->
                     <div class="mb-6">
+                        <!-- "Shanti's" em branco com sombra branca suave -->
                         <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-none tracking-tight" style="text-shadow: 0 0 80px rgba(168, 85, 247, 0.5);">
                             <span class="text-white" style="text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);">Shanti's</span>
                         </h1>
+                        <!-- "Fitness & Wellness" com gradiente roxo-rosa como preenchimento de texto -->
                         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight mt-2" style="background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f472b6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 4px 30px rgba(168, 85, 247, 0.6));">
                             Fitness & Wellness
                         </h1>
                     </div>
 
-                    <!-- Tagline -->
+                    <!-- Slogan / Tagline -->
+                    <!-- Frase de impacto que resume a proposta de valor da aplicação -->
+                    <!-- data-i18n="..." indica que este texto pode ser traduzido pelo sistema de internacionalização (i18n) -->
                     <h2 class="text-2xl md:text-3xl font-bold text-gray-300 tracking-wide">
                         <span data-i18n="homepage.heroTitle1">Transform Your Body,</span>
                         <span class="text-white" data-i18n="homepage.heroTitle2"> Transform Your Life</span>
                     </h2>
 
-                    <!-- Badge -->
+                    <!-- Distintivo / Badge de Funcionalidade IA -->
+                    <!-- Pequena etiqueta arredondada que destaca o uso de Inteligência Artificial -->
                     <div class="inline-flex items-center gap-2 px-5 py-2" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2)); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 9999px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);">
+                        <!-- Ícone de estrela (SVG inline) -->
                         <svg class="icon-sm text-purple-400" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.913a2 2 0 001.899 1.381h6.212l-5.027 3.653a2 2 0 00-.727 2.236l1.931 5.952-5.028-3.654a2 2 0 00-2.344 0l-5.028 3.654 1.931-5.952a2 2 0 00-.727-2.236L2 10.294h6.212a2 2 0 001.899-1.381L12 3z"></path></svg>
+                        <!-- Texto do badge, traduzível via i18n -->
                         <span class="text-sm font-semibold text-purple-300" data-i18n="homepage.badge">AI-Powered Fitness Planning</span>
                     </div>
 
-                    <!-- Subtitle -->
+                    <!-- Subtítulo / Descrição -->
+                    <!-- Parágrafo que explica brevemente o que a aplicação oferece -->
                     <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto" data-i18n="homepage.heroSubtitle">
                         Get personalized fitness and nutrition plans tailored to your goals. Track progress, log meals, and achieve lasting transformation.
                     </p>
 
-                    <!-- CTA Button -->
+                    <!-- Botão de Chamada para Ação (CTA - Call To Action) -->
+                    <!-- Botão principal que convida o utilizador a começar - redireciona para start.html (questionário) -->
                     <div class="pt-4">
                         <a href="start.html" class="inline-flex items-center gap-3 px-12 py-5 text-white font-black text-xl rounded-xl border transition-all shadow-2xl" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(40px); border-color: rgba(255,255,255,0.3);">
+                            <!-- Texto do botão, traduzível -->
                             <span data-i18n="homepage.ctaButton">Get Started Free</span>
+                            <!-- Ícone de seta para a direita (SVG) -->
                             <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </a>
                     </div>
 
-                    <!-- Features Grid -->
+                    <!-- Grelha de Funcionalidades (Features Grid) -->
+                    <!-- Apresenta as 4 principais funcionalidades da aplicação em cartões -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8">
-                        <!-- Feature 1 -->
+
+                        <!-- Funcionalidade 1: Planos Personalizados -->
+                        <!-- Cartão com ícone azul e descrição de planos de treino personalizados -->
                         <div class="card-enhanced p-6 text-center">
                             <div class="w-12 h-12 bg-gradient-blue rounded-xl flex items-center justify-center mb-3 mx-auto" style="box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                                <!-- Ícone de halteres/treino (SVG) -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
                             </div>
+                            <!-- Título e descrição da funcionalidade; o texto é alterado pelo JavaScript ao mudar idioma -->
                             <div class="text-sm font-bold text-white feature-title">Custom Plans</div>
                             <div class="text-xs text-gray-500 mt-1 feature-desc">Tailored workouts</div>
                         </div>
 
-                        <!-- Feature 2 -->
+                        <!-- Funcionalidade 2: Registo Rápido -->
+                        <!-- Cartão com ícone verde e descrição de registo rápido de atividades -->
                         <div class="card-enhanced p-6 text-center">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto" style="background: linear-gradient(to bottom right, #10b981, #059669); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                                <!-- Ícone de calendário (SVG) -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                             </div>
                             <div class="text-sm font-bold text-white feature-title">Quick Tracking</div>
                             <div class="text-xs text-gray-500 mt-1 feature-desc">10-second logs</div>
                         </div>
 
-                        <!-- Feature 3 -->
+                        <!-- Funcionalidade 3: Coach com Inteligência Artificial -->
+                        <!-- Cartão com ícone roxo-rosa e descrição do assistente IA disponível 24/7 -->
                         <div class="card-enhanced p-6 text-center">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto" style="background: linear-gradient(to bottom right, #8b5cf6, #ec4899); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);">
+                                <!-- Ícone de balão de conversa (SVG) - representa o chat com o coach IA -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                             </div>
                             <div class="text-sm font-bold text-white feature-title">AI Coach</div>
                             <div class="text-xs text-gray-500 mt-1 feature-desc">24/7 guidance</div>
                         </div>
 
-                        <!-- Feature 4 -->
+                        <!-- Funcionalidade 4: Análise de Progresso -->
+                        <!-- Cartão com ícone rosa-vermelho e descrição das estatísticas de progresso -->
                         <div class="card-enhanced p-6 text-center">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto" style="background: linear-gradient(to bottom right, #ec4899, #ef4444); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);">
+                                <!-- Ícone de gráfico de barras (SVG) - representa análise de dados -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                             </div>
                             <div class="text-sm font-bold text-white feature-title">Analytics</div>
@@ -96,7 +136,8 @@
                         </div>
                     </div>
 
-                    <!-- Disclaimer -->
+                    <!-- Aviso / Disclaimer -->
+                    <!-- Texto informativo que comunica ao utilizador que não é necessário cartão de crédito -->
                     <div class="pt-4">
                         <p class="text-xs text-gray-500" data-i18n="homepage.noSignup">
                             No credit card required. Start your journey in seconds.
@@ -106,35 +147,50 @@
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Rodapé da Página (Footer) -->
+        <!-- Barra inferior com informação de direitos de autor (copyright) -->
         <footer class="border-t border-white-10 py-4 px-6">
             <div class="max-w-7xl mx-auto text-center">
                 <div class="flex items-center justify-center gap-4 text-gray-500 text-xs">
+                    <!-- Texto de copyright, traduzível via i18n -->
                     <span data-i18n="homepage.footer">© 2024 Shanti's Fitness And Wellness. All rights reserved.</span>
                 </div>
             </div>
         </footer>
     </section>
 
+    <!-- Script de Internacionalização (i18n) -->
+    <!-- Carrega o ficheiro externo responsável pelas traduções da aplicação -->
     <script src="js/i18n.js"></script>
+
+    <!-- Script principal da página inicial -->
     <script>
-        // Language switcher
+        // Recupera o idioma guardado no localStorage, ou usa inglês por defeito
         let currentLang = localStorage.getItem('locale') || 'en';
 
+        // Adiciona um ouvinte de evento ao botão de idioma
+        // Quando clicado, alterna entre inglês ('en') e português ('pt')
         document.getElementById('languageBtn').addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'pt' : 'en';
+            // Guarda o idioma selecionado no localStorage para persistência entre páginas
             localStorage.setItem('locale', currentLang);
+            // Chama a função que atualiza todos os textos visíveis
             updateLanguage();
         });
 
+        // Função que atualiza a interface de acordo com o idioma atual
         function updateLanguage() {
+            // Atualiza o texto do botão de idioma (mostra "EN" ou "PT" em maiúsculas)
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
 
-            // Update feature titles based on language
+            // Seleciona todos os elementos com classe 'feature-title' e 'feature-desc'
+            // (os títulos e descrições dos 4 cartões de funcionalidades)
             const features = document.querySelectorAll('.feature-title');
             const featuresDesc = document.querySelectorAll('.feature-desc');
 
+            // Atualiza os textos dos cartões de funcionalidades consoante o idioma
             if (currentLang === 'pt') {
+                // Textos em português para cada funcionalidade
                 features[0].textContent = 'Planos Personalizados';
                 featuresDesc[0].textContent = 'Treinos sob medida';
                 features[1].textContent = 'Registo Rápido';
@@ -144,6 +200,7 @@
                 features[3].textContent = 'Análises';
                 featuresDesc[3].textContent = 'Acompanhe progresso';
             } else {
+                // Textos em inglês para cada funcionalidade (idioma padrão)
                 features[0].textContent = 'Custom Plans';
                 featuresDesc[0].textContent = 'Tailored workouts';
                 features[1].textContent = 'Quick Tracking';
@@ -154,11 +211,11 @@
                 featuresDesc[3].textContent = 'Track progress';
             }
 
-            // Update i18n elements
+            // Atualiza os elementos que têm o atributo data-i18n usando o sistema de i18n externo
             updateI18n(currentLang);
         }
 
-        // Initialize
+        // Inicializa a página com o idioma correto ao carregar
         updateLanguage();
     </script>
 </body>

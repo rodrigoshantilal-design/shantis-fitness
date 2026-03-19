@@ -1,24 +1,33 @@
 <!DOCTYPE html>
+<!-- Página do Plano de Fitness: exibe o plano personalizado do utilizador com métricas, treino, nutrição e estilo de vida -->
 <html lang="en">
 <head>
+    <!-- Codificação de caracteres UTF-8 -->
     <meta charset="UTF-8">
+    <!-- Viewport responsivo para dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da aba do browser -->
     <title>Your Plan - Shanti's Fitness And Wellness</title>
+    <!-- Folha de estilos principal do projeto -->
     <link rel="stylesheet" href="css/styles.css">
     <style>
+        /* Esconde a barra de scroll em WebKit (Chrome, Safari) */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+        /* Esconde a barra de scroll em Firefox e IE */
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Contentor do gráfico circular (pie chart) de macronutrientes */
         .pie-container {
             position: relative;
             width: 200px;
             height: 200px;
             margin: 0 auto;
         }
+        /* Canvas do pie chart: circular, sem overflow */
         .pie-chart {
             width: 100%;
             height: 100%;
@@ -26,6 +35,7 @@
             position: relative;
             overflow: hidden;
         }
+        /* Rótulos de texto sobre o pie chart */
         .pie-label {
             position: absolute;
             text-align: center;
@@ -34,23 +44,28 @@
             color: white;
             pointer-events: none;
         }
+        /* Proporção quadrada para elementos (1:1) */
         .aspect-square {
             aspect-ratio: 1 / 1;
         }
     </style>
 </head>
 <body>
+    <!-- Botão de login fixo no canto superior esquerdo -->
     <a href="login.html" class="nav-login-btn" style="position: fixed; top: 1rem; left: 1.5rem; z-index: 101;">Login</a>
 
-    <!-- Navbar -->
+    <!-- Barra de navegação principal -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logótipo com ícone SVG e nome com gradiente, ligado ao Dashboard -->
             <a href="dashboard.html" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                 <svg style="width: 28px; height: 28px; color: #a855f7;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
                 <span style="font-size: 18px; font-weight: 800;"><span style="color: white;">Shanti's</span> <span style="background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitness & Wellness</span></span>
             </a>
+            <!-- Links de navegação entre as secções principais -->
             <div class="nav-links">
                 <a href="dashboard.html">Dashboard</a>
+                <!-- "Plan" é a página atual -->
                 <a href="plan.html">Plan</a>
                 <a href="track.html">Track</a>
                 <a href="meals.html">Meals</a>
@@ -60,55 +75,70 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Conteúdo principal da página com scroll vertical -->
     <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">
         <div class="flex-1 overflow-y-auto">
             <div class="w-full max-w-6xl mx-auto px-6 py-6">
-                <!-- Header -->
+                <!-- Cabeçalho com título e data de criação do plano -->
                 <div class="text-center mb-6">
+                    <!-- Título traduzível da página -->
                     <h1 id="pageTitle" class="text-4xl font-black text-white mb-2">Your Plan</h1>
+                    <!-- Data em que o plano foi criado (preenchida pelo JavaScript) -->
                     <p id="createdDate" class="text-gray-400 text-xs">Created on --</p>
                 </div>
 
-                <!-- Section Tabs -->
+                <!-- Abas de navegação entre as 4 secções do plano -->
                 <div class="flex gap-3 mb-8 justify-center flex-wrap">
+                    <!-- Aba "Metrics" (ativa por defeito com estilo roxo) -->
                     <button onclick="setActiveSection('metrics')" id="tabMetrics" class="px-8 py-4 rounded-2xl text-base font-black transition-all text-white shadow-lg border" style="min-width: 120px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4)); border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);">
                         <span id="tabMetricsText">Metrics</span>
                     </button>
+                    <!-- Aba "Training" (inativa, fundo semitransparente) -->
                     <button onclick="setActiveSection('training')" id="tabTraining" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
                         <span id="tabTrainingText">Training</span>
                     </button>
+                    <!-- Aba "Nutrition" (inativa) -->
                     <button onclick="setActiveSection('nutrition')" id="tabNutrition" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
                         <span id="tabNutritionText">Nutrition</span>
                     </button>
+                    <!-- Aba "Lifestyle" (inativa) -->
                     <button onclick="setActiveSection('lifestyle')" id="tabLifestyle" class="px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10" style="min-width: 120px;">
                         <span id="tabLifestyleText">Lifestyle</span>
                     </button>
                 </div>
 
                 <div class="space-y-4">
-                    <!-- Metrics Section -->
+                    <!-- SECÇÃO: MÉTRICAS - exibe IMC, gordura corporal, TMB e TDEE -->
                     <div id="sectionMetrics" class="space-y-4">
+                        <!-- Cartão com a grelha de métricas (preenchida pelo JavaScript) -->
                         <div class="glass-effect rounded-2xl p-6">
                             <div id="metricsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <!-- Populated by JS -->
+                                <!-- Cartões de IMC, gordura corporal, TMB e TDEE gerados pelo JavaScript -->
                             </div>
                         </div>
 
+                        <!-- Cartão de calorias alvo e distribuição de macronutrientes -->
                         <div class="glass-effect rounded-2xl p-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <!-- Coluna esquerda: calorias e lista de macros -->
                                 <div>
                                     <div class="text-center mb-4">
+                                        <!-- Rótulo "Calorias Alvo" traduzível -->
                                         <div id="targetCaloriesLabel" class="text-xs text-gray-400 mb-2">Target Calories</div>
+                                        <!-- Valor das calorias diárias (grande e branco) -->
                                         <div id="caloriesValue" class="text-5xl font-black text-white">0</div>
+                                        <!-- Unidade kcal/dia traduzível -->
                                         <div id="kcalDay" class="text-xs text-gray-500 mt-1">kcal/day</div>
                                     </div>
+                                    <!-- Lista de macronutrientes com código de cores (preenchida pelo JavaScript) -->
                                     <div id="macrosList" class="bg-white/5 rounded-xl p-4">
-                                        <!-- Populated by JS -->
+                                        <!-- Proteína, hidratos e gordura em gramas gerados pelo JavaScript -->
                                     </div>
                                 </div>
+                                <!-- Coluna direita: gráfico circular de macronutrientes -->
                                 <div class="flex items-center justify-center">
                                     <div class="pie-container">
+                                        <!-- Canvas HTML5 onde o gráfico circular é desenhado pelo JavaScript -->
                                         <canvas id="pieChart" width="200" height="200"></canvas>
                                     </div>
                                 </div>
@@ -116,59 +146,73 @@
                         </div>
                     </div>
 
-                    <!-- Training Section -->
+                    <!-- SECÇÃO: TREINO - calendário semanal e exercícios do dia selecionado (inicialmente oculta) -->
                     <div id="sectionTraining" class="space-y-4" style="display: none;">
                         <div class="glass-effect rounded-2xl p-6">
+                            <!-- Descrição do split de treino (ex: "Push/Pull/Legs - 3 days per week") -->
                             <p id="trainingSplit" class="text-gray-400 mb-4 text-center text-sm"></p>
 
-                            <!-- Week Calendar View -->
+                            <!-- Calendário semanal com botões para cada dia (preenchido pelo JavaScript) -->
                             <div id="weekCalendar" class="flex flex-wrap justify-center gap-3 mb-6">
-                                <!-- Populated by JS -->
+                                <!-- Botões dos 7 dias da semana gerados pelo JavaScript -->
                             </div>
 
-                            <!-- Current Day Details -->
+                            <!-- Detalhes do dia selecionado: título e lista de exercícios -->
                             <div class="space-y-3">
+                                <!-- Título do dia atual (ex: "Mon - Chest & Triceps") -->
                                 <h3 id="currentDayTitle" class="font-black text-white text-lg text-center mb-4"></h3>
+                                <!-- Lista de exercícios com séries e repetições (preenchida pelo JavaScript) -->
                                 <div id="exerciseList" class="space-y-2 max-h-80 overflow-y-auto scrollbar-hide">
-                                    <!-- Populated by JS -->
+                                    <!-- Exercícios gerados dinamicamente pelo JavaScript -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Nutrition Section -->
+                    <!-- SECÇÃO: NUTRIÇÃO - refeições exemplo e lista de compras (inicialmente oculta) -->
                     <div id="sectionNutrition" class="space-y-4" style="display: none;">
                         <div class="glass-effect rounded-2xl p-6">
+                            <!-- Título "Dia Exemplo" traduzível -->
                             <h3 id="exampleDayTitle" class="font-bold text-white text-lg mb-4 text-center">Example Day</h3>
+                            <!-- Grelha 2x2 com as refeições do dia exemplo (preenchida pelo JavaScript) -->
                             <div id="mealsGrid" class="grid grid-cols-2 gap-4 mb-6">
-                                <!-- Populated by JS -->
+                                <!-- Pequeno-almoço, almoço, jantar e lanches gerados pelo JavaScript -->
                             </div>
+                            <!-- Subsecção da lista de compras -->
                             <div class="bg-white/5 rounded-xl p-4">
+                                <!-- Título "Lista de Compras" traduzível -->
                                 <h4 id="shoppingListTitle" class="font-bold text-white text-sm mb-3 text-center">Shopping List</h4>
+                                <!-- Grelha de ingredientes/alimentos (preenchida pelo JavaScript) -->
                                 <div id="shoppingList" class="grid grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto scrollbar-hide">
-                                    <!-- Populated by JS -->
+                                    <!-- Itens da lista de compras gerados pelo JavaScript -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lifestyle Section -->
+                    <!-- SECÇÃO: ESTILO DE VIDA - dicas de bem-estar (inicialmente oculta) -->
                     <div id="sectionLifestyle" class="space-y-4" style="display: none;">
                         <div class="glass-effect rounded-2xl p-6">
+                            <!-- Título "Diretrizes de Estilo de Vida" traduzível -->
                             <h3 id="lifestyleTitle" class="font-bold text-white text-lg mb-4 text-center">Lifestyle Guidelines</h3>
+                            <!-- Grelha de dicas de estilo de vida (preenchida pelo JavaScript) -->
                             <div id="lifestyleTips" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <!-- Populated by JS -->
+                                <!-- Dicas geradas pelo JavaScript a partir do plano do utilizador -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- No Plan Message -->
+                <!-- Mensagem exibida quando o utilizador não tem nenhum plano criado -->
                 <div id="noPlanSection" class="text-center py-12" style="display: none;">
                     <div class="inline-block p-8 glass-effect rounded-2xl">
+                        <!-- Ícone de estrela SVG decorativo -->
                         <svg class="icon-xl mx-auto mb-4 text-purple-400" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.913a2 2 0 001.899 1.381h6.212l-5.027 3.653a2 2 0 00-.727 2.236l1.931 5.952-5.028-3.654a2 2 0 00-2.344 0l-5.028 3.654 1.931-5.952a2 2 0 00-.727-2.236L2 10.294h6.212a2 2 0 001.899-1.381L12 3z"></path></svg>
+                        <!-- Título "Sem Plano Ainda" traduzível -->
                         <h3 id="noPlanTitle" class="text-2xl font-black text-white mb-2">No Plan Yet</h3>
+                        <!-- Subtítulo explicativo traduzível -->
                         <p id="noPlanSubtitle" class="text-gray-400 mb-6 max-w-md">Create your personalized fitness and nutrition plan first</p>
+                        <!-- Botão que redireciona para a página de criação do plano -->
                         <a href="start.html" class="btn btn-primary" id="createPlanBtn">Create Your Plan</a>
                     </div>
                 </div>
@@ -176,16 +220,18 @@
         </div>
     </main>
 
+    <!-- Script de módulo ES6: usa import para carregar a função getPlan do ficheiro de storage -->
     <script type="module">
+        // Importa a função de leitura do plano do utilizador a partir do módulo de armazenamento
         import { getPlan } from './js/storage.js';
 
-        // State
-        let plan = null;
-        let activeSection = 'metrics';
-        let activeTab = 0;
-        let locale = localStorage.getItem('locale') || 'en';
+        // Estado da aplicação
+        let plan = null;               // Objeto com o plano de fitness do utilizador
+        let activeSection = 'metrics'; // Secção atualmente visível
+        let activeTab = 0;             // Índice do dia do treino selecionado no calendário
+        let locale = localStorage.getItem('locale') || 'en'; // Idioma atual
 
-        // Translations
+        // Objeto de traduções para inglês e português
         const translations = {
             en: {
                 title: 'Your Plan',
@@ -239,8 +285,10 @@
             }
         };
 
+        // Seleciona as traduções para o idioma atual
         const t = translations[locale] || translations.en;
 
+        // Atualiza todos os textos traduzíveis da página
         function updateTranslations() {
             document.getElementById('pageTitle').textContent = t.title;
             document.getElementById('tabMetricsText').textContent = t.metrics;
@@ -257,19 +305,22 @@
             document.getElementById('createPlanBtn').textContent = t.createPlan;
         }
 
+        // Muda a secção visível e atualiza o estilo das abas
         window.setActiveSection = function(section) {
             activeSection = section;
 
-            // Update tabs
+            // Atualiza o estilo visual de cada aba (ativa vs inativa)
             ['metrics', 'training', 'nutrition', 'lifestyle'].forEach(s => {
                 const tab = document.getElementById('tab' + s.charAt(0).toUpperCase() + s.slice(1));
                 if (s === section) {
+                    // Aba ativa: fundo gradiente roxo-rosa com brilho
                     tab.className = 'px-8 py-4 rounded-2xl text-base font-black transition-all text-white shadow-lg border';
                     tab.style.minWidth = '120px';
                     tab.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4))';
                     tab.style.borderColor = 'rgba(168, 85, 247, 0.6)';
                     tab.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.3)';
                 } else {
+                    // Aba inativa: fundo semitransparente cinzento
                     tab.className = 'px-8 py-4 rounded-2xl text-base font-black transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10';
                     tab.style.minWidth = '120px';
                     tab.style.background = '';
@@ -278,26 +329,30 @@
                 }
             });
 
-            // Update sections
+            // Mostra apenas a secção ativa, esconde as restantes
             document.getElementById('sectionMetrics').style.display = section === 'metrics' ? 'block' : 'none';
             document.getElementById('sectionTraining').style.display = section === 'training' ? 'block' : 'none';
             document.getElementById('sectionNutrition').style.display = section === 'nutrition' ? 'block' : 'none';
             document.getElementById('sectionLifestyle').style.display = section === 'lifestyle' ? 'block' : 'none';
         };
 
+        // Muda o dia selecionado no calendário semanal de treino e re-renderiza
         window.setActiveTab = function(index) {
             activeTab = index;
             renderTrainingSection();
         };
 
+        // Renderiza a secção de métricas com IMC, gordura corporal, TMB, TDEE e macros
         function renderMetricsSection() {
             if (!plan) return;
 
             const metricsGrid = document.getElementById('metricsGrid');
+            // Formata os valores, mostrando '--' se não disponíveis
             const bmiValue = plan.bmi ? plan.bmi.toFixed(1) : '--';
             const bmrValue = plan.bmr ? Math.round(plan.bmr) : '--';
             const tdeeValue = plan.tdee ? Math.round(plan.tdee) : '--';
 
+            // Cria o cartão de IMC com fundo roxo
             let html = `
                 <div class="rounded-xl p-5 text-center" style="background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2);">
                     <div class="text-xs text-gray-400 mb-2">${t.bmi}</div>
@@ -305,6 +360,7 @@
                 </div>
             `;
 
+            // Adiciona o cartão de gordura corporal (rosa) apenas se o valor existir
             if (plan.bodyFat) {
                 html += `
                     <div class="rounded-xl p-5 text-center" style="background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2);">
@@ -314,6 +370,7 @@
                 `;
             }
 
+            // Adiciona cartões de TMB (azul) e TDEE (verde)
             html += `
                 <div class="rounded-xl p-5 text-center" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
                     <div class="text-xs text-gray-400 mb-2">${t.bmr}</div>
@@ -327,20 +384,22 @@
 
             metricsGrid.innerHTML = html;
 
-            // Calories
+            // Exibe o valor de calorias alvo
             document.getElementById('caloriesValue').textContent = plan.calories ? Math.round(plan.calories) : '--';
 
-            // Macros list
+            // Dados dos macronutrientes com cores associadas
             const macroData = [
-                { name: t.protein, grams: plan.proteinG || 0, color: '#ef4444' },
-                { name: t.carbs, grams: plan.carbG || 0, color: '#3b82f6' },
-                { name: t.fat, grams: plan.fatG || 0, color: '#f59e0b' }
+                { name: t.protein, grams: plan.proteinG || 0, color: '#ef4444' }, // Vermelho
+                { name: t.carbs, grams: plan.carbG || 0, color: '#3b82f6' },      // Azul
+                { name: t.fat, grams: plan.fatG || 0, color: '#f59e0b' }          // Amarelo
             ];
 
+            // Renderiza a lista de macros com indicador de cor, nome e quantidade em gramas
             const macrosList = document.getElementById('macrosList');
             macrosList.innerHTML = macroData.map(macro => `
                 <div class="flex justify-between items-center py-3 border-b last:border-0" style="border-color: rgba(255,255,255,0.05);">
                     <span class="text-white text-sm font-bold flex items-center">
+                        <!-- Círculo colorido como indicador visual -->
                         <span class="w-3 h-3 rounded-full mr-3" style="background-color: ${macro.color};"></span>
                         ${macro.name}
                     </span>
@@ -348,10 +407,11 @@
                 </div>
             `).join('');
 
-            // Draw pie chart
+            // Desenha o gráfico circular de macros
             drawPieChart(macroData);
         }
 
+        // Desenha o gráfico circular de distribuição de macronutrientes no canvas HTML5
         function drawPieChart(macroData) {
             const canvas = document.getElementById('pieChart');
             if (!canvas) return;
@@ -360,25 +420,27 @@
             const centerY = canvas.height / 2;
             const radius = 80;
 
-            // Calculate total calories from macros
+            // Calcula as calorias de cada macronutriente (proteína e hidratos: 4 kcal/g; gordura: 9 kcal/g)
             const proteinG = plan.proteinG || 0;
             const carbG = plan.carbG || 0;
             const fatG = plan.fatG || 0;
             const total = (proteinG * 4) + (carbG * 4) + (fatG * 9);
-            if (total === 0) return;
+            if (total === 0) return; // Não desenha se não há dados
             const data = [
                 { value: proteinG * 4, color: '#ef4444', name: t.protein },
                 { value: carbG * 4, color: '#3b82f6', name: t.carbs },
                 { value: fatG * 9, color: '#f59e0b', name: t.fat }
             ];
 
+            // Começa o primeiro setor no topo (−90 graus)
             let startAngle = -Math.PI / 2;
 
             data.forEach((slice, index) => {
+                // Calcula o ângulo proporcional à percentagem de calorias do macronutriente
                 const sliceAngle = (slice.value / total) * 2 * Math.PI;
                 const endAngle = startAngle + sliceAngle;
 
-                // Draw slice
+                // Desenha o setor do gráfico
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.arc(centerX, centerY, radius, startAngle, endAngle);
@@ -386,13 +448,13 @@
                 ctx.fillStyle = slice.color;
                 ctx.fill();
 
-                // Calculate label position
+                // Calcula a posição do rótulo no centro do setor
                 const midAngle = startAngle + sliceAngle / 2;
                 const labelRadius = radius * 0.65;
                 const labelX = centerX + Math.cos(midAngle) * labelRadius;
                 const labelY = centerY + Math.sin(midAngle) * labelRadius;
 
-                // Draw label
+                // Desenha o nome e a percentagem do macronutriente no setor
                 ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 11px sans-serif';
                 ctx.textAlign = 'center';
@@ -405,10 +467,12 @@
             });
         }
 
+        // Renderiza a secção de treino com calendário semanal e exercícios do dia
         function renderTrainingSection() {
-            // Support both 'days' and 'workouts' property names
+            // Suporta tanto a propriedade 'days' como 'workouts' no plano de treino
             const workouts = plan.trainingPlan?.workouts || plan.trainingPlan?.days;
 
+            // Se não há plano de treino, exibe mensagem com link para criar um
             if (!plan.trainingPlan || !workouts || workouts.length === 0) {
                 document.getElementById('sectionTraining').innerHTML = `
                     <div class="glass-effect rounded-2xl p-6 text-center">
@@ -418,18 +482,17 @@
                 return;
             }
 
-            // Split description
+            // Exibe a descrição do split (ex: "Push/Pull/Legs - 3 days per week")
             const daysPerWeek = plan.trainingPlan.daysPerWeek || workouts.length;
             const splitText = `${plan.trainingPlan.name} - ${daysPerWeek} days per week`;
             document.getElementById('trainingSplit').textContent = splitText;
 
-            // Build full week schedule with rest days every ~3 days
+            // Distribui os treinos pelos dias da semana de acordo com a frequência semanal
             const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             let fullWeek = [];
 
-            // Create a 7-day week with rest days distributed every 3 days
+            // Padrão para 3 treinos por semana: Treino, Treino, Descanso, Treino, Descanso, Descanso, Descanso
             if (daysPerWeek === 3) {
-                // Workout, Workout, Rest pattern
                 fullWeek = [
                     { ...workouts[0], dayLabel: 'Mon', isRest: false },
                     { ...workouts[1], dayLabel: 'Tue', isRest: false },
@@ -440,7 +503,7 @@
                     { dayLabel: 'Sun', isRest: true }
                 ];
             } else if (daysPerWeek === 4) {
-                // 2 workouts, rest, 2 workouts, rest pattern
+                // Padrão para 4 treinos: 2 treinos, descanso, 2 treinos, descanso, descanso
                 fullWeek = [
                     { ...workouts[0], dayLabel: 'Mon', isRest: false },
                     { ...workouts[1], dayLabel: 'Tue', isRest: false },
@@ -451,7 +514,7 @@
                     { dayLabel: 'Sun', isRest: true }
                 ];
             } else if (daysPerWeek === 5) {
-                // 2 workouts, rest, 3 workouts, rest pattern
+                // Padrão para 5 treinos: 2 treinos, descanso, 3 treinos, descanso
                 fullWeek = [
                     { ...workouts[0], dayLabel: 'Mon', isRest: false },
                     { ...workouts[1], dayLabel: 'Tue', isRest: false },
@@ -462,7 +525,7 @@
                     { dayLabel: 'Sun', isRest: true }
                 ];
             } else if (daysPerWeek === 6) {
-                // 2 workouts, rest, 2 workouts, rest, 2 workouts pattern
+                // Padrão para 6 treinos: 2, descanso, 2, 2
                 fullWeek = [
                     { ...workouts[0], dayLabel: 'Mon', isRest: false },
                     { ...workouts[1], dayLabel: 'Tue', isRest: false },
@@ -473,28 +536,28 @@
                     { ...workouts[5], dayLabel: 'Sun', isRest: false }
                 ];
             } else {
-                // Default: distribute workouts with rest every 3 days
+                // Para qualquer outro número, distribui os treinos em ordem e preenche com descanso
                 fullWeek = workouts.map((w, i) => ({ ...w, dayLabel: dayNames[i] || `Day ${i+1}`, isRest: false }));
                 while (fullWeek.length < 7) {
                     fullWeek.push({ dayLabel: dayNames[fullWeek.length], isRest: true });
                 }
             }
 
-            // Week calendar
+            // Renderiza os botões do calendário semanal
             const weekCalendar = document.getElementById('weekCalendar');
             weekCalendar.innerHTML = fullWeek.map((day, index) => {
                 const isActive = activeTab === index;
 
                 let btnStyle, icon, labelColor;
                 if (day.isRest) {
-                    // Rest day styling
+                    // Dia de descanso: estilo cinzento, ícone de lua
                     btnStyle = isActive
                         ? 'background: rgba(75, 85, 99, 0.5); border: 2px solid rgba(107, 114, 128, 0.8);'
                         : 'background: rgba(31, 41, 55, 0.4); border: 1px solid rgba(75, 85, 99, 0.5);';
                     icon = `<svg style="width: 20px; height: 20px; color: #9ca3af; margin-bottom: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
                     labelColor = '#9ca3af';
                 } else {
-                    // Workout day styling
+                    // Dia de treino: estilo roxo, ícone de atividade
                     btnStyle = isActive
                         ? 'background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4)); border: 2px solid rgba(168, 85, 247, 0.7); box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);'
                         : 'background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);';
@@ -502,6 +565,7 @@
                     labelColor = '#ffffff';
                 }
 
+                // Botão do dia com ícone, abreviatura do dia e nome do treino/descanso
                 return `
                     <button onclick="setActiveTab(${index})" style="width: 80px; height: 80px; min-width: 80px; min-height: 80px; border-radius: 12px; ${btnStyle} cursor: pointer; transition: all 0.2s;">
                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 8px;">
@@ -513,19 +577,21 @@
                 `;
             }).join('');
 
-            // Current day details
+            // Obtém os dados do dia atualmente selecionado
             const currentDay = fullWeek[activeTab];
             if (!currentDay) return;
 
             const exerciseList = document.getElementById('exerciseList');
 
             if (currentDay.isRest) {
+                // Exibe informações de recuperação para dias de descanso
                 document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - Rest Day`;
                 exerciseList.innerHTML = `
                     <div class="bg-gray-800/30 rounded-xl p-8 text-center border border-gray-700/50">
                         <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
                         <h4 class="text-xl font-bold text-white mb-2">Rest & Recovery</h4>
                         <p class="text-gray-400 text-sm mb-4">Your body grows stronger during rest. Use this day to recover.</p>
+                        <!-- Grelha com dicas de recuperação: sono, hidratação, nutrição e atividade leve -->
                         <div class="grid grid-cols-2 gap-3 text-left max-w-md mx-auto">
                             <div class="bg-white/5 rounded-lg p-3">
                                 <div class="text-purple-400 font-bold text-sm mb-1">💤 Sleep</div>
@@ -547,21 +613,26 @@
                     </div>
                 `;
             } else if (currentDay.exercises && currentDay.exercises.length > 0) {
+                // Exibe a lista de exercícios do dia de treino
                 document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - ${currentDay.day || 'Workout'}`;
                 exerciseList.innerHTML = currentDay.exercises.map((exercise, i) => `
                     <div class="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
                         <div class="flex justify-between items-start">
                             <div class="flex-1">
+                                <!-- Nome do exercício em negrito -->
                                 <div class="font-bold text-white mb-1">${exercise.name}</div>
+                                <!-- Séries e repetições -->
                                 <div class="text-xs text-gray-400">
                                     ${exercise.sets} sets x ${exercise.reps} reps
                                 </div>
                             </div>
+                            <!-- Número de ordem do exercício em roxo -->
                             <div class="text-lg font-black text-purple-400">${i + 1}</div>
                         </div>
                     </div>
                 `).join('');
             } else {
+                // Mensagem de fallback quando o dia não tem exercícios definidos
                 document.getElementById('currentDayTitle').textContent = currentDay.dayLabel;
                 exerciseList.innerHTML = `
                     <div class="text-center p-4 text-gray-400">
@@ -571,6 +642,7 @@
             }
         }
 
+        // Renderiza a secção de nutrição com o dia exemplo e a lista de compras
         function renderNutritionSection() {
             if (!plan.nutritionPlan) {
                 document.getElementById('sectionNutrition').innerHTML = `
@@ -581,12 +653,14 @@
                 return;
             }
 
-            // Example day meals
+            // Renderiza as refeições do dia exemplo (pequeno-almoço, almoço, jantar, etc.)
             const mealsGrid = document.getElementById('mealsGrid');
             if (plan.nutritionPlan.exampleDay) {
                 mealsGrid.innerHTML = plan.nutritionPlan.exampleDay.map(meal => `
                     <div class="p-4 bg-white/5 border border-white/10 rounded-xl">
+                        <!-- Nome da refeição em negrito -->
                         <h4 class="font-bold text-white text-sm mb-3">${meal.meal}</h4>
+                        <!-- Lista de alimentos da refeição com quantidade -->
                         <ul class="space-y-1">
                             ${meal.items.map(item => `
                                 <li class="text-xs text-gray-300 flex items-start">
@@ -599,7 +673,7 @@
                 `).join('');
             }
 
-            // Shopping list
+            // Renderiza a lista de compras (cada item numa cápsula escura)
             const shoppingList = document.getElementById('shoppingList');
             if (plan.nutritionPlan.shoppingList) {
                 shoppingList.innerHTML = plan.nutritionPlan.shoppingList.map(item => `
@@ -610,9 +684,11 @@
             }
         }
 
+        // Renderiza a secção de estilo de vida com as dicas do plano
         function renderLifestyleSection() {
             const lifestyleTips = document.getElementById('lifestyleTips');
 
+            // Se não há dicas, exibe mensagem
             if (!plan.lifestyleTips || plan.lifestyleTips.length === 0) {
                 lifestyleTips.innerHTML = `
                     <div class="col-span-2 text-center p-4 text-gray-400">
@@ -622,48 +698,58 @@
                 return;
             }
 
+            // Renderiza cada dica num cartão com visto verde
             lifestyleTips.innerHTML = plan.lifestyleTips.map(tip => `
                 <div class="flex items-start p-4 bg-white/5 border border-white/10 rounded-xl">
+                    <!-- Ícone de visto (✓) em verde -->
                     <span class="text-green-400 mr-3 mt-0.5">&#10003;</span>
                     <span class="text-gray-300 text-sm">${tip}</span>
                 </div>
             `).join('');
         }
 
+        // Função de inicialização: carrega o plano e renderiza todas as secções
         function init() {
             try {
+                // Obtém o plano do utilizador do localStorage via módulo de storage
                 plan = getPlan();
 
                 updateTranslations();
 
                 if (!plan) {
-                    // Show no plan message
+                    // Se não há plano, esconde as secções e mostra a mensagem de criação
                     document.getElementById('sectionMetrics').style.display = 'none';
                     document.getElementById('noPlanSection').style.display = 'block';
+                    // Esconde todas as abas
                     document.querySelectorAll('[id^="tab"]').forEach(tab => tab.style.display = 'none');
                     return;
                 }
 
-                // Set created date
+                // Exibe a data de criação do plano formatada
                 if (plan.createdAt) {
                     const date = new Date(plan.createdAt);
                     document.getElementById('createdDate').textContent = t.created + ' ' + date.toLocaleDateString();
                 }
 
+                // Renderiza todas as secções do plano
                 renderMetricsSection();
                 renderTrainingSection();
                 renderNutritionSection();
                 renderLifestyleSection();
             } catch (error) {
+                // Em caso de erro (ex: dados corrompidos), exibe a mensagem de sem plano
                 console.error('Error loading plan:', error);
                 document.getElementById('sectionMetrics').style.display = 'none';
                 document.getElementById('noPlanSection').style.display = 'block';
             }
         }
 
+        // Executa a inicialização
         init();
     </script>
+    <!-- Script da barra de progresso de peso -->
     <script src="/js/weight-progress-bar.js"></script>
+    <!-- Script de autenticação e gestão do navbar -->
     <script src="/js/auth-nav.js"></script>
 </body>
 </html>

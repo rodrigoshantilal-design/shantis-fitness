@@ -1,24 +1,56 @@
+/* ============================================================
+   FICHEIRO PRINCIPAL DE ESTILOS - styles.css
+   Este ficheiro define toda a aparência visual da aplicação,
+   incluindo o tema escuro, animações de fundo, componentes
+   reutilizáveis, utilitários de layout e estilos responsivos.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   IMPORTAÇÃO DE FONTE EXTERNA
+   Carrega a fonte "Montserrat" do Google Fonts com vários
+   pesos (400=normal, 500=médio, 600=semi-negrito, 700=negrito,
+   800=extra-negrito, 900=preto). O parâmetro display=swap
+   garante que o texto fique visível enquanto a fonte carrega.
+   ------------------------------------------------------------ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
+/* ------------------------------------------------------------
+   VARIÁVEIS GLOBAIS DE COR E ESTILO (Custom Properties)
+   Definidas em :root, estas variáveis CSS estão disponíveis
+   em toda a folha de estilos. Facilitam a manutenção do tema:
+   basta alterar um valor aqui para atualizar toda a aplicação.
+   O tema escolhido é escuro (dark mode), com fundo preto e
+   texto branco.
+   ------------------------------------------------------------ */
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --card: #0f0f0f;
-  --card-foreground: #fafafa;
-  --primary: #ffffff;
-  --primary-foreground: #000000;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #e5e5e5;
-  --muted: #171717;
-  --muted-foreground: #a3a3a3;
-  --accent: #1a1a1a;
-  --accent-foreground: #fafafa;
-  --border: #1f1f1f;
-  --input: #171717;
-  --ring: #ffffff;
-  --radius: 0.75rem;
+  --background: #000000;          /* Cor de fundo principal — preto puro */
+  --foreground: #ffffff;          /* Cor do texto principal — branco puro */
+  --card: #0f0f0f;                /* Fundo dos cartões — preto muito escuro */
+  --card-foreground: #fafafa;     /* Texto dentro dos cartões — quase branco */
+  --primary: #ffffff;             /* Cor primária da interface — branco */
+  --primary-foreground: #000000;  /* Texto sobre elementos primários — preto */
+  --secondary: #1a1a1a;           /* Cor secundária — cinzento muito escuro */
+  --secondary-foreground: #e5e5e5;/* Texto sobre elementos secundários — cinzento claro */
+  --muted: #171717;               /* Cor de elementos apagados/subtis — quase preto */
+  --muted-foreground: #a3a3a3;    /* Texto apagado/subtil — cinzento médio */
+  --accent: #1a1a1a;              /* Cor de destaque/accent — cinzento escuro */
+  --accent-foreground: #fafafa;   /* Texto sobre elementos de destaque — quase branco */
+  --border: #1f1f1f;              /* Cor das bordas/linhas divisórias — cinzento escuro */
+  --input: #171717;               /* Fundo dos campos de entrada — quase preto */
+  --ring: #ffffff;                /* Cor do anel de foco (acessibilidade) — branco */
+  --radius: 0.75rem;              /* Raio de arredondamento padrão dos cantos — 12px */
 }
 
+/* ------------------------------------------------------------
+   RESET UNIVERSAL
+   O selector * aplica-se a TODOS os elementos HTML.
+   Remove margens e espaçamentos predefinidos do navegador,
+   usa o modelo de caixa "border-box" (largura inclui bordas
+   e espaçamento interno), aplica a fonte Montserrat globalmente,
+   define o peso da fonte como semi-negrito, usa a cor de borda
+   da variável definida acima, remove o contorno de foco padrão
+   e adiciona transição suave de cores.
+   ------------------------------------------------------------ */
 /* Reset */
 * {
   margin: 0;
@@ -31,485 +63,790 @@
   transition: colors 0.2s;
 }
 
+/* ------------------------------------------------------------
+   ESTILOS BASE DO DOCUMENTO
+   Aplicados ao elemento <html> e <body>.
+   Define o fundo preto e texto branco para toda a página.
+   Activa a suavização de fontes para melhor legibilidade
+   nos sistemas macOS/iOS (webkit) e Firefox (moz).
+   O overflow-x: hidden impede scroll horizontal indesejado.
+   min-height: 100vh garante que a página ocupa, no mínimo,
+   toda a altura do ecrã.
+   ------------------------------------------------------------ */
 html, body {
   background: #000000;
   color: #ffffff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;      /* Suavização de fontes para WebKit (Chrome, Safari) */
+  -moz-osx-font-smoothing: grayscale;       /* Suavização de fontes para Firefox no macOS */
   position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 100vh;                        /* Ocupa pelo menos 100% da altura do ecrã */
+  overflow-x: hidden;                       /* Esconde scroll horizontal */
 }
 
+/* ------------------------------------------------------------
+   CAMADAS DE FUNDO ANIMADO — PSEUDO-ELEMENTO ::before do body
+   Cria uma primeira camada de gradientes radiais coloridos
+   posicionada atrás de todo o conteúdo (z-index: -2).
+   Os gradientes criam brilhos azuis, verdes e cor-de-rosa
+   subtis que dão profundidade ao fundo escuro.
+   A animação "backgroundPulse" faz a camada pulsar suavemente
+   com duração de 20 segundos em loop infinito.
+   pointer-events: none garante que não interfere com cliques.
+   ------------------------------------------------------------ */
 /* Animated Background Layers */
 body::before {
   content: "" !important;
-  position: fixed !important;
-  inset: 0 !important;
+  position: fixed !important;           /* Fixo ao ecrã, não scroll com a página */
+  inset: 0 !important;                  /* Ocupa toda a área visível (top/right/bottom/left: 0) */
   width: 100vw !important;
   height: 100vh !important;
-  z-index: -2 !important;
-  pointer-events: none !important;
+  z-index: -2 !important;              /* Fica atrás de todo o conteúdo */
+  pointer-events: none !important;     /* Não intercepta eventos de rato/toque */
   opacity: 1 !important;
   background:
     radial-gradient(ellipse 1200px 800px at 50% 20%, rgba(59, 130, 246, 0.18) 0%, transparent 50%),
+    /* Brilho azul no topo ao centro */
     radial-gradient(ellipse 1000px 600px at 30% 70%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+    /* Brilho verde na parte inferior esquerda */
     radial-gradient(ellipse 800px 500px at 70% 60%, rgba(236, 72, 153, 0.10) 0%, transparent 50%),
+    /* Brilho cor-de-rosa na parte inferior direita */
     linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, transparent 50%, rgba(16, 185, 129, 0.06) 100%) !important;
+    /* Gradiente linear diagonal subtil azul-verde */
   animation: backgroundPulse 20s ease-in-out infinite both !important;
+  /* Animação de pulso suave com duração de 20 segundos */
 }
 
+/* ------------------------------------------------------------
+   CAMADAS DE FUNDO ANIMADO — PSEUDO-ELEMENTO ::after do body
+   Segunda camada de fundo, posicionada ligeiramente à frente
+   da primeira (z-index: -1), mas ainda atrás do conteúdo.
+   É definida com tamanho 200% e posicionada em -50%/-50%
+   para permitir rotação sem cortes visíveis.
+   Os gradientes criam brilhos âmbar, violeta e índigo subtis.
+   A animação "gradientRotate" faz esta camada rodar 360°
+   continuamente ao longo de 30 segundos.
+   ------------------------------------------------------------ */
 body::after {
   content: "" !important;
   position: fixed !important;
-  top: -50% !important;
-  left: -50% !important;
-  width: 200% !important;
+  top: -50% !important;                /* Deslocado para cima para centrar durante rotação */
+  left: -50% !important;              /* Deslocado para a esquerda pelo mesmo motivo */
+  width: 200% !important;             /* O dobro do tamanho para cobrir durante rotação */
   height: 200% !important;
-  z-index: -1 !important;
+  z-index: -1 !important;            /* Entre a primeira camada e o conteúdo */
   pointer-events: none !important;
   opacity: 1 !important;
   background:
     radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.10) 0%, transparent 50%),
+    /* Brilho âmbar/dourado na esquerda */
     radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.10) 0%, transparent 50%),
+    /* Brilho violeta no canto inferior direito */
     radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%) !important;
+    /* Brilho índigo no centro superior */
   animation: gradientRotate 30s linear infinite both !important;
+  /* Rotação contínua durante 30 segundos */
 }
 
+/* ------------------------------------------------------------
+   ANIMAÇÕES KEYFRAME
+   Definem o comportamento das animações ao longo do tempo.
+   ------------------------------------------------------------ */
 /* Keyframe animations */
+
+/* backgroundPulse: faz a camada de fundo pulsar suavemente
+   entre escala 1 (tamanho normal) e 1.05 (ligeiramente maior),
+   reduzindo também a opacidade a meio da animação para um
+   efeito de "respiração" subtil. */
 @keyframes backgroundPulse {
   0%, 100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1);        /* Tamanho original no início e no fim */
   }
   50% {
-    opacity: 0.8;
-    transform: scale(1.05);
+    opacity: 0.8;               /* Ligeiramente mais transparente a meio */
+    transform: scale(1.05);     /* Ligeiramente maior a meio */
   }
 }
 
+/* gradientRotate: roda o elemento 360° de forma contínua,
+   criando o efeito de fundo em movimento permanente. */
 @keyframes gradientRotate {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg);    /* Posição inicial — sem rotação */
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(360deg);  /* Uma volta completa */
   }
 }
 
+/* fadeInSlide: animação de entrada de elementos na página.
+   O elemento começa invisível (opacity: 0), ligeiramente
+   deslocado para baixo (translateY 20px) e ligeiramente
+   reduzido (scale 0.98), e transita suavemente para o
+   estado visível, na posição correcta e tamanho normal. */
 @keyframes fadeInSlide {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(20px) scale(0.98); /* Começa abaixo e ligeiramente menor */
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);       /* Termina na posição e tamanho correctos */
   }
 }
 
+/* shimmer: desliza um brilho da esquerda para a direita.
+   Usado normalmente em estados de carregamento (skeleton/loading).
+   O elemento começa completamente fora do lado esquerdo
+   e termina completamente fora do lado direito. */
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100%);  /* Fora do ecrã à esquerda */
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(100%);   /* Fora do ecrã à direita */
   }
 }
 
+/* ------------------------------------------------------------
+   EFEITO DE VIDRO (Glassmorphism)
+   A classe .glass-effect cria o popular efeito de "vidro fosco":
+   fundo semi-transparente branco muito subtil, desfocagem
+   do fundo (backdrop-filter: blur), borda semi-transparente
+   e sombra suave. A transição cúbica dá fluidez à animação.
+   ------------------------------------------------------------ */
 /* Glass effect */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.04);       /* Fundo branco muito subtil (4% opacidade) */
+  backdrop-filter: blur(20px);                  /* Desfoca o fundo por detrás do elemento */
+  -webkit-backdrop-filter: blur(20px);          /* Versão prefixada para Safari/WebKit */
+  border: 1px solid rgba(255, 255, 255, 0.1);  /* Borda branca subtil (10% opacidade) */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);  /* Sombra suave para profundidade */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave e natural */
 }
 
+/* Estado hover do efeito de vidro: fundo e borda ligeiramente
+   mais visíveis, e sombra mais intensa, para dar feedback
+   visual ao utilizador quando passa o rato por cima. */
 .glass-effect:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.06);        /* Fundo ligeiramente mais visível */
+  border-color: rgba(255, 255, 255, 0.15);      /* Borda ligeiramente mais visível */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);   /* Sombra mais intensa */
 }
 
+/* ------------------------------------------------------------
+   CARTÃO MELHORADO (Card Enhanced)
+   A classe .card-enhanced define cartões de conteúdo com
+   fundo escuro semi-transparente, desfocagem de fundo,
+   borda violeta subtil e cantos arredondados.
+   O espaçamento interno (padding) de 1.5rem (24px) cria
+   uma área de respiro confortável para o conteúdo.
+   ------------------------------------------------------------ */
 /* Card enhanced */
 .card-enhanced {
-  background: rgba(15, 15, 15, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 92, 246, 0.1);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(15, 15, 15, 0.8);              /* Fundo quase preto a 80% de opacidade */
+  backdrop-filter: blur(20px);                     /* Desfoca o fundo atrás do cartão */
+  border: 1px solid rgba(139, 92, 246, 0.1);      /* Borda violeta muito subtil */
+  border-radius: 0.75rem;                           /* Cantos arredondados (12px) */
+  padding: 1.5rem;                                  /* Espaçamento interno de 24px */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave */
 }
 
+/* Estado hover do cartão melhorado: borda violeta mais intensa,
+   fundo ligeiramente mais opaco, elevação subtil (move 2px
+   para cima) e sombra violeta para efeito de profundidade. */
 .card-enhanced:hover {
-  border-color: rgba(139, 92, 246, 0.3);
-  background: rgba(15, 15, 15, 0.9);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);           /* Borda violeta mais visível */
+  background: rgba(15, 15, 15, 0.9);               /* Fundo ligeiramente mais opaco */
+  transform: translateY(-2px);                      /* Eleva o cartão 2px ao passar o rato */
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15); /* Brilho violeta subtil por baixo */
 }
 
+/* ------------------------------------------------------------
+   ESTILOS BASE DE BOTÕES E LIGAÇÕES
+   Aplicados a todos os elementos <button> e <a>.
+   Define o cursor de ponteiro, transição suave, remove
+   decoração de texto (sublinhado), herda a cor do elemento
+   pai, e remove bordas e fundo predefinidos.
+   ------------------------------------------------------------ */
 /* Button hover effects */
 button, a {
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-  color: inherit;
+  cursor: pointer;                                   /* Cursor de mão ao passar por cima */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave e natural */
+  text-decoration: none;                             /* Remove sublinhado das ligações */
+  color: inherit;                                    /* Herda a cor do elemento pai */
+  border: none;                                      /* Remove bordas predefinidas */
+  background: none;                                  /* Remove fundo predefinido */
 }
 
+/* Efeito hover para botões activos e ligações:
+   eleva o elemento 1px para cima, dando sensação de
+   interactividade física. */
 button:hover:not(:disabled), a:hover {
-  transform: translateY(-1px);
+  transform: translateY(-1px);   /* Sobe 1px ao passar o rato */
 }
 
+/* Estado activo (quando se clica): volta à posição original,
+   simulando o efeito de pressionar um botão. */
 button:active:not(:disabled), a:active {
-  transform: translateY(0);
+  transform: translateY(0);      /* Regressa à posição original ao clicar */
 }
 
+/* Botões desactivados: ficam semi-transparentes e o cursor
+   muda para "não permitido", indicando ao utilizador que
+   a acção não está disponível. */
 button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  opacity: 0.5;            /* Metade da opacidade — aparência "apagada" */
+  cursor: not-allowed;     /* Cursor de proibição */
 }
 
+/* ------------------------------------------------------------
+   MELHORIAS DE FOCO EM CAMPOS DE ENTRADA
+   Quando um campo de texto, área de texto ou lista de selecção
+   recebe foco (clique ou navegação por teclado), aplica:
+   - Contorno violeta semi-transparente de 2px
+   - Deslocamento do contorno de 2px (espaço entre elemento e contorno)
+   - Brilho violeta subtil em volta
+   - Borda violeta mais visível
+   Melhora a acessibilidade e a experiência do utilizador.
+   ------------------------------------------------------------ */
 /* Input focus improvements */
 input:focus, textarea:focus, select:focus {
-  outline: 2px solid rgba(139, 92, 246, 0.5);
-  outline-offset: 2px;
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
-  border-color: rgba(139, 92, 246, 0.5);
+  outline: 2px solid rgba(139, 92, 246, 0.5);   /* Contorno violeta a 50% opacidade */
+  outline-offset: 2px;                           /* 2px de espaço entre o campo e o contorno */
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); /* Brilho violeta suave ao redor */
+  border-color: rgba(139, 92, 246, 0.5);         /* Borda violeta a 50% opacidade */
 }
 
+/* ------------------------------------------------------------
+   CONTEÚDO PRINCIPAL — elemento <main>
+   Aplica a animação fadeInSlide para que cada página apareça
+   suavemente ao carregar. A largura máxima de 2400px com
+   margem automática centra o conteúdo em ecrãs muito largos.
+   ------------------------------------------------------------ */
 /* Smooth page transitions */
 main {
-  animation: fadeInSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 2400px;
-  margin: 0 auto;
+  animation: fadeInSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Entrada animada suave */
+  max-width: 2400px;    /* Largura máxima para ecrãs muito grandes */
+  margin: 0 auto;       /* Centra horizontalmente */
 }
 
+/* ------------------------------------------------------------
+   BARRA DE SCROLL PERSONALIZADA (apenas WebKit/Blink)
+   Personaliza a aparência da barra de scroll para browsers
+   baseados em Chrome/Safari/Edge. Os browsers Firefox
+   usam uma propriedade diferente (scrollbar-color).
+   ------------------------------------------------------------ */
 /* Custom scrollbar */
+
+/* Tamanho da barra de scroll: 8px de largura (vertical)
+   e 8px de altura (horizontal). */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
+/* Fundo da pista da barra de scroll — área por onde
+   o polegar desliza. Cor quase preta. */
 ::-webkit-scrollbar-track {
-  background: #0f0f0f;
+  background: #0f0f0f;   /* Pista escura — quase preta */
 }
 
+/* O polegar (thumb) é a parte arrastável da barra de scroll.
+   Cor cinzento muito escuro com cantos arredondados. */
 ::-webkit-scrollbar-thumb {
-  background: #1f1f1f;
-  border-radius: 4px;
+  background: #1f1f1f;   /* Polegar cinzento muito escuro */
+  border-radius: 4px;    /* Cantos ligeiramente arredondados */
 }
 
+/* Quando o utilizador passa o rato sobre o polegar,
+   fica ligeiramente mais claro para dar feedback visual. */
 ::-webkit-scrollbar-thumb:hover {
-  background: #2a2a2a;
+  background: #2a2a2a;   /* Ligeiramente mais claro ao hover */
 }
 
+/* ============================================================
+   CLASSES UTILITÁRIAS
+   Inspiradas no Tailwind CSS, estas classes de utilidade
+   permitem construir layouts directamente no HTML sem
+   escrever CSS adicional. Cada classe tem uma única
+   responsabilidade bem definida.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   CONTENTOR PRINCIPAL
+   Centra o conteúdo horizontalmente com uma largura máxima
+   de 1280px e espaçamento lateral de 1.5rem (24px).
+   ------------------------------------------------------------ */
 /* Utility classes */
 .container {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  max-width: 1280px;   /* Largura máxima de 1280px */
+  margin: 0 auto;      /* Centrado horizontalmente */
+  padding: 0 1.5rem;   /* Espaçamento lateral de 24px */
 }
 
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE FLEXBOX
+   Controlam a disposição dos elementos com CSS Flexbox.
+   ------------------------------------------------------------ */
+
+/* Activa o modelo de layout Flexbox */
 .flex {
   display: flex;
 }
 
+/* Organiza os filhos em coluna (de cima para baixo) */
 .flex-col {
   flex-direction: column;
 }
 
+/* Alinha os filhos ao centro no eixo transversal */
 .items-center {
   align-items: center;
 }
 
+/* Centra os filhos no eixo principal */
 .justify-center {
   justify-content: center;
 }
 
+/* Distribui os filhos com espaço igual entre eles,
+   colocando o primeiro no início e o último no fim */
 .justify-between {
   justify-content: space-between;
 }
 
-.gap-1 { gap: 0.25rem; }
-.gap-2 { gap: 0.5rem; }
-.gap-3 { gap: 0.75rem; }
-.gap-4 { gap: 1rem; }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE ESPAÇAMENTO ENTRE ELEMENTOS (gap)
+   Controlam o espaço entre filhos numa grelha ou flexbox.
+   Os valores seguem a escala: 1 unidade = 0.25rem (4px).
+   ------------------------------------------------------------ */
+.gap-1 { gap: 0.25rem; }  /* 4px entre elementos */
+.gap-2 { gap: 0.5rem; }   /* 8px entre elementos */
+.gap-3 { gap: 0.75rem; }  /* 12px entre elementos */
+.gap-4 { gap: 1rem; }     /* 16px entre elementos */
+.gap-6 { gap: 1.5rem; }   /* 24px entre elementos */
+.gap-8 { gap: 2rem; }     /* 32px entre elementos */
 
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.p-4 { padding: 1rem; }
-.p-5 { padding: 1.25rem; }
-.p-6 { padding: 1.5rem; }
-.p-8 { padding: 2rem; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE ESPAÇAMENTO INTERNO (padding)
+   Aplicam espaçamento interno em todos os lados (p-),
+   apenas horizontal (px-) ou apenas vertical (py-).
+   ------------------------------------------------------------ */
+.p-2 { padding: 0.5rem; }   /* 8px em todos os lados */
+.p-3 { padding: 0.75rem; }  /* 12px em todos os lados */
+.p-4 { padding: 1rem; }     /* 16px em todos os lados */
+.p-5 { padding: 1.25rem; }  /* 20px em todos os lados */
+.p-6 { padding: 1.5rem; }   /* 24px em todos os lados */
+.p-8 { padding: 2rem; }     /* 32px em todos os lados */
 
-.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-.px-8 { padding-left: 2rem; padding-right: 2rem; }
-.px-12 { padding-left: 3rem; padding-right: 3rem; }
+/* Padding apenas nos lados esquerdo e direito (horizontal) */
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }   /* 12px horizontal */
+.px-4 { padding-left: 1rem; padding-right: 1rem; }          /* 16px horizontal */
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }      /* 24px horizontal */
+.px-8 { padding-left: 2rem; padding-right: 2rem; }          /* 32px horizontal */
+.px-12 { padding-left: 3rem; padding-right: 3rem; }         /* 48px horizontal */
 
-.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-.py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
-.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+/* Padding apenas em cima e em baixo (vertical) */
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }   /* 4px vertical */
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }     /* 8px vertical */
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }   /* 12px vertical */
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }         /* 16px vertical */
+.py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }   /* 20px vertical */
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }     /* 24px vertical */
 
-.m-auto { margin: auto; }
-.mx-auto { margin-left: auto; margin-right: auto; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE MARGEM EXTERNA
+   Controlam o espaçamento externo dos elementos.
+   ------------------------------------------------------------ */
+.m-auto { margin: auto; }                           /* Centra em todos os lados */
+.mx-auto { margin-left: auto; margin-right: auto; } /* Centra apenas horizontalmente */
 
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 0.75rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
-.mb-8 { margin-bottom: 2rem; }
+/* Margens apenas em baixo (margin-bottom) */
+.mb-1 { margin-bottom: 0.25rem; }  /* 4px abaixo */
+.mb-2 { margin-bottom: 0.5rem; }   /* 8px abaixo */
+.mb-3 { margin-bottom: 0.75rem; }  /* 12px abaixo */
+.mb-4 { margin-bottom: 1rem; }     /* 16px abaixo */
+.mb-6 { margin-bottom: 1.5rem; }   /* 24px abaixo */
+.mb-8 { margin-bottom: 2rem; }     /* 32px abaixo */
 
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-6 { margin-top: 1.5rem; }
+/* Margens apenas em cima (margin-top) */
+.mt-1 { margin-top: 0.25rem; }  /* 4px acima */
+.mt-2 { margin-top: 0.5rem; }   /* 8px acima */
+.mt-4 { margin-top: 1rem; }     /* 16px acima */
+.mt-6 { margin-top: 1.5rem; }   /* 24px acima */
 
-.pt-4 { padding-top: 1rem; }
-.pt-6 { padding-top: 1.5rem; }
-.pt-8 { padding-top: 2rem; }
-.pt-20 { padding-top: 5rem; }
+/* Padding apenas em cima (padding-top) */
+.pt-4 { padding-top: 1rem; }    /* 16px em cima */
+.pt-6 { padding-top: 1.5rem; }  /* 24px em cima */
+.pt-8 { padding-top: 2rem; }    /* 32px em cima */
+.pt-20 { padding-top: 5rem; }   /* 80px em cima — usado para compensar a navbar fixa */
 
-.pb-24 { padding-bottom: 6rem; }
+/* Padding apenas em baixo (padding-bottom) */
+.pb-24 { padding-bottom: 6rem; } /* 96px em baixo — espaço para conteúdo acima da barra inferior */
 
-.text-xs { font-size: 0.75rem; line-height: 1rem; }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.text-base { font-size: 1rem; line-height: 1.5rem; }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.text-5xl { font-size: 3rem; line-height: 1; }
-.text-6xl { font-size: 3.75rem; line-height: 1; }
-.text-7xl { font-size: 4.5rem; line-height: 1; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE TAMANHO DE TEXTO (font-size)
+   Define o tamanho e a altura de linha do texto.
+   Seguem a escala tipográfica do Tailwind CSS.
+   ------------------------------------------------------------ */
+.text-xs   { font-size: 0.75rem;  line-height: 1rem; }     /* Extra pequeno — 12px */
+.text-sm   { font-size: 0.875rem; line-height: 1.25rem; }  /* Pequeno — 14px */
+.text-base { font-size: 1rem;     line-height: 1.5rem; }   /* Base/normal — 16px */
+.text-lg   { font-size: 1.125rem; line-height: 1.75rem; }  /* Grande — 18px */
+.text-xl   { font-size: 1.25rem;  line-height: 1.75rem; }  /* Extra grande — 20px */
+.text-2xl  { font-size: 1.5rem;   line-height: 2rem; }     /* 2x grande — 24px */
+.text-3xl  { font-size: 1.875rem; line-height: 2.25rem; }  /* 3x grande — 30px */
+.text-4xl  { font-size: 2.25rem;  line-height: 2.5rem; }   /* 4x grande — 36px */
+.text-5xl  { font-size: 3rem;     line-height: 1; }        /* 5x grande — 48px */
+.text-6xl  { font-size: 3.75rem;  line-height: 1; }        /* 6x grande — 60px */
+.text-7xl  { font-size: 4.5rem;   line-height: 1; }        /* 7x grande — 72px */
 
-.font-medium { font-weight: 500 !important; }
-.font-semibold { font-weight: 600 !important; }
-.font-bold { font-weight: 700 !important; }
-.font-black { font-weight: 900 !important; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE PESO DA FONTE
+   Controlam a espessura dos caracteres.
+   ------------------------------------------------------------ */
+.font-medium  { font-weight: 500 !important; }  /* Médio */
+.font-semibold { font-weight: 600 !important; } /* Semi-negrito */
+.font-bold    { font-weight: 700 !important; }  /* Negrito */
+.font-black   { font-weight: 900 !important; }  /* Preto/máximo negrito */
 
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE ALINHAMENTO DE TEXTO
+   ------------------------------------------------------------ */
+.text-center { text-align: center; }  /* Centrado */
+.text-left   { text-align: left; }    /* À esquerda */
+.text-right  { text-align: right; }   /* À direita */
 
-.text-white { color: #ffffff; }
-.text-gray-300 { color: #d1d5db; }
-.text-gray-400 { color: #9ca3af; }
-.text-gray-500 { color: #6b7280; }
-.text-gray-600 { color: #4b5563; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE COR DE TEXTO
+   Escala de cinzentos e cores de destaque.
+   ------------------------------------------------------------ */
+.text-white    { color: #ffffff; }   /* Branco puro */
+.text-gray-300 { color: #d1d5db; }  /* Cinzento claro */
+.text-gray-400 { color: #9ca3af; }  /* Cinzento médio-claro */
+.text-gray-500 { color: #6b7280; }  /* Cinzento médio */
+.text-gray-600 { color: #4b5563; }  /* Cinzento médio-escuro */
 
-.text-red-400 { color: #f87171; }
-.text-green-400 { color: #4ade80; }
-.text-blue-400 { color: #60a5fa; }
-.text-purple-400 { color: #c084fc; }
-.text-indigo-400 { color: #818cf8; }
+/* Cores de estado e destaque */
+.text-red-400    { color: #f87171; }  /* Vermelho — erros, alertas */
+.text-green-400  { color: #4ade80; }  /* Verde — sucesso, confirmação */
+.text-blue-400   { color: #60a5fa; }  /* Azul — informação */
+.text-purple-400 { color: #c084fc; }  /* Roxo/violeta — destaque */
+.text-indigo-400 { color: #818cf8; }  /* Índigo — destaque alternativo */
 
-.bg-black { background-color: #000000; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE COR DE FUNDO
+   ------------------------------------------------------------ */
+.bg-black { background-color: #000000; }  /* Fundo preto */
+
+/* Gradiente de roxo para violeta (esquerda para direita) */
 .bg-gradient-purple {
   background: linear-gradient(to right, #6366f1, #8b5cf6);
 }
+
+/* Gradiente de azul para violeta (diagonal: canto sup. esq. → inf. dir.) */
 .bg-gradient-blue {
   background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
 }
 
-.rounded-xl { border-radius: 0.75rem; }
-.rounded-2xl { border-radius: 1rem; }
-.rounded-full { border-radius: 9999px; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE ARREDONDAMENTO DE CANTOS (border-radius)
+   ------------------------------------------------------------ */
+.rounded-xl   { border-radius: 0.75rem; }  /* 12px — arredondado */
+.rounded-2xl  { border-radius: 1rem; }     /* 16px — mais arredondado */
+.rounded-full { border-radius: 9999px; }   /* Completamente circular/oval */
 
-.border { border-width: 1px; }
-.border-white-10 { border-color: rgba(255, 255, 255, 0.1); }
-.border-white-30 { border-color: rgba(255, 255, 255, 0.3); }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE BORDA
+   ------------------------------------------------------------ */
+.border          { border-width: 1px; }                           /* Borda de 1px */
+.border-white-10 { border-color: rgba(255, 255, 255, 0.1); }     /* Borda branca 10% */
+.border-white-30 { border-color: rgba(255, 255, 255, 0.3); }     /* Borda branca 30% */
 
-.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE SOMBRA
+   ------------------------------------------------------------ */
+.shadow-lg  { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }      /* Sombra grande */
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }    /* Sombra extra grande */
 
-.w-full { width: 100%; }
-.w-12 { width: 3rem; }
-.h-12 { height: 3rem; }
-.h-screen { height: 100vh; }
-.min-h-screen { min-height: 100vh; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE DIMENSÕES
+   ------------------------------------------------------------ */
+.w-full   { width: 100%; }       /* Largura total do elemento pai */
+.w-12     { width: 3rem; }       /* Largura fixa de 48px */
+.h-12     { height: 3rem; }      /* Altura fixa de 48px */
+.h-screen { height: 100vh; }     /* Altura total do ecrã */
+.min-h-screen { min-height: 100vh; }  /* Altura mínima total do ecrã */
 
-.max-w-md { max-width: 28rem; }
-.max-w-2xl { max-width: 42rem; }
-.max-w-4xl { max-width: 56rem; }
-.max-w-5xl { max-width: 64rem; }
-.max-w-7xl { max-width: 80rem; }
+/* Larguras máximas — limitam o crescimento do elemento */
+.max-w-md  { max-width: 28rem; }   /* 448px — formulários, modais */
+.max-w-2xl { max-width: 42rem; }   /* 672px — conteúdo de texto */
+.max-w-4xl { max-width: 56rem; }   /* 896px — conteúdo médio */
+.max-w-5xl { max-width: 64rem; }   /* 1024px — conteúdo largo */
+.max-w-7xl { max-width: 80rem; }   /* 1280px — layout completo */
 
-.grid { display: grid; }
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE GRELHA (CSS Grid)
+   Permitem criar layouts em colunas.
+   ------------------------------------------------------------ */
+.grid          { display: grid; }                                           /* Activa Grid */
+.grid-cols-1   { grid-template-columns: repeat(1, minmax(0, 1fr)); }  /* 1 coluna */
+.grid-cols-2   { grid-template-columns: repeat(2, minmax(0, 1fr)); }  /* 2 colunas iguais */
+.grid-cols-3   { grid-template-columns: repeat(3, minmax(0, 1fr)); }  /* 3 colunas iguais */
+.grid-cols-4   { grid-template-columns: repeat(4, minmax(0, 1fr)); }  /* 4 colunas iguais */
 
-.space-y-4 > * + * { margin-top: 1rem; }
-.space-y-5 > * + * { margin-top: 1.25rem; }
-.space-y-6 > * + * { margin-top: 1.5rem; }
-.space-y-8 > * + * { margin-top: 2rem; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE ESPAÇAMENTO VERTICAL ENTRE FILHOS (space-y)
+   Usando o selector "filho adjacente" (> * + *), aplica
+   margem superior a todos os filhos excepto o primeiro,
+   criando espaçamento consistente entre elementos de uma lista.
+   ------------------------------------------------------------ */
+.space-y-4 > * + * { margin-top: 1rem; }    /* 16px entre cada filho */
+.space-y-5 > * + * { margin-top: 1.25rem; } /* 20px entre cada filho */
+.space-y-6 > * + * { margin-top: 1.5rem; }  /* 24px entre cada filho */
+.space-y-8 > * + * { margin-top: 2rem; }    /* 32px entre cada filho */
 
-.fixed { position: fixed; }
-.relative { position: relative; }
-.absolute { position: absolute; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE POSICIONAMENTO
+   ------------------------------------------------------------ */
+.fixed    { position: fixed; }    /* Fixo relativamente à janela do browser */
+.relative { position: relative; } /* Relativo à sua posição normal no fluxo */
+.absolute { position: absolute; } /* Absoluto relativamente ao pai posicionado */
 
-.top-0 { top: 0; }
-.top-6 { top: 1.5rem; }
-.top-8 { top: 2rem; }
-.right-6 { right: 1.5rem; }
-.right-8 { right: 2rem; }
-.left-8 { left: 2rem; }
+/* Posições específicas — usadas em conjunto com as classes acima */
+.top-0  { top: 0; }         /* Colado ao topo */
+.top-6  { top: 1.5rem; }    /* 24px do topo */
+.top-8  { top: 2rem; }      /* 32px do topo */
+.right-6 { right: 1.5rem; } /* 24px da direita */
+.right-8 { right: 2rem; }   /* 32px da direita */
+.left-8  { left: 2rem; }    /* 32px da esquerda */
 
-.z-10 { z-index: 10; }
-.z-50 { z-index: 50; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE CAMADA (z-index)
+   Controlam a ordem de empilhamento dos elementos.
+   Valores mais altos ficam por cima.
+   ------------------------------------------------------------ */
+.z-10 { z-index: 10; }  /* Camada intermédia */
+.z-50 { z-index: 50; }  /* Camada elevada — dropdowns, tooltips */
 
-.overflow-hidden { overflow: hidden; }
-.overflow-y-auto { overflow-y: auto; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE OVERFLOW (transbordamento de conteúdo)
+   ------------------------------------------------------------ */
+.overflow-hidden  { overflow: hidden; }    /* Esconde conteúdo que transborda */
+.overflow-y-auto  { overflow-y: auto; }   /* Scroll vertical automático quando necessário */
 
-.flex-1 { flex: 1 1 0%; }
+/* ------------------------------------------------------------
+   OUTROS UTILITÁRIOS DE FLEXBOX
+   ------------------------------------------------------------ */
+.flex-1 { flex: 1 1 0%; }  /* Elemento cresce e encolhe para ocupar espaço disponível */
 
-.inline-flex { display: inline-flex; }
-.inline-block { display: inline-block; }
-.block { display: block; }
-.hidden { display: none; }
+/* ------------------------------------------------------------
+   UTILITÁRIOS DE DISPLAY (modo de exibição)
+   ------------------------------------------------------------ */
+.inline-flex  { display: inline-flex; }   /* Flexbox em linha (não ocupa linha inteira) */
+.inline-block { display: inline-block; }  /* Bloco em linha */
+.block        { display: block; }          /* Bloco (ocupa linha inteira) */
+.hidden       { display: none; }           /* Esconde completamente o elemento */
 
+/* ------------------------------------------------------------
+   ÁREA DE CONTEÚDO PRINCIPAL
+   Define o espaçamento interno da área de conteúdo e
+   garante altura mínima descontando a altura da navbar (5rem).
+   ------------------------------------------------------------ */
 .main-content {
-  padding: 1.5rem;
-  min-height: calc(100vh - 5rem);
+  padding: 1.5rem;                         /* 24px de espaçamento interior */
+  min-height: calc(100vh - 5rem);          /* Altura mínima = ecrã - navbar */
 }
 
-.opacity-50 { opacity: 0.5; }
+/* ------------------------------------------------------------
+   OUTROS UTILITÁRIOS DIVERSOS
+   ------------------------------------------------------------ */
+.opacity-50 { opacity: 0.5; }              /* 50% de transparência */
+.capitalize { text-transform: capitalize; } /* Primeira letra de cada palavra em maiúscula */
+.tracking-tight { letter-spacing: -0.025em; } /* Letras ligeiramente mais próximas */
+.leading-tight { line-height: 1.25; }     /* Altura de linha compacta */
 
-.capitalize { text-transform: capitalize; }
-
-.tracking-tight { letter-spacing: -0.025em; }
-
-.leading-tight { line-height: 1.25; }
-
+/* ============================================================
+   UTILITÁRIOS RESPONSIVOS
+   Usando Media Queries, estas classes só se aplicam quando
+   a largura do ecrã é igual ou superior a 768px (tablets
+   e computadores). O prefixo "md:" indica "medium screens".
+   As barras invertidas (\) no nome da classe são necessárias
+   para escapar os dois pontos no CSS.
+   ============================================================ */
 /* Responsive utilities */
 @media (min-width: 768px) {
-  .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-  .md\:text-7xl { font-size: 4.5rem; line-height: 1; }
-  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .md\:text-xl   { font-size: 1.25rem; line-height: 1.75rem; }  /* Texto extra grande em ecrãs médios+ */
+  .md\:text-7xl  { font-size: 4.5rem;  line-height: 1; }        /* Texto 7x grande em ecrãs médios+ */
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } /* 2 colunas em ecrãs médios+ */
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } /* 3 colunas em ecrãs médios+ */
+  .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* 4 colunas em ecrãs médios+ */
 }
 
+/* ============================================================
+   ESTILOS DE CAMPOS DE ENTRADA DE DADOS
+   Aplicados a todos os inputs de texto, áreas de texto
+   e listas de selecção. Define largura total, espaçamento
+   interno, fundo escuro, borda subtil, cantos arredondados,
+   texto branco e tamanho de fonte pequeno.
+   ============================================================ */
 /* Input styles */
 input, textarea, select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.75rem;
-  color: #ffffff;
-  font-size: 0.875rem;
+  width: 100%;                                  /* Ocupa toda a largura disponível */
+  padding: 0.75rem 1rem;                        /* 12px vertical, 16px horizontal */
+  background: #1a1a1a;                          /* Fundo cinzento muito escuro */
+  border: 1px solid rgba(255, 255, 255, 0.1);  /* Borda branca muito subtil */
+  border-radius: 0.75rem;                        /* Cantos arredondados de 12px */
+  color: #ffffff;                               /* Texto branco */
+  font-size: 0.875rem;                          /* Tamanho de letra 14px */
 }
 
+/* Texto de sugestão (placeholder) nos campos de entrada —
+   cinzento médio-escuro para indicar que é texto de apoio
+   e não conteúdo real. */
 input::placeholder, textarea::placeholder {
-  color: #4b5563;
+  color: #4b5563;   /* Cinzento escuro para o placeholder */
 }
 
+/* ============================================================
+   COMPONENTE DE BOTÃO REUTILIZÁVEL
+   A classe .btn define a base de todos os botões da aplicação:
+   disposição flexível, alinhamento centrado, espaçamento
+   interno generoso, semi-negrito, cantos arredondados e
+   transição suave. As variantes (.btn-primary, .btn-secondary)
+   adicionam as cores específicas.
+   ============================================================ */
 /* Button styles */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  border-radius: 0.75rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+  display: inline-flex;          /* Disposição inline com flexbox */
+  align-items: center;           /* Alinha conteúdo verticalmente ao centro */
+  justify-content: center;       /* Alinha conteúdo horizontalmente ao centro */
+  gap: 0.5rem;                   /* 8px de espaço entre ícone e texto */
+  padding: 0.75rem 1.5rem;       /* 12px vertical, 24px horizontal */
+  font-weight: 600;              /* Semi-negrito */
+  border-radius: 0.75rem;        /* Cantos arredondados de 12px */
+  border: none;                  /* Sem borda predefinida */
+  cursor: pointer;               /* Cursor de ponteiro */
+  transition: all 0.2s;          /* Transição suave em todas as propriedades */
 }
 
+/* Botão primário: gradiente de roxo para violeta com brilho violeta.
+   Usado para acções principais (confirmar, guardar, enviar). */
 .btn-primary {
-  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  background: linear-gradient(to right, #6366f1, #8b5cf6); /* Gradiente índigo-violeta */
   color: white;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);           /* Brilho violeta subtil */
 }
 
+/* Hover do botão primário: eleva 2px e intensifica o brilho.
+   Não se aplica quando o botão está desactivado. */
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);                               /* Eleva 2px */
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);           /* Brilho violeta mais intenso */
 }
 
+/* Botão secundário: fundo branco muito subtil com borda branca.
+   Usado para acções secundárias (cancelar, voltar, fechar). */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);        /* Fundo branco subtil — 10% opacidade */
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);  /* Borda branca a 20% opacidade */
 }
 
+/* Hover do botão secundário: fundo ligeiramente mais visível. */
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);       /* Fundo branco 15% opacidade */
 }
 
+/* ============================================================
+   COMPONENTE DE BARRA DE NAVEGAÇÃO (Navbar)
+   A navbar é fixa no topo da página (position: fixed),
+   com fundo preto semi-transparente e desfocagem de fundo
+   (efeito de vidro). A borda inferior separa visualmente
+   a navbar do conteúdo. O z-index 100 garante que fica
+   sempre acima do conteúdo da página.
+   ============================================================ */
 /* Navbar */
 .navbar {
-  position: fixed;
+  position: fixed;                                    /* Sempre visível no topo da janela */
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem 1.5rem;
-  z-index: 100;
+  background: rgba(0, 0, 0, 0.8);                    /* Fundo preto a 80% de opacidade */
+  backdrop-filter: blur(20px);                        /* Desfoca o conteúdo por detrás */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória subtil */
+  padding: 1rem 1.5rem;                              /* Espaçamento interno */
+  z-index: 100;                                       /* Acima de quase todo o conteúdo */
 }
 
+/* Contentor interno da navbar: flexbox para distribuir
+   logo à esquerda e links à direita. */
 .navbar .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Logótipo dentro da navbar: ícone + nome em negrito máximo.
+   Disposição flexível para alinhar ícone e texto lado a lado. */
 .navbar .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-weight: 900;
+  gap: 0.75rem;       /* 12px entre ícone e texto do logo */
+  font-weight: 900;   /* Máximo negrito para o nome da aplicação */
   font-size: 1rem;
   color: white;
 }
 
+/* Grupo de links de navegação: disposição horizontal com
+   espaçamento entre cada link. */
 .navbar .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.5rem;       /* 24px entre cada link */
   align-items: center;
 }
 
+/* Links individuais na navbar: cor cinzenta por defeito
+   com transição suave de cor. */
 .navbar .nav-links a {
-  color: #9ca3af;
-  font-size: 0.875rem;
+  color: #9ca3af;        /* Cinzento — estado inactivo */
+  font-size: 0.875rem;   /* 14px */
   transition: color 0.2s;
 }
 
+/* Link da navbar ao passar o rato: muda para branco */
 .navbar .nav-links a:hover {
   color: white;
 }
 
+/* Link activo da navbar (página actual): branco para indicar
+   a secção onde o utilizador se encontra. */
 .navbar .nav-links a.active {
   color: white;
 }
 
+/* ------------------------------------------------------------
+   CLASSES ALTERNATIVAS DE NAVBAR (para compatibilidade)
+   Versão alternativa dos componentes da navbar, permitindo
+   usar nomes de classe diferentes nos templates HTML sem
+   perder consistência visual.
+   ------------------------------------------------------------ */
 /* Alternative navbar classes for compatibility */
+
+/* Contentor alternativo da navbar: mesmo comportamento do
+   .navbar .container mas independente — limita a 80rem. */
 .nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 80rem;
+  max-width: 80rem;   /* 1280px — largura máxima */
   margin: 0 auto;
 }
 
+/* Logótipo alternativo: link sem decoração, com ícone e
+   texto lado a lado em negrito máximo. */
 .nav-logo {
   display: flex;
   align-items: center;
@@ -520,55 +857,68 @@ input::placeholder, textarea::placeholder {
   text-decoration: none;
 }
 
+/* Ícone do logótipo: dimensões fixas de 24x24px */
 .nav-logo-icon {
   width: 1.5rem;
   height: 1.5rem;
 }
 
+/* Link de navegação alternativo: idêntico ao .navbar .nav-links a */
 .nav-link {
-  color: #9ca3af;
+  color: #9ca3af;        /* Cinzento — estado inactivo */
   font-size: 0.875rem;
   transition: color 0.2s;
   text-decoration: none;
 }
 
+/* Link activo ou com hover: muda para branco */
 .nav-link:hover,
 .nav-link.active {
   color: white;
 }
 
+/* Botão de início de sessão na navbar: fundo índigo semi-transparente
+   com borda índigo — chama a atenção sem ser demasiado intrusivo. */
 .nav-login-btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background: rgba(99, 102, 241, 0.3);
-  border: 1px solid rgba(99, 102, 241, 0.6);
-  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;                           /* 8px vertical, 16px horizontal */
+  background: rgba(99, 102, 241, 0.3);            /* Fundo índigo a 30% opacidade */
+  border: 1px solid rgba(99, 102, 241, 0.6);      /* Borda índigo a 60% opacidade */
+  border-radius: 0.5rem;                           /* Cantos arredondados 8px */
   color: white;
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
   transition: background 0.2s, border-color 0.2s;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);                      /* Ligeira desfocagem de fundo */
 }
 
+/* Hover do botão de login: fundo e borda índigo mais intensos */
 .nav-login-btn:hover {
-  background: rgba(99, 102, 241, 0.5);
-  border-color: rgba(99, 102, 241, 0.8);
+  background: rgba(99, 102, 241, 0.5);            /* 50% opacidade ao hover */
+  border-color: rgba(99, 102, 241, 0.8);          /* Borda mais visível ao hover */
 }
 
+/* Grupo de acções na navbar (login, idioma, etc.):
+   disposição horizontal com 16px de espaçamento. */
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1rem;   /* 16px entre cada acção */
 }
 
+/* ------------------------------------------------------------
+   BOTÃO DE SELECÇÃO DE IDIOMA
+   Fundo branco muito subtil com borda, para o botão que
+   abre o menu de idiomas disponíveis.
+   ------------------------------------------------------------ */
 .language-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 0.5rem;                                   /* 8px entre bandeira/ícone e texto */
+  background: rgba(255, 255, 255, 0.1);          /* Fundo branco subtil */
+  border: 1px solid rgba(255, 255, 255, 0.2);   /* Borda branca subtil */
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   color: white;
@@ -576,48 +926,66 @@ input::placeholder, textarea::placeholder {
   cursor: pointer;
 }
 
+/* Hover do botão de idioma: fundo ligeiramente mais visível */
 .language-btn:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* ------------------------------------------------------------
+   DROPDOWN DE SELECÇÃO DE IDIOMA
+   Menu que aparece por baixo do botão de idioma quando
+   clicado. Posicionado de forma absoluta (relativo ao pai)
+   com fundo escuro e borda subtil.
+   ------------------------------------------------------------ */
 .language-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 0.5rem;
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;   /* Posicionado relativamente ao pai posicionado */
+  top: 100%;            /* Imediatamente abaixo do botão pai */
+  right: 0;             /* Alinhado à direita */
+  margin-top: 0.5rem;   /* 8px de espaço entre botão e dropdown */
+  background: #1a1a1a;                          /* Fundo cinzento muito escuro */
+  border: 1px solid rgba(255, 255, 255, 0.1);  /* Borda subtil */
   border-radius: 0.5rem;
-  overflow: hidden;
-  min-width: 120px;
+  overflow: hidden;     /* Esconde cantos dos botões que saiam do raio */
+  min-width: 120px;     /* Largura mínima de 120px */
 }
 
+/* Botões individuais dentro do dropdown de idioma:
+   cada idioma é um botão que ocupa toda a largura do menu. */
 .language-dropdown button {
   display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;     /* Área de clique confortável */
   background: transparent;
   border: none;
-  color: #d1d5db;
+  color: #d1d5db;            /* Cinzento claro — estado inactivo */
   font-size: 0.875rem;
   text-align: left;
   cursor: pointer;
 }
 
+/* Hover nos botões do dropdown: fundo subtil e texto branco */
 .language-dropdown button:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
 }
 
+/* ------------------------------------------------------------
+   SELECTOR DE IDIOMA FIXO
+   O elemento com id "languageSelector" ou a classe
+   ".language-selector" fica sempre fixo no canto superior
+   direito do ecrã, independentemente do scroll da página.
+   O z-index 200 garante que fica acima da navbar (z-index 100).
+   ------------------------------------------------------------ */
 /* Language selector - always fixed top right */
 #languageSelector,
 .language-selector {
-  position: fixed !important;
-  top: 1rem !important;
-  right: 1.5rem !important;
-  z-index: 200 !important;
+  position: fixed !important;   /* Sempre fixo — não scroll com a página */
+  top: 1rem !important;         /* 16px do topo */
+  right: 1.5rem !important;     /* 24px da direita */
+  z-index: 200 !important;      /* Acima de tudo, incluindo a navbar */
 }
 
+/* Botão interno do selector de idioma fixo */
 .language-selector button {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -628,22 +996,33 @@ input::placeholder, textarea::placeholder {
   cursor: pointer;
 }
 
+/* ============================================================
+   UTILITÁRIOS DE TAMANHO DE ÍCONES
+   Classes para dimensionar ícones SVG ou de fonte de forma
+   consistente em toda a aplicação. Seguem uma escala simples:
+   sm (pequeno), md (médio), lg (grande), xl (extra grande).
+   ============================================================ */
 /* Icon sizing */
+
+/* Ícone pequeno: 16x16px — usado em botões compactos ou etiquetas */
 .icon-sm {
   width: 1rem;
   height: 1rem;
 }
 
+/* Ícone médio: 20x20px — tamanho padrão para a maioria dos ícones */
 .icon-md {
   width: 1.25rem;
   height: 1.25rem;
 }
 
+/* Ícone grande: 24x24px — usado em cabeçalhos ou destaques */
 .icon-lg {
   width: 1.5rem;
   height: 1.5rem;
 }
 
+/* Ícone extra grande: 32x32px — usado em banners ou secções hero */
 .icon-xl {
   width: 2rem;
   height: 2rem;
