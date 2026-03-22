@@ -39,17 +39,17 @@
             <!-- Links de Navegação entre Páginas -->
             <!-- Cada link direciona para uma secção diferente da aplicação -->
             <div class="nav-links">
-                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="dashboard.html" class="nav-link active" data-nav="Dashboard">Dashboard</a>
                 <!-- "active" indica que esta é a página atual (Dashboard) -->
-                <a href="plan.html" class="nav-link">Plan</a>
+                <a href="plan.html" class="nav-link" data-nav="Plan">Plan</a>
                 <!-- Página do plano de fitness gerado -->
-                <a href="track.html" class="nav-link">Track</a>
+                <a href="track.html" class="nav-link" data-nav="Track">Track</a>
                 <!-- Página de registo diário de treino e peso -->
-                <a href="meals.html" class="nav-link">Meals</a>
+                <a href="meals.html" class="nav-link" data-nav="Meals">Meals</a>
                 <!-- Página de registo de refeições e calorias -->
-                <a href="progress.html" class="nav-link">Progress</a>
+                <a href="progress.html" class="nav-link" data-nav="Progress">Progress</a>
                 <!-- Página de visualização do progresso ao longo do tempo -->
-                <a href="coach.html" class="nav-link">Coach</a>
+                <a href="coach.html" class="nav-link" data-nav="Coach">Coach</a>
                 <!-- Página do assistente de coaching com Inteligência Artificial -->
             </div>
 
@@ -216,7 +216,15 @@
                 createPlanDesc: 'Create your personalized fitness and nutrition plan in just 60 seconds',
                 createYourPlan: 'Create Your Plan',
                 fatLoss: 'Fat Loss',
-                muscleGain: 'Muscle Gain'
+                muscleGain: 'Muscle Gain',
+                calories: 'Calories',
+                workout: 'Workout',
+                weight: 'Weight',
+                done: 'Done!',
+                skipped: 'Skipped',
+                notLogged: 'Not logged',
+                kcalLogged: 'kcal logged',
+                of: 'of'
             },
             pt: {
                 dashboard: 'Painel',
@@ -237,7 +245,15 @@
                 createPlanDesc: 'Crie seu plano personalizado de fitness e nutrição em apenas 60 segundos',
                 createYourPlan: 'Criar Seu Plano',
                 fatLoss: 'Perda de Gordura',
-                muscleGain: 'Ganho Muscular'
+                muscleGain: 'Ganho Muscular',
+                calories: 'Calorias',
+                workout: 'Treino',
+                weight: 'Peso',
+                done: 'Feito!',
+                skipped: 'Faltou',
+                notLogged: 'Não registado',
+                kcalLogged: 'kcal registadas',
+                of: 'de'
             }
         };
 
@@ -279,27 +295,30 @@
             // Define a cor das calorias: roxo se abaixo do objetivo, vermelho se atingiu/ultrapassou
             const calColor = !goalCalories ? 'white' : totalCalories >= goalCalories ? '#f87171' : '#a855f7';
 
+            // Obtém as traduções para o idioma atual
+            const t = translations[currentLanguage];
+
             // Gera o HTML dos 3 cartões de resumo (Calorias, Treino, Peso) e injeta-o no DOM
             document.getElementById('todayStats').innerHTML = `
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                    <div class="text-xs text-gray-400 mb-2">Calories</div>
+                    <div class="text-xs text-gray-400 mb-2">${t.calories}</div>
                     <div class="text-2xl font-black" style="color:${calColor}">${totalCalories}</div>
-                    ${goalCalories ? `<div class="text-xs text-gray-500 mt-1">of ${goalCalories} kcal</div>` : '<div class="text-xs text-gray-500 mt-1">kcal logged</div>'}
+                    ${goalCalories ? `<div class="text-xs text-gray-500 mt-1">${t.of} ${goalCalories} kcal</div>` : `<div class="text-xs text-gray-500 mt-1">${t.kcalLogged}</div>`}
                 </div>
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                    <div class="text-xs text-gray-400 mb-2">Workout</div>
+                    <div class="text-xs text-gray-400 mb-2">${t.workout}</div>
                     ${workoutDone === true
-                        ? '<div class="text-2xl font-black text-green-400">✓</div><div class="text-xs text-gray-500 mt-1">Done!</div>'
+                        ? `<div class="text-2xl font-black text-green-400">✓</div><div class="text-xs text-gray-500 mt-1">${t.done}</div>`
                         : workoutDone === false
-                            ? '<div class="text-2xl font-black text-red-400">✗</div><div class="text-xs text-gray-500 mt-1">Skipped</div>'
-                            : '<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">Not logged</div>'
+                            ? `<div class="text-2xl font-black text-red-400">✗</div><div class="text-xs text-gray-500 mt-1">${t.skipped}</div>`
+                            : `<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">${t.notLogged}</div>`
                     }
                 </div>
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                    <div class="text-xs text-gray-400 mb-2">Weight</div>
+                    <div class="text-xs text-gray-400 mb-2">${t.weight}</div>
                     ${weight
                         ? `<div class="text-2xl font-black text-purple-400">${weight}</div><div class="text-xs text-gray-500 mt-1">kg</div>`
-                        : '<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">Not logged</div>'
+                        : `<div class="text-2xl font-black text-gray-500">—</div><div class="text-xs text-gray-500 mt-1">${t.notLogged}</div>`
                     }
                 </div>
             `;
@@ -383,6 +402,17 @@
                 if (t[key]) {
                     el.textContent = t[key];
                 }
+            });
+
+            // Traduz os links de navegação
+            const NAV = {
+                en: { Dashboard: 'Dashboard', Plan: 'Plan', Track: 'Track', Meals: 'Meals', Progress: 'Progress', Coach: 'Coach' },
+                pt: { Dashboard: 'Dashboard', Plan: 'Plano', Track: 'Registo', Meals: 'Refeições', Progress: 'Progresso', Coach: 'Coach' }
+            };
+            const navT = NAV[currentLanguage] || NAV.en;
+            document.querySelectorAll('.nav-links a[data-nav]').forEach(function(a) {
+                const key = a.getAttribute('data-nav');
+                if (navT[key] !== undefined) a.textContent = navT[key];
             });
         }
 

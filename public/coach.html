@@ -274,13 +274,13 @@
             </a>
             <!-- Links de navegação entre as secções principais da aplicação -->
             <div class="nav-links">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="plan.html" class="nav-link">Plan</a>
-                <a href="track.html" class="nav-link">Track</a>
-                <a href="meals.html" class="nav-link">Meals</a>
-                <a href="progress.html" class="nav-link">Progress</a>
+                <a href="dashboard.html" class="nav-link" data-nav="Dashboard">Dashboard</a>
+                <a href="plan.html" class="nav-link" data-nav="Plan">Plan</a>
+                <a href="track.html" class="nav-link" data-nav="Track">Track</a>
+                <a href="meals.html" class="nav-link" data-nav="Meals">Meals</a>
+                <a href="progress.html" class="nav-link" data-nav="Progress">Progress</a>
                 <!-- Link "Coach" está ativo nesta página -->
-                <a href="coach.html" class="nav-link active">Coach</a>
+                <a href="coach.html" class="nav-link active" data-nav="Coach">Coach</a>
             </div>
             <!-- Ações do navbar: seletor de idioma -->
             <div class="nav-actions">
@@ -747,6 +747,17 @@
             if (input) {
                 input.placeholder = t.placeholder;
             }
+
+            // Traduz os links de navegação
+            const NAV = {
+                en: { Dashboard: 'Dashboard', Plan: 'Plan', Track: 'Track', Meals: 'Meals', Progress: 'Progress', Coach: 'Coach' },
+                pt: { Dashboard: 'Dashboard', Plan: 'Plano', Track: 'Registo', Meals: 'Refeições', Progress: 'Progresso', Coach: 'Coach' }
+            };
+            const navT = NAV[currentLanguage] || NAV.en;
+            document.querySelectorAll('.nav-links a[data-nav]').forEach(function(a) {
+                const key = a.getAttribute('data-nav');
+                if (navT[key] !== undefined) a.textContent = navT[key];
+            });
         }
 
         // Fecha o dropdown de idioma quando se clica fora dele

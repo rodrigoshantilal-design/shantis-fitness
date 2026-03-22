@@ -37,13 +37,30 @@
             </a>
             <!-- Links de navegação; "Track" é a página atual -->
             <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="plan.html">Plan</a>
+                <a href="dashboard.html" data-nav="Dashboard">Dashboard</a>
+                <a href="plan.html" data-nav="Plan">Plan</a>
                 <!-- "Track" é a página atual -->
-                <a href="track.html">Track</a>
-                <a href="meals.html">Meals</a>
-                <a href="progress.html">Progress</a>
-                <a href="coach.html">Coach</a>
+                <a href="track.html" data-nav="Track">Track</a>
+                <a href="meals.html" data-nav="Meals">Meals</a>
+                <a href="progress.html" data-nav="Progress">Progress</a>
+                <a href="coach.html" data-nav="Coach">Coach</a>
+            </div>
+            <!-- Seletor de idioma -->
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="language-dropdown hidden" id="languageDropdown">
+                        <button onclick="setLanguage('en')">English</button>
+                        <button onclick="setLanguage('pt')">Português</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -221,6 +238,8 @@
         </div>
     </main>
 
+    <!-- Script de tradução de navegação e seletor de idioma -->
+    <script src="/js/nav-lang.js"></script>
     <!-- Script de módulo ES6: usa import para as funções de storage -->
     <script type="module">
         // Importa funções de leitura e escrita dos registos de acompanhamento do módulo de storage
@@ -459,7 +478,7 @@
                             <div class="flex-1">
                                 <!-- Data do registo formatada com dia da semana e mês -->
                                 <div class="font-bold text-white text-sm mb-2">
-                                    ${new Date(log.date).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', { weekday: 'short', month: 'short', day: 'numeric' })}
+                                    ${new Date(log.date).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-PT', { weekday: 'short', month: 'short', day: 'numeric' })}
                                 </div>
                                 <!-- Indicadores: peso, gordura, treino e dieta numa linha -->
                                 <div class="flex items-center gap-3 text-xs flex-wrap">

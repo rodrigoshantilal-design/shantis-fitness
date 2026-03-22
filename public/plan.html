@@ -64,13 +64,30 @@
             </a>
             <!-- Links de navegação entre as secções principais -->
             <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
+                <a href="dashboard.html" data-nav="Dashboard">Dashboard</a>
                 <!-- "Plan" é a página atual -->
-                <a href="plan.html">Plan</a>
-                <a href="track.html">Track</a>
-                <a href="meals.html">Meals</a>
-                <a href="progress.html">Progress</a>
-                <a href="coach.html">Coach</a>
+                <a href="plan.html" data-nav="Plan">Plan</a>
+                <a href="track.html" data-nav="Track">Track</a>
+                <a href="meals.html" data-nav="Meals">Meals</a>
+                <a href="progress.html" data-nav="Progress">Progress</a>
+                <a href="coach.html" data-nav="Coach">Coach</a>
+            </div>
+            <!-- Seletor de idioma -->
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="language-btn" onclick="toggleLanguageDropdown()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="language-dropdown hidden" id="languageDropdown">
+                        <button onclick="setLanguage('en')">English</button>
+                        <button onclick="setLanguage('pt')">Português</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -751,5 +768,6 @@
     <script src="/js/weight-progress-bar.js"></script>
     <!-- Script de autenticação e gestão do navbar -->
     <script src="/js/auth-nav.js"></script>
+    <script src="/js/nav-lang.js"></script>
 </body>
 </html>
