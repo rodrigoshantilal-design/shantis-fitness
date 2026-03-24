@@ -698,6 +698,43 @@
             }
         }
 
+        // Tabela de tradução dos nomes das refeições (EN → PT)
+        const mealNameTranslations = {
+            'Breakfast': 'Pequeno-Almoço',
+            'Lunch': 'Almoço',
+            'Dinner': 'Jantar',
+            'Snack': 'Lanche',
+            'Pre-Workout': 'Pré-Treino',
+            'Post-Workout': 'Pós-Treino'
+        };
+
+        // Tabela de tradução dos alimentos (EN → PT)
+        const foodTranslations = {
+            'Oatmeal': 'Aveia', 'Eggs': 'Ovos', 'Banana': 'Banana', 'Bananas': 'Bananas',
+            'Chicken Breast': 'Peito de Frango', 'Brown Rice': 'Arroz Integral',
+            'Mixed Vegetables': 'Legumes Variados', 'Salmon': 'Salmão',
+            'Sweet Potato': 'Batata-Doce', 'Broccoli': 'Brócolos',
+            'Greek Yogurt': 'Iogurte Grego', 'Almonds': 'Amêndoas',
+            'Olive Oil': 'Azeite', 'Spinach': 'Espinafres', 'Berries': 'Frutos Vermelhos',
+            '3 whole': '3 inteiros', '1 medium': '1 médio'
+        };
+
+        // Tabela de tradução das dicas de estilo de vida (EN → PT)
+        const lifestyleTipTranslations = {
+            'Aim for 7-9 hours of quality sleep each night': 'Dorme entre 7 a 9 horas de qualidade por noite',
+            'Stay hydrated - drink at least 2-3 liters of water daily': 'Mantém-te hidratado — bebe pelo menos 2 a 3 litros de água por dia',
+            'Take 10,000 steps daily for general health': 'Dá 10.000 passos por dia para a saúde geral',
+            'Practice stress management through meditation or breathing exercises': 'Pratica gestão do stress através de meditação ou exercícios de respiração',
+            'Limit alcohol consumption to occasional moderate amounts': 'Limita o consumo de álcool a quantidades moderadas e ocasionais',
+            'Meal prep on weekends to stay consistent during the week': 'Prepara as refeições ao fim de semana para te manteres consistente durante a semana'
+        };
+
+        // Traduz um texto usando uma tabela de traduções (devolve o original se não encontrar)
+        function tr(text, table) {
+            if (locale !== 'pt') return text;
+            return table[text] || text;
+        }
+
         // Renderiza a secção de nutrição com o dia exemplo e a lista de compras
         function renderNutritionSection() {
             if (!plan.nutritionPlan) {
@@ -709,19 +746,19 @@
                 return;
             }
 
-            // Renderiza as refeições do dia exemplo (pequeno-almoço, almoço, jantar, etc.)
+            // Renderiza as refeições do dia exemplo com tradução dos nomes e alimentos
             const mealsGrid = document.getElementById('mealsGrid');
             if (plan.nutritionPlan.exampleDay) {
                 mealsGrid.innerHTML = plan.nutritionPlan.exampleDay.map(meal => `
                     <div class="p-4 bg-white/5 border border-white/10 rounded-xl">
-                        <!-- Nome da refeição em negrito -->
-                        <h4 class="font-bold text-white text-sm mb-3">${meal.meal}</h4>
-                        <!-- Lista de alimentos da refeição com quantidade -->
+                        <!-- Nome da refeição traduzido -->
+                        <h4 class="font-bold text-white text-sm mb-3">${tr(meal.meal, mealNameTranslations)}</h4>
+                        <!-- Lista de alimentos com quantidades traduzidas -->
                         <ul class="space-y-1">
                             ${meal.items.map(item => `
                                 <li class="text-xs text-gray-300 flex items-start">
                                     <span class="text-purple-400 mr-2">•</span>
-                                    ${item.food} - ${item.qty}
+                                    ${tr(item.food, foodTranslations)} - ${tr(item.qty, foodTranslations)}
                                 </li>
                             `).join('')}
                         </ul>
@@ -729,18 +766,18 @@
                 `).join('');
             }
 
-            // Renderiza a lista de compras (cada item numa cápsula escura)
+            // Renderiza a lista de compras com itens traduzidos
             const shoppingList = document.getElementById('shoppingList');
             if (plan.nutritionPlan.shoppingList) {
                 shoppingList.innerHTML = plan.nutritionPlan.shoppingList.map(item => `
                     <div class="text-xs text-gray-300 bg-black/40 px-3 py-2 rounded-lg border border-white/10">
-                        ${item}
+                        ${tr(item, foodTranslations)}
                     </div>
                 `).join('');
             }
         }
 
-        // Renderiza a secção de estilo de vida com as dicas do plano
+        // Renderiza a secção de estilo de vida com as dicas traduzidas
         function renderLifestyleSection() {
             const lifestyleTips = document.getElementById('lifestyleTips');
 
@@ -754,12 +791,11 @@
                 return;
             }
 
-            // Renderiza cada dica num cartão com visto verde
+            // Renderiza cada dica traduzida num cartão com visto verde
             lifestyleTips.innerHTML = plan.lifestyleTips.map(tip => `
                 <div class="flex items-start p-4 bg-white/5 border border-white/10 rounded-xl">
-                    <!-- Ícone de visto (✓) em verde -->
                     <span class="text-green-400 mr-3 mt-0.5">&#10003;</span>
-                    <span class="text-gray-300 text-sm">${tip}</span>
+                    <span class="text-gray-300 text-sm">${tr(tip, lifestyleTipTranslations)}</span>
                 </div>
             `).join('');
         }

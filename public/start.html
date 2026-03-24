@@ -786,9 +786,21 @@
             });
         }
 
-        // Função auxiliar que gera um plano nutricional de exemplo
+        // Função auxiliar que gera um plano nutricional de exemplo no idioma atual
         // Retorna um dia típico de refeições e uma lista de compras sugerida
         function generateNutritionPlan(macros, mealsPerDay, dietPreference) {
+            const isPt = (localStorage.getItem('locale') || 'en') === 'pt';
+            if (isPt) {
+                return {
+                    exampleDay: [
+                        { meal: 'Pequeno-Almoço', items: [{ food: 'Aveia', qty: '100g' }, { food: 'Ovos', qty: '3 inteiros' }, { food: 'Banana', qty: '1 médio' }] },
+                        { meal: 'Almoço', items: [{ food: 'Peito de Frango', qty: '150g' }, { food: 'Arroz Integral', qty: '150g' }, { food: 'Legumes Variados', qty: '200g' }] },
+                        { meal: 'Jantar', items: [{ food: 'Salmão', qty: '150g' }, { food: 'Batata-Doce', qty: '200g' }, { food: 'Brócolos', qty: '150g' }] },
+                        { meal: 'Lanche', items: [{ food: 'Iogurte Grego', qty: '200g' }, { food: 'Amêndoas', qty: '30g' }] }
+                    ],
+                    shoppingList: ['Aveia', 'Ovos', 'Bananas', 'Peito de Frango', 'Arroz Integral', 'Legumes Variados', 'Salmão', 'Batata-Doce', 'Brócolos', 'Iogurte Grego', 'Amêndoas', 'Azeite', 'Espinafres', 'Frutos Vermelhos']
+                };
+            }
             return {
                 exampleDay: [
                     { meal: 'Breakfast', items: [{ food: 'Oatmeal', qty: '100g' }, { food: 'Eggs', qty: '3 whole' }, { food: 'Banana', qty: '1 medium' }] },
@@ -800,9 +812,20 @@
             };
         }
 
-        // Função auxiliar que gera dicas de estilo de vida saudável para o utilizador
+        // Função auxiliar que gera dicas de estilo de vida saudável no idioma atual
         // Retorna um array de strings com recomendações gerais
         function generateLifestyleTips(weight) {
+            const isPt = (localStorage.getItem('locale') || 'en') === 'pt';
+            if (isPt) {
+                return [
+                    'Dorme entre 7 a 9 horas de qualidade por noite',
+                    'Mantém-te hidratado — bebe pelo menos 2 a 3 litros de água por dia',
+                    'Dá 10.000 passos por dia para a saúde geral',
+                    'Pratica gestão do stress através de meditação ou exercícios de respiração',
+                    'Limita o consumo de álcool a quantidades moderadas e ocasionais',
+                    'Prepara as refeições ao fim de semana para te manteres consistente durante a semana'
+                ];
+            }
             return [
                 'Aim for 7-9 hours of quality sleep each night',
                 'Stay hydrated - drink at least 2-3 liters of water daily',
