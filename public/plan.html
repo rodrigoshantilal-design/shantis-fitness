@@ -543,57 +543,59 @@
             const splitText = `${plan.trainingPlan.name} - ${daysPerWeek} ${t.daysPerWeek}`;
             document.getElementById('trainingSplit').textContent = splitText;
 
-            // Distribui os treinos pelos dias da semana de acordo com a frequência semanal
-            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            // Nomes dos dias da semana traduzidos consoante o idioma
+            const dayNames = locale === 'pt'
+                ? ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+                : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             let fullWeek = [];
 
-            // Padrão para 3 treinos por semana: Treino, Treino, Descanso, Treino, Descanso, Descanso, Descanso
+            // Padrão para 3 treinos por semana
             if (daysPerWeek === 3) {
                 fullWeek = [
-                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
-                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
-                    { dayLabel: 'Wed', isRest: true },
-                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
-                    { dayLabel: 'Fri', isRest: true },
-                    { dayLabel: 'Sat', isRest: true },
-                    { dayLabel: 'Sun', isRest: true }
+                    { ...workouts[0], dayLabel: dayNames[0], isRest: false },
+                    { ...workouts[1], dayLabel: dayNames[1], isRest: false },
+                    { dayLabel: dayNames[2], isRest: true },
+                    { ...workouts[2], dayLabel: dayNames[3], isRest: false },
+                    { dayLabel: dayNames[4], isRest: true },
+                    { dayLabel: dayNames[5], isRest: true },
+                    { dayLabel: dayNames[6], isRest: true }
                 ];
             } else if (daysPerWeek === 4) {
-                // Padrão para 4 treinos: 2 treinos, descanso, 2 treinos, descanso, descanso
+                // Padrão para 4 treinos
                 fullWeek = [
-                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
-                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
-                    { dayLabel: 'Wed', isRest: true },
-                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
-                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
-                    { dayLabel: 'Sat', isRest: true },
-                    { dayLabel: 'Sun', isRest: true }
+                    { ...workouts[0], dayLabel: dayNames[0], isRest: false },
+                    { ...workouts[1], dayLabel: dayNames[1], isRest: false },
+                    { dayLabel: dayNames[2], isRest: true },
+                    { ...workouts[2], dayLabel: dayNames[3], isRest: false },
+                    { ...workouts[3], dayLabel: dayNames[4], isRest: false },
+                    { dayLabel: dayNames[5], isRest: true },
+                    { dayLabel: dayNames[6], isRest: true }
                 ];
             } else if (daysPerWeek === 5) {
-                // Padrão para 5 treinos: 2 treinos, descanso, 3 treinos, descanso
+                // Padrão para 5 treinos
                 fullWeek = [
-                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
-                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
-                    { dayLabel: 'Wed', isRest: true },
-                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
-                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
-                    { ...workouts[4], dayLabel: 'Sat', isRest: false },
-                    { dayLabel: 'Sun', isRest: true }
+                    { ...workouts[0], dayLabel: dayNames[0], isRest: false },
+                    { ...workouts[1], dayLabel: dayNames[1], isRest: false },
+                    { dayLabel: dayNames[2], isRest: true },
+                    { ...workouts[2], dayLabel: dayNames[3], isRest: false },
+                    { ...workouts[3], dayLabel: dayNames[4], isRest: false },
+                    { ...workouts[4], dayLabel: dayNames[5], isRest: false },
+                    { dayLabel: dayNames[6], isRest: true }
                 ];
             } else if (daysPerWeek === 6) {
-                // Padrão para 6 treinos: 2, descanso, 2, 2
+                // Padrão para 6 treinos
                 fullWeek = [
-                    { ...workouts[0], dayLabel: 'Mon', isRest: false },
-                    { ...workouts[1], dayLabel: 'Tue', isRest: false },
-                    { dayLabel: 'Wed', isRest: true },
-                    { ...workouts[2], dayLabel: 'Thu', isRest: false },
-                    { ...workouts[3], dayLabel: 'Fri', isRest: false },
-                    { ...workouts[4], dayLabel: 'Sat', isRest: false },
-                    { ...workouts[5], dayLabel: 'Sun', isRest: false }
+                    { ...workouts[0], dayLabel: dayNames[0], isRest: false },
+                    { ...workouts[1], dayLabel: dayNames[1], isRest: false },
+                    { dayLabel: dayNames[2], isRest: true },
+                    { ...workouts[2], dayLabel: dayNames[3], isRest: false },
+                    { ...workouts[3], dayLabel: dayNames[4], isRest: false },
+                    { ...workouts[4], dayLabel: dayNames[5], isRest: false },
+                    { ...workouts[5], dayLabel: dayNames[6], isRest: false }
                 ];
             } else {
                 // Para qualquer outro número, distribui os treinos em ordem e preenche com descanso
-                fullWeek = workouts.map((w, i) => ({ ...w, dayLabel: dayNames[i] || `Day ${i+1}`, isRest: false }));
+                fullWeek = workouts.map((w, i) => ({ ...w, dayLabel: dayNames[i] || `Dia ${i+1}`, isRest: false }));
                 while (fullWeek.length < 7) {
                     fullWeek.push({ dayLabel: dayNames[fullWeek.length], isRest: true });
                 }
