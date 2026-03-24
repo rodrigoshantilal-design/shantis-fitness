@@ -129,7 +129,7 @@
                     <div id="sectionMetrics" class="space-y-4">
                         <!-- Cartão com a grelha de métricas (preenchida pelo JavaScript) -->
                         <div class="glass-effect rounded-2xl p-6">
-                            <div id="metricsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div id="metricsGrid" class="flex flex-wrap justify-center gap-4">
                                 <!-- Cartões de IMC, gordura corporal, TMB e TDEE gerados pelo JavaScript -->
                             </div>
                         </div>
@@ -267,7 +267,26 @@
                 carbs: 'Carbs',
                 fat: 'Fat',
                 restRecovery: 'Rest & Recovery',
-                restDesc: 'Focus on sleep, nutrition, and light activity like walking.',
+                restDesc: 'Your body grows stronger during rest. Use this day to recover.',
+                restDay: 'Rest Day',
+                restLabel: 'Rest',
+                workout: 'Workout',
+                daysPerWeek: 'days per week',
+                sleep: '💤 Sleep',
+                sleepDesc: 'Aim for 7-9 hours of quality sleep',
+                hydrate: '💧 Hydrate',
+                hydrateDesc: 'Drink 2-3 liters of water',
+                nutritionTip: '🥗 Nutrition',
+                nutritionTipDesc: 'Keep protein intake high',
+                lightActivity: '🚶 Light Activity',
+                lightActivityDesc: 'Walking or stretching is fine',
+                sets: 'sets',
+                reps: 'reps',
+                noExercises: 'No exercises for this day',
+                noTrainingPlan: 'No training plan available.',
+                createOne: 'Create one now',
+                noNutritionPlan: 'No nutrition plan available',
+                noLifestyleTips: 'No lifestyle tips available',
                 exampleDay: 'Example Day',
                 shoppingList: 'Shopping List',
                 lifestyleGuidelines: 'Lifestyle Guidelines',
@@ -276,11 +295,11 @@
                 createPlan: 'Create Your Plan'
             },
             pt: {
-                title: 'Seu Plano',
+                title: 'O Teu Plano',
                 created: 'Criado em',
-                metrics: 'Metricas',
+                metrics: 'Métricas',
                 training: 'Treino',
-                nutrition: 'Nutricao',
+                nutrition: 'Nutrição',
                 lifestyle: 'Estilo de Vida',
                 bmi: 'IMC',
                 bodyFat: 'Gordura Corporal',
@@ -288,17 +307,36 @@
                 tdee: 'TDEE',
                 targetCalories: 'Calorias Alvo',
                 kcalDay: 'kcal/dia',
-                protein: 'Proteina',
-                carbs: 'Carboidratos',
+                protein: 'Proteína',
+                carbs: 'Hidratos',
                 fat: 'Gordura',
-                restRecovery: 'Descanso & Recuperacao',
-                restDesc: 'Foque no sono, nutricao e atividade leve como caminhada.',
+                restRecovery: 'Descanso & Recuperação',
+                restDesc: 'O teu corpo fica mais forte durante o descanso. Usa este dia para recuperar.',
+                restDay: 'Dia de Descanso',
+                restLabel: 'Descanso',
+                workout: 'Treino',
+                daysPerWeek: 'dias por semana',
+                sleep: '💤 Sono',
+                sleepDesc: 'Dorme entre 7 a 9 horas por noite',
+                hydrate: '💧 Hidratação',
+                hydrateDesc: 'Bebe 2 a 3 litros de água',
+                nutritionTip: '🥗 Nutrição',
+                nutritionTipDesc: 'Mantém a ingestão de proteína elevada',
+                lightActivity: '🚶 Atividade Leve',
+                lightActivityDesc: 'Caminhar ou alongar está ótimo',
+                sets: 'séries',
+                reps: 'repetições',
+                noExercises: 'Sem exercícios para este dia',
+                noTrainingPlan: 'Sem plano de treino disponível.',
+                createOne: 'Criar um agora',
+                noNutritionPlan: 'Sem plano de nutrição disponível',
+                noLifestyleTips: 'Sem dicas de estilo de vida disponíveis',
                 exampleDay: 'Dia Exemplo',
                 shoppingList: 'Lista de Compras',
                 lifestyleGuidelines: 'Diretrizes de Estilo de Vida',
-                noPlan: 'Nenhum Plano Ainda',
-                noPlanDesc: 'Crie primeiro seu plano personalizado de fitness e nutricao',
-                createPlan: 'Criar Seu Plano'
+                noPlan: 'Sem Plano Ainda',
+                noPlanDesc: 'Cria primeiro o teu plano personalizado de fitness e nutrição',
+                createPlan: 'Criar o Teu Plano'
             }
         };
 
@@ -370,8 +408,9 @@
             const tdeeValue = plan.tdee ? Math.round(plan.tdee) : '--';
 
             // Cria o cartão de IMC com fundo roxo
+            const cardStyle = 'min-width: 140px; flex: 1 1 140px; max-width: 200px;';
             let html = `
-                <div class="rounded-xl p-5 text-center" style="background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2);">
+                <div class="rounded-xl p-5 text-center" style="${cardStyle} background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2);">
                     <div class="text-xs text-gray-400 mb-2">${t.bmi}</div>
                     <div class="text-4xl font-black text-white">${bmiValue}</div>
                 </div>
@@ -380,7 +419,7 @@
             // Adiciona o cartão de gordura corporal (rosa) apenas se o valor existir
             if (plan.bodyFat) {
                 html += `
-                    <div class="rounded-xl p-5 text-center" style="background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2);">
+                    <div class="rounded-xl p-5 text-center" style="${cardStyle} background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2);">
                         <div class="text-xs text-gray-400 mb-2">${t.bodyFat}</div>
                         <div class="text-4xl font-black text-white">${plan.bodyFat}%</div>
                     </div>
@@ -389,11 +428,11 @@
 
             // Adiciona cartões de TMB (azul) e TDEE (verde)
             html += `
-                <div class="rounded-xl p-5 text-center" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                <div class="rounded-xl p-5 text-center" style="${cardStyle} background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
                     <div class="text-xs text-gray-400 mb-2">${t.bmr}</div>
                     <div class="text-4xl font-black text-white">${bmrValue}</div>
                 </div>
-                <div class="rounded-xl p-5 text-center" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2);">
+                <div class="rounded-xl p-5 text-center" style="${cardStyle} background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2);">
                     <div class="text-xs text-gray-400 mb-2">${t.tdee}</div>
                     <div class="text-4xl font-black text-white">${tdeeValue}</div>
                 </div>
@@ -493,15 +532,15 @@
             if (!plan.trainingPlan || !workouts || workouts.length === 0) {
                 document.getElementById('sectionTraining').innerHTML = `
                     <div class="glass-effect rounded-2xl p-6 text-center">
-                        <p class="text-gray-400">No training plan available. <a href="start.html" class="text-purple-400 underline">Create one now</a></p>
+                        <p class="text-gray-400">${t.noTrainingPlan} <a href="start.html" class="text-purple-400 underline">${t.createOne}</a></p>
                     </div>
                 `;
                 return;
             }
 
-            // Exibe a descrição do split (ex: "Push/Pull/Legs - 3 days per week")
+            // Exibe a descrição do split (ex: "Push/Pull/Legs - 3 dias por semana")
             const daysPerWeek = plan.trainingPlan.daysPerWeek || workouts.length;
-            const splitText = `${plan.trainingPlan.name} - ${daysPerWeek} days per week`;
+            const splitText = `${plan.trainingPlan.name} - ${daysPerWeek} ${t.daysPerWeek}`;
             document.getElementById('trainingSplit').textContent = splitText;
 
             // Distribui os treinos pelos dias da semana de acordo com a frequência semanal
@@ -588,7 +627,7 @@
                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 8px;">
                             ${icon}
                             <div style="font-size: 12px; font-weight: 700; color: ${labelColor}; text-align: center;">${day.dayLabel}</div>
-                            <div style="font-size: 10px; color: ${labelColor}; opacity: 0.7;">${day.isRest ? 'Rest' : (day.day || 'Workout')}</div>
+                            <div style="font-size: 10px; color: ${labelColor}; opacity: 0.7;">${day.isRest ? t.restLabel : (day.day || t.workout)}</div>
                         </div>
                     </button>
                 `;
@@ -602,29 +641,29 @@
 
             if (currentDay.isRest) {
                 // Exibe informações de recuperação para dias de descanso
-                document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - Rest Day`;
+                document.getElementById('currentDayTitle').textContent = `${currentDay.dayLabel} - ${t.restDay}`;
                 exerciseList.innerHTML = `
                     <div class="bg-gray-800/30 rounded-xl p-8 text-center border border-gray-700/50">
                         <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
-                        <h4 class="text-xl font-bold text-white mb-2">Rest & Recovery</h4>
-                        <p class="text-gray-400 text-sm mb-4">Your body grows stronger during rest. Use this day to recover.</p>
+                        <h4 class="text-xl font-bold text-white mb-2">${t.restRecovery}</h4>
+                        <p class="text-gray-400 text-sm mb-4">${t.restDesc}</p>
                         <!-- Grelha com dicas de recuperação: sono, hidratação, nutrição e atividade leve -->
                         <div class="grid grid-cols-2 gap-3 text-left max-w-md mx-auto">
                             <div class="bg-white/5 rounded-lg p-3">
-                                <div class="text-purple-400 font-bold text-sm mb-1">💤 Sleep</div>
-                                <div class="text-xs text-gray-400">Aim for 7-9 hours of quality sleep</div>
+                                <div class="text-purple-400 font-bold text-sm mb-1">${t.sleep}</div>
+                                <div class="text-xs text-gray-400">${t.sleepDesc}</div>
                             </div>
                             <div class="bg-white/5 rounded-lg p-3">
-                                <div class="text-blue-400 font-bold text-sm mb-1">💧 Hydrate</div>
-                                <div class="text-xs text-gray-400">Drink 2-3 liters of water</div>
+                                <div class="text-blue-400 font-bold text-sm mb-1">${t.hydrate}</div>
+                                <div class="text-xs text-gray-400">${t.hydrateDesc}</div>
                             </div>
                             <div class="bg-white/5 rounded-lg p-3">
-                                <div class="text-green-400 font-bold text-sm mb-1">🥗 Nutrition</div>
-                                <div class="text-xs text-gray-400">Keep protein intake high</div>
+                                <div class="text-green-400 font-bold text-sm mb-1">${t.nutritionTip}</div>
+                                <div class="text-xs text-gray-400">${t.nutritionTipDesc}</div>
                             </div>
                             <div class="bg-white/5 rounded-lg p-3">
-                                <div class="text-orange-400 font-bold text-sm mb-1">🚶 Light Activity</div>
-                                <div class="text-xs text-gray-400">Walking or stretching is fine</div>
+                                <div class="text-orange-400 font-bold text-sm mb-1">${t.lightActivity}</div>
+                                <div class="text-xs text-gray-400">${t.lightActivityDesc}</div>
                             </div>
                         </div>
                     </div>
@@ -640,7 +679,7 @@
                                 <div class="font-bold text-white mb-1">${exercise.name}</div>
                                 <!-- Séries e repetições -->
                                 <div class="text-xs text-gray-400">
-                                    ${exercise.sets} sets x ${exercise.reps} reps
+                                    ${exercise.sets} ${t.sets} x ${exercise.reps} ${t.reps}
                                 </div>
                             </div>
                             <!-- Número de ordem do exercício em roxo -->
@@ -653,7 +692,7 @@
                 document.getElementById('currentDayTitle').textContent = currentDay.dayLabel;
                 exerciseList.innerHTML = `
                     <div class="text-center p-4 text-gray-400">
-                        No exercises for this day
+                        ${t.noExercises}
                     </div>
                 `;
             }
@@ -664,7 +703,7 @@
             if (!plan.nutritionPlan) {
                 document.getElementById('sectionNutrition').innerHTML = `
                     <div class="glass-effect rounded-2xl p-6 text-center">
-                        <p class="text-gray-400">No nutrition plan available</p>
+                        <p class="text-gray-400">${t.noNutritionPlan}</p>
                     </div>
                 `;
                 return;
@@ -709,7 +748,7 @@
             if (!plan.lifestyleTips || plan.lifestyleTips.length === 0) {
                 lifestyleTips.innerHTML = `
                     <div class="col-span-2 text-center p-4 text-gray-400">
-                        No lifestyle tips available
+                        ${t.noLifestyleTips}
                     </div>
                 `;
                 return;
