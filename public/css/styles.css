@@ -1143,16 +1143,6 @@ input::placeholder, textarea::placeholder {
   /* Grids adaptados para mobile */
   .md\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  /* ---- Esconde o botão de login fixo no mobile (sobrepõe o logo) ---- */
-  .nav-login-btn {
-    display: none !important;
-  }
-
-  /* ---- Logo: esconde "Fitness & Wellness" em mobile, fica só "Shanti's" ---- */
-  .nav-logo > span > span:last-child {
-    display: none;
-  }
-
   /* ---- SCROLL: remove h-screen + overflow-hidden no mobile ---- */
   /* Páginas com scroll interno (dashboard, plan, track, meals) */
   main.h-screen {
