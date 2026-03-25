@@ -1206,6 +1206,42 @@ input::placeholder, textarea::placeholder {
     font-size: 0.85rem !important;
   }
 
+  /* ---- Cartões de métricas (IMC, TMB, TDEE): 2 por linha em mobile ---- */
+  #metricsGrid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  #metricsGrid > div {
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: none !important;
+  }
+
+  /* ---- Calendário semanal: botões menores em mobile ---- */
+  #weekCalendar button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    border-radius: 8px !important;
+  }
+  #weekCalendar button > div {
+    padding: 4px !important;
+  }
+  #weekCalendar button div div {
+    font-size: 8px !important;
+  }
+  #weekCalendar button svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* ---- Grelha de refeições: 1 coluna em mobile ---- */
+  #mealsGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+
   /* ---- Padding geral das páginas em mobile ---- */
   .px-6 {
     padding-left: 1rem !important;
