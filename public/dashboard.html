@@ -145,9 +145,9 @@
                                 <!-- Ícone SVG roxo de fitness -->
                                 <svg class="icon-lg text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"></path><path d="m21 21-1-1"></path><path d="m3 3 1 1"></path><path d="m18 22 4-4"></path><path d="m2 6 4-4"></path><path d="m3 10 7-7"></path><path d="m14 21 7-7"></path></svg>
                             </div>
-                            <!-- Texto traduzível via data-i18n -->
-                            <div class="text-lg font-bold text-white" data-i18n="createPlan">Create Plan</div>
-                            <div class="text-xs text-gray-500 mt-1" data-i18n="personalizedForYou">Personalized for you</div>
+                            <!-- Texto atualizado pelo JS consoante o plano existe ou não -->
+                            <div class="text-lg font-bold text-white" id="planCardTitle">Create Plan</div>
+                            <div class="text-xs text-gray-500 mt-1" id="planCardDesc">Personalized for you</div>
                         </a>
 
                         <!-- Cartão 2: Registo Rápido (Quick Track) -->
@@ -207,7 +207,9 @@
                 protein: 'Protein',
                 training: 'Training',
                 createPlan: 'Create Plan',
+                modifyPlan: 'Modify Plan',
                 personalizedForYou: 'Personalized for you',
+                modifyPlanDesc: 'Update your goals',
                 quickTrack: 'Quick Track',
                 quickTrackDesc: '10-second daily log',
                 viewProgress: 'View Progress',
@@ -236,7 +238,9 @@
                 protein: 'Proteína',
                 training: 'Treino',
                 createPlan: 'Criar Plano',
+                modifyPlan: 'Modificar Plano',
                 personalizedForYou: 'Personalizado para você',
+                modifyPlanDesc: 'Atualizar os teus objetivos',
                 quickTrack: 'Registro Rápido',
                 quickTrackDesc: 'Registro diário em 10 segundos',
                 viewProgress: 'Ver Progresso',
@@ -335,6 +339,10 @@
                 // Se existir um plano, torna visível a secção do plano
                 const plan = JSON.parse(planStr);
                 document.getElementById('planSection').style.display = 'block';
+
+                // Muda o cartão de "Criar Plano" para "Modificar Plano"
+                document.getElementById('planCardTitle').textContent = t.modifyPlan;
+                document.getElementById('planCardDesc').textContent = t.modifyPlanDesc;
 
                 // Traduz o tipo de objetivo ('fat_loss' -> 'Fat Loss' ou 'Perda de Gordura')
                 const goalText = plan.goal === 'fat_loss' ? t.fatLoss : t.muscleGain;
