@@ -25,22 +25,20 @@
     if (!startWeight || !goalWeight || startWeight === goalWeight) return;
 
     // Lê todos os registos de acompanhamento do localStorage.
-    // Estes registos são gerados pelo utilizador ao longo do tempo.
     const logs = JSON.parse(localStorage.getItem('trackingLogs') || '[]');
 
     // Filtra apenas os registos que contêm um valor de peso registado.
-    // Nem todos os registos podem incluir peso (ex: alguns podem registar apenas humor).
     const logsWithWeight = logs.filter(l => l.weight != null);
 
-    // Se não houver nenhum registo de peso, não é possível mostrar o progresso atual — termina.
-    if (logsWithWeight.length === 0) return;
-
-    // Ordena os registos por data de forma decrescente (mais recente primeiro).
-    // Isto garante que usamos sempre o peso mais recente do utilizador.
-    logsWithWeight.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // O peso atual é o valor do registo mais recente (primeiro após a ordenação).
-    const currentWeight = logsWithWeight[0].weight;
+    // Se não houver registos de peso, usa o peso inicial do plano como peso atual (0% de progresso).
+    // Isto garante que a barra aparece desde o primeiro momento, mesmo sem check-ins feitos.
+    let currentWeight;
+    if (logsWithWeight.length === 0) {
+      currentWeight = startWeight;
+    } else {
+      logsWithWeight.sort((a, b) => new Date(b.date) - new Date(a.date));
+      currentWeight = logsWithWeight[0].weight;
+    }
 
     // --- CÁLCULO DA PERCENTAGEM DE PROGRESSO ---
     // A lógica funciona tanto para perda de peso como para ganho de peso.
