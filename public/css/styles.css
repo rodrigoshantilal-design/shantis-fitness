@@ -1142,4 +1142,73 @@ input::placeholder, textarea::placeholder {
 
   /* Grids adaptados para mobile */
   .md\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* ---- SCROLL: remove h-screen + overflow-hidden no mobile ---- */
+  /* Páginas com scroll interno (dashboard, plan, track, meals) */
+  main.h-screen {
+    height: auto !important;
+    min-height: 100dvh;
+  }
+  main.overflow-hidden {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  /* start.html: permite scroll no conteúdo do questionário */
+  main.h-screen > div.flex-1 {
+    align-items: flex-start !important;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    overflow-y: visible;
+  }
+
+  /* ---- GRIDS: 3 colunas → 1 coluna em mobile ---- */
+  /* Botões de experiência (Beginner/Intermediate/Advanced),
+     velocidade (Slow/Moderate/Fast), qualidade da dieta, etc. */
+  .grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+
+  /* ---- GRIDS: 4 colunas → 2 colunas em mobile ---- */
+  /* Totais nutricionais em meals.html */
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* ---- CARD do questionário (start.html): reduz padding ---- */
+  .glass-effect.rounded-3xl.p-8 {
+    padding: 1.25rem !important;
+  }
+
+  /* ---- Títulos dos passos: tamanho menor em mobile ---- */
+  #step1 h2, #step2 h2, #step3 h2, #step4 h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* ---- Botões de seleção de objetivo: padding reduzido em mobile ---- */
+  #fatLossBtn, #muscleGainBtn {
+    padding: 1.25rem !important;
+  }
+  #fatLossBtn svg, #muscleGainBtn svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* ---- Tamanho do IMC em mobile ---- */
+  #bmiDisplay {
+    font-size: 2.5rem !important;
+  }
+
+  /* ---- Botões de tabs no plan.html: padding menor e wrap em mobile ---- */
+  #tabMetrics, #tabTraining, #tabNutrition, #tabLifestyle {
+    padding: 0.6rem 1rem !important;
+    min-width: 0 !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* ---- Padding geral das páginas em mobile ---- */
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
