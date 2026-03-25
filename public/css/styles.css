@@ -843,6 +843,17 @@ input::placeholder, textarea::placeholder {
   justify-content: space-between;
   max-width: 80rem;   /* 1280px — largura máxima */
   margin: 0 auto;
+  position: relative;
+}
+
+/* Links centrados absolutamente no navbar */
+.nav-container .nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Logótipo alternativo: link sem decoração, com ícone e

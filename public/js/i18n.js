@@ -21,7 +21,7 @@ const translations = {
       heroSubtitle: 'Get personalized fitness and nutrition plans tailored to your goals. Track progress, log meals, and achieve lasting transformation.', // Subtítulo descritivo
       ctaButton: 'Get Started Free',                                // Botão de chamada à ação
       noSignup: 'No credit card required. Start your journey in seconds.', // Nota de reasseguramento
-      footer: '© 2024 Shanti\'s Fitness And Wellness. All rights reserved.' // Rodapé
+      footer: '© 2025/2026 Shanti\'s Fitness And Wellness. All rights reserved.' // Rodapé
     },
     // Textos do painel de controlo do utilizador (dashboard)
     dashboard: {
@@ -45,7 +45,7 @@ const translations = {
       heroSubtitle: 'Obtenha planos personalizados de fitness e nutrição adaptados aos seus objetivos. Acompanhe o progresso, registe refeições e alcance uma transformação duradoura.', // Subtítulo em português
       ctaButton: 'Começar Grátis',                                  // Botão de chamada à ação em português
       noSignup: 'Não é necessário cartão de crédito. Comece a sua jornada em segundos.', // Nota de reasseguramento em português
-      footer: '© 2024 Shanti\'s Fitness And Wellness. Todos os direitos reservados.' // Rodapé em português
+      footer: '© 2025/2026 Shanti\'s Fitness And Wellness. Todos os direitos reservados.' // Rodapé em português
     },
     // Textos do painel de controlo em português
     dashboard: {
