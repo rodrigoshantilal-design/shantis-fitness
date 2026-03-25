@@ -51,8 +51,8 @@
                 <!-- Página do assistente de coaching com Inteligência Artificial -->
             </div>
 
-            <!-- Ações da Navbar: Seletor de Idioma -->
-            <div class="nav-actions">
+            <!-- Ações da Navbar: Seletor de Idioma + Hamburger Mobile -->
+            <div class="nav-actions" style="display:flex;align-items:center;gap:0.5rem;">
                 <!-- Contentor do seletor de idioma; id usado pelo JS para fechar ao clicar fora -->
                 <div class="language-selector" id="languageSelector">
                     <!-- Botão que mostra o idioma atual e abre o dropdown ao clicar -->
@@ -76,9 +76,14 @@
                         <button onclick="setLanguage('pt')">Português</button>
                     </div>
                 </div>
+                <!-- Botão hamburger: só visível em mobile -->
+                <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
+    <script src="js/mobile-nav.js"></script>
 
     <!-- Conteúdo Principal do Dashboard -->
     <!-- h-screen: altura total do ecrã; overflow-hidden: esconde barras de scroll externas -->

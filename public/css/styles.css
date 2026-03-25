@@ -1038,3 +1038,108 @@ input::placeholder, textarea::placeholder {
   width: 2rem;
   height: 2rem;
 }
+
+/* ============================================================
+   MENU HAMBURGER E NAVEGAÇÃO MOBILE
+   Apenas ativo em ecrãs com largura inferior a 768px.
+   No desktop (≥768px) o hamburger está escondido e os links
+   ficam centrados como de costume.
+   ============================================================ */
+
+/* Botão hamburger: escondido no desktop */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+
+/* As três linhas do hamburger */
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animação do hamburger quando aberto: forma um X */
+.hamburger-btn.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-btn.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 767px) {
+  /* Mostra o botão hamburger no mobile */
+  .hamburger-btn {
+    display: flex;
+  }
+
+  /* Esconde os links centrados do desktop e reposiciona para mobile */
+  .nav-container .nav-links {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    transform: none;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0;
+    z-index: 150;
+    display: none;
+  }
+
+  /* Links do menu mobile */
+  .nav-container .nav-links a,
+  .nav-container .nav-links .nav-link {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #d1d5db;
+    text-decoration: none;
+    display: block;
+  }
+
+  .nav-container .nav-links a:last-child,
+  .nav-container .nav-links .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .nav-container .nav-links a.active,
+  .nav-container .nav-links .nav-link.active {
+    color: white;
+    background: rgba(168, 85, 247, 0.1);
+  }
+
+  /* Quando o menu está aberto */
+  .nav-container .nav-links.mobile-open {
+    display: flex;
+  }
+
+  /* Adapta o conteúdo principal ao mobile */
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* Grids adaptados para mobile */
+  .md\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

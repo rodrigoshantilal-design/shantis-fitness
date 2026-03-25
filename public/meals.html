@@ -35,7 +35,7 @@
                 <a href="coach.html" data-nav="Coach">Coach</a>
             </div>
             <!-- Seletor de idioma -->
-            <div class="nav-actions">
+            <div class="nav-actions" style="display:flex;align-items:center;gap:0.5rem;">
                 <div class="language-selector" id="languageSelector">
                     <button class="language-btn" onclick="toggleLanguageDropdown()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,9 +50,13 @@
                         <button onclick="setLanguage('pt')">Português</button>
                     </div>
                 </div>
+                <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
+    <script src="js/mobile-nav.js"></script>
 
     <!-- Conteúdo principal: ocupa o ecrã completo com scroll interno -->
     <main class="h-screen overflow-hidden flex flex-col pt-20 pb-24">

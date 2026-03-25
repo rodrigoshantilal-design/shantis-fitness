@@ -282,7 +282,7 @@
                 <a href="coach.html" class="nav-link active" data-nav="Coach">Coach</a>
             </div>
             <!-- Ações do navbar: seletor de idioma -->
-            <div class="nav-actions">
+            <div class="nav-actions" style="display:flex;align-items:center;gap:0.5rem;">
                 <!-- Seletor de idioma com dropdown para alternar entre Inglês e Português -->
                 <div class="language-selector" id="languageSelector">
                     <button class="language-btn" onclick="toggleLanguageDropdown()">
@@ -301,9 +301,13 @@
                         <button onclick="setLanguage('pt')">Português</button>
                     </div>
                 </div>
+                <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
+    <script src="js/mobile-nav.js"></script>
 
     <!-- Conteúdo principal da página -->
     <main class="main-content" style="padding-top: 6rem;">
