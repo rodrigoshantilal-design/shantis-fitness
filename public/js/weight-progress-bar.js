@@ -91,17 +91,18 @@
     // Calcula quantos kg faltam para atingir o objetivo (sempre positivo com Math.abs).
     const remaining = Math.abs(currentWeight - goalWeight).toFixed(1);
 
-    // Texto descritivo da direção: "to lose" para perda, "to gain" para ganho.
-    const direction = losing ? 'to lose' : 'to gain';
+    // Traduções consoante o idioma guardado no localStorage
+    const isPt = (localStorage.getItem('locale') || 'en') === 'pt';
+    const labels = isPt
+      ? { goal: 'OBJETIVO DE PESO', toLose: 'a perder', toGain: 'a ganhar', start: 'Início', complete: '% concluído', goalLabel: 'Objetivo' }
+      : { goal: 'WEIGHT GOAL',      toLose: 'to lose',  toGain: 'to gain',  start: 'Start',  complete: '% complete',  goalLabel: 'Goal' };
 
-    // Constrói o conteúdo HTML interno da barra com três secções:
-    // 1. Linha superior: etiqueta "WEIGHT GOAL", kg restantes e peso atual → objetivo.
-    // 2. Barra de progresso: faixa colorida com largura proporcional à percentagem.
-    // 3. Linha inferior: peso inicial, percentagem completa e peso objetivo.
+    const direction = losing ? labels.toLose : labels.toGain;
+
     bar.innerHTML = `
       <div style="max-width:900px;margin:0 auto;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-          <span style="color:#a855f7;font-size:12px;font-weight:700;letter-spacing:0.05em;">WEIGHT GOAL</span>
+          <span style="color:#a855f7;font-size:12px;font-weight:700;letter-spacing:0.05em;">${labels.goal}</span>
           <span style="color:rgba(255,255,255,0.5);font-size:11px;">${remaining} kg ${direction}</span>
           <span style="color:white;font-size:12px;font-weight:700;">${currentWeight} kg &rarr; ${goalWeight} kg</span>
         </div>
@@ -109,9 +110,9 @@
           <div style="height:100%;width:${pct}%;border-radius:999px;background:${fillColor};transition:width 0.5s ease;"></div>
         </div>
         <div style="display:flex;justify-content:space-between;margin-top:4px;">
-          <span style="color:rgba(255,255,255,0.3);font-size:10px;">Start ${startWeight} kg</span>
-          <span style="color:#a855f7;font-size:10px;font-weight:700;">${pct}% complete</span>
-          <span style="color:rgba(255,255,255,0.3);font-size:10px;">Goal ${goalWeight} kg</span>
+          <span style="color:rgba(255,255,255,0.3);font-size:10px;">${labels.start} ${startWeight} kg</span>
+          <span style="color:#a855f7;font-size:10px;font-weight:700;">${pct}${labels.complete}</span>
+          <span style="color:rgba(255,255,255,0.3);font-size:10px;">${labels.goalLabel} ${goalWeight} kg</span>
         </div>
       </div>`;
 
