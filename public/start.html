@@ -929,13 +929,27 @@
         document.getElementById('summaryBodyFatInput').addEventListener('input', function(e) { bodyFat = e.target.value ? parseFloat(e.target.value) : undefined; document.getElementById('bodyFatInput').value = bodyFat || ''; });
 
         // ==================== INICIALIZAÇÃO ====================
+
+        // Se já existe um plano guardado, pré-preenche o formulário com os valores do plano
+        // para que o utilizador veja e edite os valores reais em vez dos valores por omissão
+        const existingPlan = JSON.parse(localStorage.getItem('fitnessPlan') || 'null');
+        if (existingPlan) {
+            if (existingPlan.weight)       { weight = existingPlan.weight; document.getElementById('weightInput').value = weight; }
+            if (existingPlan.targetWeight) { targetWeight = existingPlan.targetWeight; document.getElementById('targetWeightInput').value = targetWeight; }
+            if (existingPlan.height)       { height = existingPlan.height; document.getElementById('heightInput').value = height; }
+            if (existingPlan.bodyFat)      { bodyFat = existingPlan.bodyFat; document.getElementById('bodyFatInput').value = bodyFat; }
+            if (existingPlan.goal)         { goal = existingPlan.goal; }
+            if (existingPlan.goalSpeed)    { goalSpeed = existingPlan.goalSpeed; }
+            if (existingPlan.experience)   { experience = existingPlan.experience; }
+        }
+
         // Chamadas que configuram a interface ao carregar a página pela primeira vez
         updateTranslations();      // Aplica as traduções ao idioma atual
         updateProgressIndicator(); // Mostra o indicador de progresso no passo 1
-        updateBMI();               // Calcula e exibe o IMC com os valores padrão
-        updateGoalUI();            // Destaca o objetivo padrão (fat_loss)
-        updateSpeedUI();           // Destaca a velocidade padrão (moderate)
-        updateExperienceUI();      // Destaca a experiência padrão (beginner)
+        updateBMI();               // Calcula e exibe o IMC com os valores do plano (ou padrão)
+        updateGoalUI();            // Destaca o objetivo atual
+        updateSpeedUI();           // Destaca a velocidade atual
+        updateExperienceUI();      // Destaca a experiência atual
     </script>
 
     <!-- Script de navegação com autenticação -->
