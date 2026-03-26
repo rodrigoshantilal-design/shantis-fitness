@@ -1093,13 +1093,6 @@ input::placeholder, textarea::placeholder {
     padding: 0.4rem 1rem !important;
   }
 
-  /* ---- Seletor de idioma: fixo no lado direito, mesmo nível que o login ---- */
-  .nav-actions .language-selector {
-    position: fixed !important;
-    top: 4.5rem !important;
-    right: 1rem !important;
-    z-index: 102 !important;
-  }
 
   /* ---- Logo: tamanho menor para dar espaço ao seletor de idioma e hamburger ---- */
   .nav-logo > span {

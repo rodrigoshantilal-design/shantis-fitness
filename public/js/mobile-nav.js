@@ -34,4 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (btn) btn.classList.remove('active');
         }
     });
+
+    // No mobile, move o seletor de idioma para fora da navbar
+    // (a navbar tem backdrop-filter que impede position:fixed nos filhos)
+    if (window.innerWidth <= 767) {
+        const langSelector = document.querySelector('.nav-actions .language-selector');
+        if (langSelector) {
+            langSelector.style.position = 'fixed';
+            langSelector.style.top = '4.5rem';
+            langSelector.style.right = '1rem';
+            langSelector.style.zIndex = '200';
+            document.body.appendChild(langSelector);
+        }
+    }
 });
