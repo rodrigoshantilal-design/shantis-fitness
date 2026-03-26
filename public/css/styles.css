@@ -1085,6 +1085,23 @@ input::placeholder, textarea::placeholder {
 }
 
 @media (max-width: 767px) {
+  /* ---- Botão de login: desce para não sobrepor o logo ---- */
+  .nav-login-btn {
+    top: 4.5rem !important;
+    left: 1rem !important;
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.75rem !important;
+  }
+
+  /* ---- Logo: tamanho menor para dar espaço ao seletor de idioma e hamburger ---- */
+  .nav-logo > span {
+    font-size: 13px !important;
+  }
+  .nav-logo svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
   /* Mostra o botão hamburger no mobile */
   .hamburger-btn {
     display: flex;
