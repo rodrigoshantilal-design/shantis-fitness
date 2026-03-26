@@ -11,6 +11,13 @@ function toggleMobileMenu() {
     if (!navLinks || !btn) return;
     navLinks.classList.toggle('mobile-open');
     btn.classList.toggle('active');
+
+    // Quando o menu está aberto, manda o login e o seletor de idioma para trás
+    const isOpen = navLinks.classList.contains('mobile-open');
+    const loginBtn = document.querySelector('.nav-login-btn');
+    const langSelector = document.querySelector('.language-selector');
+    if (loginBtn) loginBtn.style.zIndex = isOpen ? '50' : '101';
+    if (langSelector) langSelector.style.zIndex = isOpen ? '50' : '200';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
